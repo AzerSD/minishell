@@ -1,0 +1,9 @@
+work on
+-   a=asdf, a=1234
+-   $?  which expands to the exit status of the most recently executed
+    foreground pipeline.
+-   Exit Codes
+-   Error Messages
+-   || and &&
+-   remove unused function in multiple places from .h files and make them static
+-   remove unnecsairy includes
