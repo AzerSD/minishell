@@ -6,12 +6,12 @@
 #    By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/25 10:59:44 by asioud            #+#    #+#              #
-#    Updated: 2023/05/07 00:53:48 by asioud           ###   ########.fr        #
+#    Updated: 2023/05/08 03:07:25 by asioud           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	minishell
-CC			=	gcc
+CC			=	cc
 RM			=	rm -rf
 LIBFT		= 	libs/libft/libft.a
 CFLAGS		=	-Wall -Wextra -Werror
@@ -76,8 +76,9 @@ $(NAME): $(OBJS)
 	$(CC) $(INCL_RDL_LIB) -lreadline -lhistory $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 
-%.o : %.c
-	$(CC) $(CFLAGS) -c $< -o $@ 
+$(OBJ_DIR)%.o : $(SRC_DIR)%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@$(RM) $(OBJ_DIR)
