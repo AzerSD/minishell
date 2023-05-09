@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:41:31 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/08 05:46:52 by asioud           ###   ########.fr       */
+/*   Updated: 2023/05/08 05:55:21 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ struct s_builtin builtins[] =
 {   
     { "dump"    , dump },
     { "echo"    , echo },
-    { "ft_env"  , env },
+    { "env"     , env },
+    { "pwdd"    , pwd },
 };
 
 int builtins_count = sizeof(builtins)/sizeof(struct s_builtin);

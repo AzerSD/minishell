@@ -22,7 +22,7 @@ references:<br>
     - [ ] `cd` | `chdir`
     - [x] `echo`
     - [ ] `exit`
-    - [ ] `env`
+    - [x] `env`
     - [ ] `setenv`
     - [ ] `unsetenv`
     - [ ] `unset`
