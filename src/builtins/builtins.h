@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 11:22:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/11 08:13:41 by asioud           ###   ########.fr       */
+/*   Updated: 2023/05/11 09:24:21 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ typedef struct	s_env
 }	t_env;
 
 /* shell builtin utilities */
+int		exit_builtin(int argc, ...);
+int		unset(int argc, ...);
 int		dump(int argc, ...);
 int		echo(int argc, ...);
 int		env(int argc, ...);

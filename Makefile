@@ -6,7 +6,7 @@
 #    By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/25 10:59:44 by asioud            #+#    #+#              #
-#    Updated: 2023/05/11 07:43:41 by asioud           ###   ########.fr        #
+#    Updated: 2023/05/11 12:19:33 by asioud           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME		=	minishell
 CC			=	cc
 RM			=	rm -rf
 LIBFT		= 	libs/libft/libft.a
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror -g
 
 ifeq ($(OS), Linux)
 INCL_RDL_HEADER	= -I /home/linuxbrew/.linuxbrew/opt/readline/include/readline
@@ -34,6 +34,8 @@ SRC	=	core/shell \
 		builtins/cd \
 		builtins/env \
 		builtins/pwd \
+		builtins/exit \
+		builtins/unset \
 		\
 		prompt/prompt \
 		\

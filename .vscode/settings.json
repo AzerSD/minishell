@@ -9,6 +9,7 @@
 		"tokenizer.h": "c",
 		"__locale": "c",
 		"wait.h": "c",
-		"unistd.h": "c"
+		"unistd.h": "c",
+		"symtab.h": "c"
 	}
 }

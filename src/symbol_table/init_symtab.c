@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:28:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/06 02:54:08 by asioud           ###   ########.fr       */
+/*   Updated: 2023/05/11 12:28:00 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,12 @@ void string_to_symtab(const char *env_var)
 void init_symtab(void)
 {
     init_symtab_stack();
-    struct s_symtab_entry *entry;
     char **p2 = environ; /* user env variables @see printenv */
     while (*p2)
     {
         string_to_symtab(*p2);
         p2++;
     }
-
-    entry = add_to_symtab("$ ");
-    symtab_entry_setval(entry, PS1);
-    entry = add_to_symtab("> ");
-    symtab_entry_setval(entry, PS2);
 }
 
 void init_symtab_stack(void)

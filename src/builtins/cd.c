@@ -6,15 +6,11 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:48 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/11 08:40:29 by asioud           ###   ########.fr       */
+/*   Updated: 2023/05/11 08:55:01 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../symbol_table/symtab.h"
-
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
 
 int cd(int argc, ...)
 {

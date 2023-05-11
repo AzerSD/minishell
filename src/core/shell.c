@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/06 01:34:12 by asioud           ###   ########.fr       */
+/*   Updated: 2023/05/11 12:28:38 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int main(int argc, char **argv)
 		if (strncmp(cmd, "exit", 5) == 0)
 		{
 			free(cmd);
-			break;
+			exit_builtin(1, 0);
 		}
 		
 		/* If it is a terminal not running by a script or smth*/
