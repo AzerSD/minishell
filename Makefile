@@ -6,7 +6,7 @@
 #    By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/25 10:59:44 by asioud            #+#    #+#              #
-#    Updated: 2023/05/08 05:47:54 by asioud           ###   ########.fr        #
+#    Updated: 2023/05/11 07:43:41 by asioud           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRC	=	core/shell \
 		builtins/echo \
 		builtins/cd \
 		builtins/env \
+		builtins/pwd \
 		\
 		prompt/prompt \
 		\

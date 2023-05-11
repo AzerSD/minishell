@@ -19,7 +19,7 @@ references:<br>
   - [x] Ast
   - [x] Execution
   - [ ] Builtins
-    - [ ] `cd` | `chdir`
+    - [x] `cd` | `chdir`
     - [x] `echo`
     - [ ] `exit`
     - [x] `env`
@@ -28,7 +28,7 @@ references:<br>
     - [ ] `unset`
     - [ ] `export`
     - [ ] `history`
-    - [ ] `pwd`
+    - [x] `pwd`
 
 - [ ] Line editing
   - [ ] Simple and advanced line editing
