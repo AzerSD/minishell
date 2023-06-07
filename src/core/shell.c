@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/07 20:06:34 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/07 23:24:01 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,11 @@ int parse_and_execute(t_cli *cli)
 	t_curr_tok	*curr = malloc(sizeof(t_curr_tok));
 
 	skip_whitespaces(cli);
-	tok = get_token(cli, curr);
-	while (tok && tok != EOF_TOKEN)
-	{
-		cmd = parse_cmd(tok, curr);
-		if (!cmd)
-			break;
-		execc(cmd);
-		free_node_tree(cmd);
-		tok = get_token(cli, curr);
-	}
+	tok = get_token(cli, curr);	
+	cmd = parse_cmd(tok, curr);
+	if (!cmd)
+		return 1;
+	execc(cmd);
+	free_node_tree(cmd);
 	return (0);
 }

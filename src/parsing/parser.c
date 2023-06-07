@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:58:16 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/06 02:01:51 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/07 23:16:40 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 #include "tokenizer.h"
 #include "node.h"
 #include "lexer.h"
-
-
 
 t_node *parse_cmd(t_token *tok, t_curr_tok	*curr)
 {
