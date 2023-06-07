@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:37:53 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/06 01:24:06 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/07 23:10:39 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,16 @@ void handle_equals_sign(t_curr_tok *curr)
 	return ;
 }
 
-void handle_pipe(t_curr_tok *curr)
+void handle_pipe(t_cli *cli, t_curr_tok *curr, int *endloop)
 {
-	(void)curr;
-
-	return ;
+    if (curr->tok_buff_index > 0)
+	{
+        *endloop = 1;
+		unget_char(cli);
+		return ;
+	}
+	add_to_buf('|', curr);
+	*endloop = 1;
 }
 
 int handle_redirection(t_cli *cli, t_curr_tok *curr, char nc)

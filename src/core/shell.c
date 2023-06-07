@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/11 12:28:38 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/07 20:06:34 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int main(int argc, char **argv)
 		// signal(SIGINT, handle_sigint);
 		// signal(SIGQUIT, handle_sigquit);
 		
-		/* Our PS */
 		cmd = readline("minishell> ");
 		if (!cmd)
 			exit(EXIT_SUCCESS);

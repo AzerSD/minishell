@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:58:31 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/06 01:21:04 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/07 20:58:19 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void    free_token(t_token *tok);
 
 void add_to_buf(char c, t_curr_tok *curr);
 int handle_redirection(t_cli *cli, t_curr_tok *curr, char nc);
-void handle_pipe(t_curr_tok *curr);
+void handle_pipe(t_cli *cli, t_curr_tok *curr, int *endloop);
 void handle_equals_sign(t_curr_tok *curr);
 void handle_newline(t_cli *cli, t_curr_tok *curr, int *endloop);
 void handle_whitespace(t_curr_tok *curr, int *endloop);
