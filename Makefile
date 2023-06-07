@@ -6,7 +6,7 @@
 #    By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/25 10:59:44 by asioud            #+#    #+#              #
-#    Updated: 2023/05/11 12:19:33 by asioud           ###   ########.fr        #
+#    Updated: 2023/05/11 15:51:50 by asioud           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,13 +29,15 @@ READLINE		= /Users/$(USER)/.brew/opt/readline/include/readline
 
 SRC	=	core/shell \
 		\
-		builtins/builtins	builtins/dump \
-		builtins/echo \
 		builtins/cd \
-		builtins/env \
 		builtins/pwd \
+		builtins/env \
+		builtins/echo \
+		builtins/dump \
 		builtins/exit \
 		builtins/unset \
+		builtins/export \
+		builtins/builtins \
 		\
 		prompt/prompt \
 		\
