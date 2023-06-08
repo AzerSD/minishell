@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_symtab.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:28:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/11 12:28:00 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/08 20:11:16 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void string_to_symtab(const char *env_var)
     else
     {
         entry = add_to_symtab(env_var);
+		if (entry)
+            symtab_entry_setval(entry, NULL);
     }
 }
 
@@ -53,7 +55,7 @@ void init_symtab(void)
 void init_symtab_stack(void)
 {
 	struct s_symtab	*global_symtab;
-	
+
 	global_symtab = malloc(sizeof(struct s_symtab));
 
 	s_symtab_stack.symtab_count = 1;

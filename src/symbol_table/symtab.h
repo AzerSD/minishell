@@ -6,7 +6,7 @@
 /*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 07:05:51 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/08 17:43:04 by lhasmi           ###   ########.fr       */
+/*   Updated: 2023/06/08 19:50:32 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,7 @@ void free_symtab(struct s_symtab *symtab);
  * of our shell's global symbol table).
 */
 void dump_local_symtab(void);
+void dump_export_local_symtab(void);
 
 
 /**

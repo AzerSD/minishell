@@ -6,7 +6,7 @@
 /*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 07:28:23 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/08 17:56:40 by lhasmi           ###   ########.fr       */
+/*   Updated: 2023/06/08 20:11:32 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,20 @@ void dump_local_symtab(void)
 	fprintf(stderr, "%*s------ -------------------------------- ------------\r\n", indent, " ");
 }
 
+void dump_export_local_symtab(void)
+{
+	struct s_symtab *symtab = s_symtab_stack.local_symtab;
+
+	struct s_symtab_entry *entry = symtab->first;
+	while (entry)
+	{
+		if (entry->val)
+			fprintf(stdout, "declare -x %s=%s\n", entry->name, entry->val);
+		else
+			fprintf(stdout, "declare -x %s\n", entry->name);
+		entry = entry->next;
+	}
+}
 struct s_symtab_entry *add_to_symtab(const char *symbol)
 {
 	if (!symbol || symbol[0] == '\0')
