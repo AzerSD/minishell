@@ -6,7 +6,7 @@
 /*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:48 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/08 18:44:20 by lhasmi           ###   ########.fr       */
+/*   Updated: 2023/06/08 22:41:05 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	cd(int argc, ...)
 	int						result;
 	struct s_symtab			*st;
 	struct s_symtab_entry	*entry;
+	struct s_symtab_entry	*oldpwd;
+	char *newpwd;
 
 	st = s_symtab_stack.local_symtab;
 	entry = NULL;
@@ -43,7 +45,14 @@ int	cd(int argc, ...)
 			/* check if the output is the same in bash */
 			return (1);
 		}
+		oldpwd = do_lookup("PWD", st);
 		result = chdir(entry->val);
+		newpwd = getwd(NULL);
+		printf("path: %s\n", newpwd);
+		update_entry(entry, oldpwd->val, "OLDPWD");
+		update_entry(entry, newpwd, "PWD");
+		// / pwd
+		// / oldpwd
 		if (result != 0)
 		{
 			fprintf(stderr, "cd: %s: %s\n", entry->name, strerror(errno));
@@ -56,7 +65,15 @@ int	cd(int argc, ...)
 		va_start(args, argc);
 		path = va_arg(args, char **);
 		va_end(args);
+		oldpwd = do_lookup("PWD", st);
 		result = chdir(*(path + 1));
+		newpwd = getwd(NULL);
+		printf("path: %s\n", newpwd);
+		printf("oldpath: %s\n", oldpwd->val);
+		update_entry(entry, oldpwd->val, "OLDPWD");
+		update_entry(entry, newpwd, "PWD");
+
+
 		if (result != 0)
 		{
 			fprintf(stderr, "cd: %s: %s\n", *(path + 1), strerror(errno));

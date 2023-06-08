@@ -6,7 +6,7 @@
 /*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 07:05:51 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/08 19:50:32 by lhasmi           ###   ########.fr       */
+/*   Updated: 2023/06/08 22:17:37 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ struct s_symtab_stack
 	struct s_symtab *local_symtab;
 };
 
+void update_entry(struct s_symtab_entry *entry, char *new_val, char *name);
 
 /**
  * @brief Opposite of symbtab_entry_s
