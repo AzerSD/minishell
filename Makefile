@@ -6,7 +6,7 @@
 #    By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/25 10:59:44 by asioud            #+#    #+#              #
-#    Updated: 2023/06/08 14:37:12 by lhasmi           ###   ########.fr        #
+#    Updated: 2023/06/08 20:19:21 by lhasmi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,8 +35,8 @@ SRC	=	core/shell \
 		builtins/env \
 		builtins/pwd \
 		builtins/exit_builtin \
-		builtins/export_builtin \
 		builtins/unset \
+		builtins/export_builtin \
 		\
 		prompt/prompt \
 		\
@@ -74,10 +74,7 @@ OBJ_DIR		=	obj/
 SRCS = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC)))
 OBJS = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC)))
 
-check_readline:
-	@brew list readline &>/dev/null || brew install readline
-
-all: $(NAME)
+all:	$(NAME)
 
 
 $(NAME): $(OBJS)
