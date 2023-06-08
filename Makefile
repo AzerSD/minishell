@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+         #
+#    By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/25 10:59:44 by asioud            #+#    #+#              #
-#    Updated: 2023/05/11 12:19:33 by asioud           ###   ########.fr        #
+#    Updated: 2023/06/08 14:37:12 by lhasmi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,8 @@ SRC	=	core/shell \
 		builtins/cd \
 		builtins/env \
 		builtins/pwd \
-		builtins/exit \
+		builtins/exit_builtin \
+		builtins/export_builtin \
 		builtins/unset \
 		\
 		prompt/prompt \
@@ -64,7 +65,7 @@ SRC	=	core/shell \
 		expansion/pattern \
 		\
 		signals/signals \
-		
+
 
 SRC_DIR		=	src/
 OBJ_DIR		=	obj/
@@ -73,7 +74,10 @@ OBJ_DIR		=	obj/
 SRCS = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC)))
 OBJS = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC)))
 
-all:	$(NAME)
+check_readline:
+	@brew list readline &>/dev/null || brew install readline
+
+all: $(NAME)
 
 
 $(NAME): $(OBJS)

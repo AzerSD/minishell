@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   symtab.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 07:28:23 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/06 01:59:55 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/08 17:56:40 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 /**
  * @brief The symbol table will be used to store information about
- * variables, aliases, and functions defined by the user or the 
+ * variables, aliases, and functions defined by the user or the
  * shell itself like environment variables...
  * The symbol table supports operations like insertion, deletion,
  * and lookup of symbols.
@@ -52,10 +52,10 @@ struct s_symtab_entry *add_to_symtab(const char *symbol)
 		return NULL;
 	struct s_symtab *st = s_symtab_stack.local_symtab;
 	struct s_symtab_entry *entry = NULL;
-	
+
 	if ((entry = do_lookup(symbol, st)))
 		return entry;
-		
+
 	entry = malloc(sizeof(struct s_symtab_entry));
 	if (!entry)
 	{
@@ -151,7 +151,8 @@ void symtab_entry_setval(struct s_symtab_entry *entry, char *val)
 	if (entry->val)
 	{
 		free(entry->val);
-	}    if (!val)
+	}
+	if (!val)
 	{
 		entry->val = NULL;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/11 12:28:38 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/08 17:59:37 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 		/* Handle Signals */
 		// signal(SIGINT, handle_sigint);
 		// signal(SIGQUIT, handle_sigquit);
-		
+
 		/* Our PS */
 		cmd = readline("minishell> ");
 		if (!cmd)
@@ -44,16 +44,16 @@ int main(int argc, char **argv)
 			free(cmd);
 			exit_builtin(1, 0);
 		}
-		
+
 		/* If it is a terminal not running by a script or smth*/
 		if (isatty(STDIN_FILENO))
 			add_history(cmd);
-		
+
 		/* Init Command Line Struct */
 		cli.buffer   = cmd;
 		cli.buff_size  = strlen(cmd);
 		cli.cur_pos   = INIT_SRC_POS;
-		
+
 		parse_and_execute(&cli);
 		free(cmd);
 	}

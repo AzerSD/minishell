@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:48 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/11 08:55:01 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/08 13:57:02 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../symbol_table/symtab.h"
+// rl_replace_line, rl_redisplay, add_history,
+// printf, malloc, free, write, access, open, read,
+// close, fork, wait, waitpid, wait3, wait4, signal,
+// sigaction, sigemptyset, sigaddset, kill, exit,
+// getcwd, chdir, stat, lstat, fstat, unlink, execve,
+// dup, dup2, pipe, opendir, readdir, closedir,
+// strerror, perror, isatty, ttyname, ttyslot, ioctl,
+// getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
+// tgetnum, tgetstr, tgoto, tputs
+#include "../core/shell.h"
+
+#include <unistd.h>
+#include <stdio.h>
 
 int cd(int argc, ...)
 {
@@ -29,5 +41,3 @@ int cd(int argc, ...)
     }
     return 0;
 }
-
-

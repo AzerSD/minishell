@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/23 10:33:58 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/11 12:50:36 by asioud           ###   ########.fr       */
+/*   Created: 2023/04/23 10:34:49 by asioud            #+#    #+#             */
+/*   Updated: 2023/06/08 13:57:11 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../symbol_table/symtab.h"
+#include "../core/shell.h"
 
-static void export_func(int argc, char **argv)
+int exit_builtin(int argc, ...)
 {
-    if (argc == 1)
+    va_list args;
+    int     exit_code;
+
+    if (argc > 1)
     {
-        /* display all env vars e.g `declare -x var=value` */
+        va_start(args, argc);
+        va_arg(args, int);
+        exit_code = va_arg(args, int);
+        va_end(args);
+        exit(exit_code);
     }
-    else
-    {
-        /* display only the env vars passed as arguments */
-    }
+
+    exit(0);
 }
