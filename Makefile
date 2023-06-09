@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+         #
+#    By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/25 10:59:44 by asioud            #+#    #+#              #
-#    Updated: 2023/06/09 18:10:25 by lhasmi           ###   ########.fr        #
+#    Updated: 2023/06/09 18:14:09 by asioud           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,23 +16,28 @@ RM			=	rm -rf
 LIBFT		= 	libs/libft/libft.a
 CFLAGS		=	-Wall -Wextra -Werror -g
 
-
+ifeq ($(OS), Linux)
+INCL_RDL_HEADER	= -I /home/linuxbrew/.linuxbrew/opt/readline/include/readline
+INCL_RDL_LIB	= -lreadline -L /home/linuxbrew/.linuxbrew/opt/readline/lib
+else
 INCL_RDL_HEADER	= -I /Users/$(USER)/.brew/opt/readline/include
 INCL_RDL_LIB	= -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
+endif
 
 BREW			= /Users/$(USER)/.brew/bin
 READLINE		= /Users/$(USER)/.brew/opt/readline/include/readline
 
 SRC	=	core/shell \
 		\
-		builtins/builtins	builtins/dump \
-		builtins/echo \
 		builtins/cd \
-		builtins/env \
 		builtins/pwd \
-		builtins/exit_builtin \
+		builtins/env \
+		builtins/echo \
+		builtins/dump \
+		builtins/exit \
 		builtins/unset \
-		builtins/export_builtin \
+		builtins/export \
+		builtins/builtins \
 		\
 		prompt/prompt \
 		\
@@ -61,7 +66,7 @@ SRC	=	core/shell \
 		expansion/pattern \
 		\
 		signals/signals \
-
+		
 
 SRC_DIR		=	src/
 OBJ_DIR		=	obj/
@@ -74,7 +79,7 @@ all:	$(NAME)
 
 
 $(NAME): $(OBJS)
-	$(CC)  -lreadline -lhistory $(INCL_RDL_LIB) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	$(CC) -lreadline -lhistory  $(INCL_RDL_LIB) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c

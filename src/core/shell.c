@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/09 15:53:40 by lhasmi           ###   ########.fr       */
+/*   Updated: 2023/06/09 18:17:30 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../signals/signals.h"
+
 #include "./shell.h"
 #include <readline/history.h>
 #include <readline/readline.h>
+#include <termios.h>
+#include "../signals/signals.h"
 
 int	main(int argc, char **argv)
 {
