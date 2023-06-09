@@ -6,7 +6,7 @@
 #    By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/25 10:59:44 by asioud            #+#    #+#              #
-#    Updated: 2023/06/08 20:19:21 by lhasmi           ###   ########.fr        #
+#    Updated: 2023/06/09 18:10:25 by lhasmi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,13 +16,9 @@ RM			=	rm -rf
 LIBFT		= 	libs/libft/libft.a
 CFLAGS		=	-Wall -Wextra -Werror -g
 
-ifeq ($(OS), Linux)
-INCL_RDL_HEADER	= -I /home/linuxbrew/.linuxbrew/opt/readline/include/readline
-INCL_RDL_LIB	= -lreadline -L /home/linuxbrew/.linuxbrew/opt/readline/lib
-else
+
 INCL_RDL_HEADER	= -I /Users/$(USER)/.brew/opt/readline/include
 INCL_RDL_LIB	= -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
-endif
 
 BREW			= /Users/$(USER)/.brew/bin
 READLINE		= /Users/$(USER)/.brew/opt/readline/include/readline
@@ -78,12 +74,12 @@ all:	$(NAME)
 
 
 $(NAME): $(OBJS)
-	$(CC) $(INCL_RDL_LIB) -lreadline -lhistory $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	$(CC)  -lreadline -lhistory $(INCL_RDL_LIB) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(INCL_RDL_HEADER) $(CFLAGS) -c $< -o $@
 
 clean:
 	@$(RM) $(OBJ_DIR)
