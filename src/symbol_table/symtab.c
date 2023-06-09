@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 07:28:23 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/06 01:59:55 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/08 18:23:40 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@
  * The symbol table supports operations like insertion, deletion,
  * and lookup of symbols.
  */
-
-
 void dump_local_symtab(void)
 {
 	struct s_symtab *symtab = s_symtab_stack.local_symtab;

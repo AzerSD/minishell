@@ -6,7 +6,7 @@
 #    By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/25 10:59:44 by asioud            #+#    #+#              #
-#    Updated: 2023/06/07 20:08:08 by asioud           ###   ########.fr        #
+#    Updated: 2023/06/09 18:09:14 by asioud           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,12 +79,12 @@ all:	$(NAME)
 
 
 $(NAME): $(OBJS)
-	$(CC) $(INCL_RDL_LIB) -lreadline -lhistory $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	$(CC) -lreadline -lhistory  $(INCL_RDL_LIB) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(INCL_RDL_HEADER) $(CFLAGS) -c $< -o $@
 
 clean:
 	@$(RM) $(OBJ_DIR)

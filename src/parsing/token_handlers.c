@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:37:53 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/07 23:10:39 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/08 02:43:57 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 #include <stdio.h>
 
 
-int is_valid_variable_name(const char *str) {
+int is_valid_variable_name(const char *str)
+{
 	if (!str || !*str) return 0;
 
 	if (!isalpha(*str) && *str != '_') return 0;
@@ -26,7 +27,6 @@ int is_valid_variable_name(const char *str) {
 
 	return 1;
 }
-
 
 void *handle_quotes(t_cli *cli, t_curr_tok *curr, char nc)
 {
@@ -115,6 +115,7 @@ void handle_pipe(t_cli *cli, t_curr_tok *curr, int *endloop)
 		return ;
 	}
 	add_to_buf('|', curr);
+	curr->parse_state = PARSE_PIPE;
 	*endloop = 1;
 }
 

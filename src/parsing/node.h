@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 01:58:12 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/06 01:40:09 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/09 00:57:23 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@
  * @param NODE_COMMAND represents the root node of a simple command
  * @param NODE_VAR	represents the simple command's child nodes
  * @param NODE_ASSIGNMENT represents the root node of an assignment
+ * @param NODE_PIPE represents the root node of a pipe
 */
 enum e_node_type
 {
 	NODE_COMMAND,           /* simple command */
-	NODE_VAR,               /* variable name (or simply, a word) */
+	NODE_VAR,               /* variable name (or simply, a word)*/
 	NODE_ASSIGNMENT,        /* assignment */
+	NODE_PIPE,              /* pipe */
 };
 
 /**
@@ -88,7 +90,7 @@ t_node	*new_node(enum e_node_type type);
 void    add_child_node(t_node *parent, t_node *child);
 void    free_node_tree(t_node *node);
 void    set_node_val_str(t_node *node, char *val);
-
+void	print_ast(t_node *node, int indent);
 #endif
 
 

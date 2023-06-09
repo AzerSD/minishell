@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/07 23:24:01 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/09 18:09:26 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int main(int argc, char **argv)
 	(void) argc;
 	(void) argv;
 	init_symtab();
+	
+	
 	while (true)
 	{
 		/* Handle Signals */
@@ -31,6 +33,7 @@ int main(int argc, char **argv)
 		// signal(SIGQUIT, handle_sigquit);
 		
 		cmd = readline("minishell> ");
+		rl_clear_history();
 		if (!cmd)
 			exit(EXIT_SUCCESS);
 		if (cmd[0] == '\0' || strncmp(cmd, "\n", 1) == 0)
@@ -60,18 +63,45 @@ int main(int argc, char **argv)
 	exit(EXIT_SUCCESS);
 }
 
+void print_ast(t_node *node, int indent) {
+    if (node == NULL) {
+        return;
+    }
+
+    // Print indentation
+    for (int i = 0; i < indent - 1; i++) {
+        printf("  │");
+    }
+
+    if (indent > 0) {
+        printf("  ├─");
+    }
+
+    printf("Value: %s,	type: %u\n", \
+			 node->val.str, node->type);
+
+    // Recursively print child nodes
+    t_node *child = node->first_child;
+    while (child != NULL) {
+        print_ast(child, indent + 1);
+        child = child->next_sibling;
+    }
+}
+
+
 int parse_and_execute(t_cli *cli)
 {
-	t_node		*cmd;
+	t_node		*ast_cmd;
 	t_token		*tok;
 	t_curr_tok	*curr = malloc(sizeof(t_curr_tok));
 
 	skip_whitespaces(cli);
 	tok = get_token(cli, curr);	
-	cmd = parse_cmd(tok, curr);
-	if (!cmd)
+	ast_cmd = parse_cmd(tok, curr);
+	print_ast(ast_cmd, 0);
+	if (!ast_cmd)
 		return 1;
-	execc(cmd);
-	free_node_tree(cmd);
+	execc(ast_cmd);
+	free_node_tree(ast_cmd);
 	return (0);
 }
