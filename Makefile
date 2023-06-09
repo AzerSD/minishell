@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+         #
+#    By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/25 10:59:44 by asioud            #+#    #+#              #
-#    Updated: 2023/06/09 18:14:09 by asioud           ###   ########.fr        #
+#    Updated: 2023/06/09 18:19:37 by lhasmi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,9 +34,9 @@ SRC	=	core/shell \
 		builtins/env \
 		builtins/echo \
 		builtins/dump \
-		builtins/exit \
+		builtins/exit_builtin \
 		builtins/unset \
-		builtins/export \
+		builtins/export_builtin \
 		builtins/builtins \
 		\
 		prompt/prompt \
@@ -66,7 +66,7 @@ SRC	=	core/shell \
 		expansion/pattern \
 		\
 		signals/signals \
-		
+
 
 SRC_DIR		=	src/
 OBJ_DIR		=	obj/

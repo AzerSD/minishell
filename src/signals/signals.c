@@ -6,7 +6,7 @@
 /*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 22:28:21 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/09 18:08:38 by lhasmi           ###   ########.fr       */
+/*   Updated: 2023/06/09 19:40:52 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,6 @@ void	save_settings_and_remove_c(struct termios *mirror_termios)
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &termios_settings);
 }
 
-void	signal_ctrl_c(void) //SIGINT
-{
-	struct sigaction ctrl_c;
-
-	ctrl_c.sa_handler = handle_sigint;
-	ctrl_c.sa_flags = SA_RESTART;
-	sigemptyset(&ctrl_c.sa_mask);
-	sigaction(SIGINT, &ctrl_c, NULL);
-}
 
 void	handle_sigint(int sig_num)
 {
@@ -87,6 +78,16 @@ void	handle_sigint(int sig_num)
 	}
 }
 
+void	signal_ctrl_c(void) //SIGINT
+{
+	struct sigaction ctrl_c;
+
+	ctrl_c.sa_handler = handle_sigint;
+	ctrl_c.sa_flags = SA_RESTART;
+	sigemptyset(&ctrl_c.sa_mask);
+	sigaction(SIGINT, &ctrl_c, NULL);
+}
+
 void	signal_ctrl_backslash(void) //SIGQUIT
 {
 	struct sigaction ctrl_back_slash;
@@ -97,12 +98,23 @@ void	signal_ctrl_backslash(void) //SIGQUIT
 	sigaction(SIGQUIT, &ctrl_back_slash, NULL);
 }
 
+void	signal_ctrl_d(void) //SIGQUIT
+{
+	struct sigaction ctrl_d;
+
+	ctrl_d.sa_handler = SIG_IGN;
+	ctrl_d.sa_flags = SA_RESTART;
+	sigemptyset(&ctrl_d.sa_mask);
+	sigaction(SIGQUIT, &ctrl_d, NULL);
+}
+
 void	signals(struct termios *mirror_termios)
 {
 	g_ctrl_c = 0;
 	save_settings_and_remove_c(mirror_termios);
 	signal_ctrl_backslash();
 	signal_ctrl_c();
+	signal_ctrl_d();
 }
 
 // `sigaction` is both a function and a structure in C:
