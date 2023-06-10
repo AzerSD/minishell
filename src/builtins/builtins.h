@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 11:22:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/11 09:24:21 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/08 19:50:10 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ typedef struct	s_env
 }	t_env;
 
 /* shell builtin utilities */
-int		exit_builtin(int argc, ...);
-int		unset(int argc, ...);
-int		dump(int argc, ...);
-int		echo(int argc, ...);
-int		env(int argc, ...);
-int		pwd(int argc, ...);
-int		cd(int argc, ...);
-
+int			exit_builtin(int argc, ...);
+int			unset(int argc, ...);
+int			dump(int argc, ...);
+int			echo(int argc, ...);
+int			env(int argc, ...);
+int			pwd(int argc, ...);
+int			cd(int argc, ...);
+int			export_builtin(int argc, ...) __attribute__((unused));
 
 /* struct for builtin utilities */
 struct s_builtin

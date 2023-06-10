@@ -9,7 +9,7 @@ references:<br>
   - [x] Input
   - [x] Lexer
   - [x] Parser
-  - [x] Expand
+  - [ ] Expand
     - [x] Special Parameters: One of `@`, `*`, `#`, `?`, `-`, `$`, `!`, or `0`
     - [x] A Variables name
     - [x] A variable name surrounded by `{` and `}`
@@ -19,16 +19,7 @@ references:<br>
   - [x] Ast
   - [x] Execution
   - [ ] Builtins
-    - [x] `cd` | `chdir`
-    - [x] `echo`
-    - [ ] `exit`
-    - [x] `env`
-    - [ ] `setenv`
-    - [ ] `unsetenv`
-    - [ ] `unset`
-    - [ ] `export`
-    - [ ] `history`
-    - [x] `pwd`
+
 
 - [ ] Line editing
   - [ ] Simple and advanced line editing
@@ -46,7 +37,16 @@ references:<br>
   
 
 - [ ] Builtins with their POSIX options (For more info type `help` once in the shell)
-
+  - [ ] `cd` | `chdir`
+  - [ ] `echo`
+  - [ ] `exit`
+  - [ ] `env`
+  - [ ] `setenv`
+  - [ ] `unsetenv`
+  - [ ] `unset`
+  - [ ] `export`
+  - [ ] `history`
+  - [ ] `pwd`
 
 - [ ] Exec
   - [ ] Executing commands stored in path with their parameters
@@ -54,10 +54,10 @@ references:<br>
   - [ ] Redirections handled : `>`, `<`, `<<` and `>>`
   - [ ] Pipes `|`
   - [ ] Logical operators `&&` and `||`
-  - [x] Backquotes "‘" (TODO)
-  - [x] Ihibitors """ (double quote), "’" (simple quote) et "\" (backslash).
+  - [ ] Backquotes "‘" (TODO)
+  - [ ] Ihibitors """ (double quote), "’" (simple quote) et "\" (backslash).
   - [ ] `;`
-  - [x] `\n` handling where `\n` can be used as a `;`. Example: `ls \n ls` == `ls ; ls`
+  - [ ] `\n` handling where `\n` can be used as a `;`. Example: `ls \n ls` == `ls ; ls`
 
 
 - [ ] Prompt
@@ -88,10 +88,10 @@ references:<br>
 
 
 - [ ] Environ
-  - [x] Local Variables are available
-  - [x] Normal environment is used when the shell is started
-  - [x] Uses the `=` syntax (`VAR=VALUE`)
-  - [x] Default env is given when **42sh** is started with env -i (TODO to be customized)
+  - [ ] Local Variables are available
+  - [ ] Normal environment is used when the shell is started
+  - [ ] Uses the `=` syntax (`VAR=VALUE`)
+  - [ ] Default env is given when **42sh** is started with env -i (TODO to be customized)
   - [ ] Message to warn the User when **42sh** is started without an env
 
 

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:37 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/11 07:44:26 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/08 21:41:23 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../symbol_table/symtab.h"
+#include "../core/shell.h"
 
 int pwd(int argc, ...)
 {
@@ -21,6 +22,5 @@ int pwd(int argc, ...)
 	s = do_lookup("PWD", symtab);
 	if (s)
 		printf("%s\n", s->val);
-	
 	return (0);
 }

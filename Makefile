@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+         #
+#    By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/25 10:59:44 by asioud            #+#    #+#              #
-#    Updated: 2023/05/11 12:19:33 by asioud           ###   ########.fr        #
+#    Updated: 2023/06/09 18:19:37 by lhasmi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,13 +29,15 @@ READLINE		= /Users/$(USER)/.brew/opt/readline/include/readline
 
 SRC	=	core/shell \
 		\
-		builtins/builtins	builtins/dump \
-		builtins/echo \
 		builtins/cd \
-		builtins/env \
 		builtins/pwd \
-		builtins/exit \
+		builtins/env \
+		builtins/echo \
+		builtins/dump \
+		builtins/exit_builtin \
 		builtins/unset \
+		builtins/export_builtin \
+		builtins/builtins \
 		\
 		prompt/prompt \
 		\
@@ -64,7 +66,7 @@ SRC	=	core/shell \
 		expansion/pattern \
 		\
 		signals/signals \
-		
+
 
 SRC_DIR		=	src/
 OBJ_DIR		=	obj/
@@ -77,12 +79,12 @@ all:	$(NAME)
 
 
 $(NAME): $(OBJS)
-	$(CC) $(INCL_RDL_LIB) -lreadline -lhistory $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	$(CC) -lreadline -lhistory  $(INCL_RDL_LIB) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(INCL_RDL_HEADER) $(CFLAGS) -c $< -o $@
 
 clean:
 	@$(RM) $(OBJ_DIR)

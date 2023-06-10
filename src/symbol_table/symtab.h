@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   symtab.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 07:05:51 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/06 02:00:05 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/08 22:17:37 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ struct s_symtab
 };
 
 /* maximum allowed symbol tables in the stack */
-#define MAX_SYMTAB	256 
+#define MAX_SYMTAB	256
 
 /**
  * @brief the symbol table stack structure
@@ -86,11 +86,12 @@ struct s_symtab_stack
 	struct s_symtab *local_symtab;
 };
 
+void update_entry(struct s_symtab_entry *entry, char *new_val, char *name);
 
 /**
- * @brief Opposite of symbtab_entry_s 
+ * @brief Opposite of symbtab_entry_s
  * it removes the symbol table entry whose key matches the given name
- * and frees the memory used by the entry and adjusts the linked list pointers to 
+ * and frees the memory used by the entry and adjusts the linked list pointers to
  * remove the entry from the symbol table
 */
 int rem_from_symtab(struct s_symtab_entry *entry, struct s_symtab *symtab);
@@ -110,9 +111,9 @@ struct s_symtab_entry	*do_lookup(const char *str, struct s_symtab *symtable);
  * @brief This function adds a new entry to the local symbol table.
  * To ensure that each entry has a unique key, we first check to see
  * if an entry exists with the given name, by calling do_lookup()
- * If an entry with the given name exists, we simply 
+ * If an entry with the given name exists, we simply
  * @return the existing entry, without adding a new one. Otherwise, we add the
- * entry, set its name, and adjust the symbol table's pointers. Lastly, 
+ * entry, set its name, and adjust the symbol table's pointers. Lastly,
  * we return the newly added entry.
 */
 struct s_symtab_entry	*add_to_symtab(const char *symbol);
@@ -156,7 +157,7 @@ struct s_symtab			*get_local_symtab(void);
 
 
 /**
- * @brief removes (or pops) the symbol table on top of the stack, 
+ * @brief removes (or pops) the symbol table on top of the stack,
  * adjusting the stack pointers as needed.
  * @return the symbol table that was removed from the stack.
 */
@@ -174,7 +175,7 @@ struct s_symtab			*new_symtab(int level);
  * (if one exists). It then creates a copy of the new value and stores
  * it in the symbol table entry.
 */
-void symtab_entry_setval(struct s_symtab_entry *entry, char *val); 
+void symtab_entry_setval(struct s_symtab_entry *entry, char *val);
 
 
 /**
@@ -197,6 +198,7 @@ void free_symtab(struct s_symtab *symtab);
  * of our shell's global symbol table).
 */
 void dump_local_symtab(void);
+void dump_export_local_symtab(void);
 
 
 /**
