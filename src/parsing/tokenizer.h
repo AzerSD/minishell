@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:58:31 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/08 02:50:47 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/10 22:31:26 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@
 typedef enum {
     PARSE_DEFAULT,
     PARSE_ASSIGNMENT,
-	PARSE_PIPE,
+	TOKEN_PIPE,
 	PARSE_REDIR,
-} parse_state;
+	TOKEN_EOF,
+	TOKEN_AND,
+	TOKEN_OR,
+} e_token_type;
 
 /**
  * @brief Structure to hold the current token
@@ -29,14 +32,14 @@ typedef enum {
  * @param tok_buff_size		Size of the token buffer
  * @param tok_buff_index	Index of the token buffer (it tells us where to 
  * 							add the next input character in the buffer)
- * @param parse_state		Current parse state
+ * @param e_token_type		Current parse state
 */
 typedef struct s_curr_tok
 {
 	char		*tok_buff;
 	int			tok_buff_size;
 	int			tok_buff_index;
-	parse_state	parse_state;
+	e_token_type	tok_type;
 } t_curr_tok;
 
 /**
@@ -49,7 +52,8 @@ typedef struct s_token
 {
 	t_cli		*cli;    
 	char		*text;        
-	int			text_len;          
+	int			text_len;
+	e_token_type	tok_type;       
 } t_token;
 
 /**

@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:37:53 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/08 02:43:57 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/10 22:31:26 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void handle_newline(t_cli *cli, t_curr_tok *curr, int *endloop)
 
 void handle_equals_sign(t_curr_tok *curr)
 {
-	curr->parse_state = PARSE_ASSIGNMENT;	
+	curr->tok_type = PARSE_ASSIGNMENT;	
 	add_to_buf('=', curr);
 	return ;
 }
@@ -115,7 +115,7 @@ void handle_pipe(t_cli *cli, t_curr_tok *curr, int *endloop)
 		return ;
 	}
 	add_to_buf('|', curr);
-	curr->parse_state = PARSE_PIPE;
+	curr->tok_type = TOKEN_PIPE;
 	*endloop = 1;
 }
 

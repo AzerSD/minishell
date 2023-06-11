@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/09 18:09:26 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/11 18:44:32 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,8 @@ int main(int argc, char **argv)
 	(void) argv;
 	init_symtab();
 	
-	
 	while (true)
 	{
-		/* Handle Signals */
-		// signal(SIGINT, handle_sigint);
-		// signal(SIGQUIT, handle_sigquit);
-		
 		cmd = readline("minishell> ");
 		rl_clear_history();
 		if (!cmd)
@@ -68,7 +63,6 @@ void print_ast(t_node *node, int indent) {
         return;
     }
 
-    // Print indentation
     for (int i = 0; i < indent - 1; i++) {
         printf("  │");
     }
@@ -77,7 +71,7 @@ void print_ast(t_node *node, int indent) {
         printf("  ├─");
     }
 
-    printf("Value: %s,	type: %u\n", \
+    printf("Value: %s,	level: %u\n", \
 			 node->val.str, node->type);
 
     // Recursively print child nodes
@@ -88,7 +82,6 @@ void print_ast(t_node *node, int indent) {
     }
 }
 
-
 int parse_and_execute(t_cli *cli)
 {
 	t_node		*ast_cmd;
@@ -96,12 +89,41 @@ int parse_and_execute(t_cli *cli)
 	t_curr_tok	*curr = malloc(sizeof(t_curr_tok));
 
 	skip_whitespaces(cli);
-	tok = get_token(cli, curr);	
+	tok = get_token(cli, curr);
 	ast_cmd = parse_cmd(tok, curr);
 	print_ast(ast_cmd, 0);
 	if (!ast_cmd)
 		return 1;
 	execc(ast_cmd);
-	free_node_tree(ast_cmd);
+	// free_node_tree(ast_cmd);
 	return (0);
 }
+
+
+
+// int parse_and_execute(t_cli* cli) {
+// 	t_node* ast = new_node(NODE_COMMAND);
+// 	t_node* c1 = new_node(NODE_COMMAND);
+// 	t_node* c2 = new_node(NODE_COMMAND);
+// 	t_node* c3 = new_node(NODE_COMMAND);
+// 	t_node* c4 = new_node(NODE_COMMAND);
+
+// 	ast->val.str = "ast";
+// 	c1->val.str = "c1";
+// 	c2->val.str = "c2";
+// 	c3->val.str = "c3";
+// 	c4->val.str = "c4";
+
+// 	add_parent_node(c1, ast);
+// 	add_parent_node(c2, ast);
+// 	add_parent_node(c3, c2);
+// 	add_parent_node(c4, c3);
+
+// 	print_ast(ast, 0);
+
+// 	// Clean up the tree nodes
+// 	// ...
+
+// 	(void)cli;
+// 	return 0;
+// }

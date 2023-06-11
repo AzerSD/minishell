@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:58:21 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/06 01:34:43 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/10 18:59:17 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,5 @@
  * allocated resources.
  */
 t_node *parse_cmd(struct s_token *tok, t_curr_tok *curr);
-
+t_node *parse_pipeline(t_token *tok, t_curr_tok *curr);
 #endif

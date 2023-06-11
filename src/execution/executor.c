@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/11 08:16:16 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/11 18:50:15 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,3 +208,6 @@ int execc(t_node *node)
 	free_argv(argc, argv);
 	return (status == 0 ? 0 : 1);
 }
+
+
+

@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 01:58:12 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/09 00:57:23 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/11 16:19:53 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ enum e_node_type
 	NODE_VAR,               /* variable name (or simply, a word)*/
 	NODE_ASSIGNMENT,        /* assignment */
 	NODE_PIPE,              /* pipe */
+	NODE_LIST,			  /* list */
 };
 
 /**
@@ -73,6 +74,7 @@ union u_symval
  * @param first_child the first child node
  * @param next_sibling the next sibling node
  * @param prev_sibling the previous sibling node
+ * @param line_nbr the line number where the node's token was encountered
 */
 typedef struct s_node
 {
@@ -83,11 +85,13 @@ typedef struct s_node
 	struct s_node		*next_sibling;
 	struct s_node		*prev_sibling;
 	int					children;
+	int    				line_nbr;
 
 } t_node ;
 
 t_node	*new_node(enum e_node_type type);
 void    add_child_node(t_node *parent, t_node *child);
+void	add_parent_node(t_node *child, t_node *parent);
 void    free_node_tree(t_node *node);
 void    set_node_val_str(t_node *node, char *val);
 void	print_ast(t_node *node, int indent);
