@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/11 23:07:50 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/12 01:50:12 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,8 +230,16 @@ int execc(t_node *node)
         return 0;
 	}
 
+
     if (node->val.str && strcmp(node->val.str, "|") == 0)
-        return execute_pipeline(node);
+    {
+        int original_stdin = dup(STDIN_FILENO);
+        int pipeline_status = execute_pipeline(node);
+        dup2(original_stdin, STDIN_FILENO);
+        close(original_stdin);
+
+        return pipeline_status;
+    }
 
 	if (parse_arguments(node, &argc, &targc, &argv) != 0 || !node)
 		return (1);
