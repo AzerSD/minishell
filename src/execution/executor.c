@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/11 19:14:30 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/11 23:07:50 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,15 @@ int wait_for_child(pid_t child_pid)
 int execute_pipeline(t_node *node)
 {
     int pipefd[2];
+	pid_t child_pid;
+	
     if (pipe(pipefd) == -1)
     {
         perror("pipe");
         return 1;
     }
 
-    pid_t child_pid = fork();
+    child_pid = fork();
     if (child_pid == -1)
     {
         perror("fork");
@@ -217,6 +219,7 @@ int execc(t_node *node)
 	int		argc = 0;
 	int		targc = 0;
 	pid_t	child_pid;
+	int		status;
 
     if (!node)
         return 1;
@@ -225,17 +228,14 @@ int execc(t_node *node)
     {
 		string_to_symtab(node->first_child->val.str);
         return 0;
-    }
+	}
 
     if (node->val.str && strcmp(node->val.str, "|") == 0)
-    {
         return execute_pipeline(node);
-    }
-	/* Handle pipes, redirections... */
 
-	/* Handle simple commands */
 	if (parse_arguments(node, &argc, &targc, &argv) != 0 || !node)
 		return (1);
+
 	if (run_builtin(argc, argv) == 0)
 	{
 		free_argv(argc, argv);
@@ -248,8 +248,8 @@ int execc(t_node *node)
 		free_argv(argc, argv);
 		return (1);
 	}
-
-	int status = wait_for_child(child_pid);
+	
+	status = wait_for_child(child_pid);
 	free_argv(argc, argv);
 	return (status == 0 ? 0 : 1);
 }
