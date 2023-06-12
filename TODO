@@ -7,3 +7,8 @@ work on
 -   || and &&
 -   remove unused function in multiple places from .h files and make them static
 -   remove unnecsairy includes
+
+
+pipes:
+    - check if pipe at beginning or end of command that's not valid
+    

@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 01:58:07 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/04 04:35:04 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/10 00:18:37 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,14 @@ void add_child_node(t_node *parent, t_node *child)
 		child->prev_sibling = sibling;
 	}
 	parent->children++;
+}
+
+void add_parent_node(t_node* child, t_node* parent) {
+	if (child == NULL || parent == NULL) {
+		return;
+	}
+
+	add_child_node(parent, child);
 }
 
 /**

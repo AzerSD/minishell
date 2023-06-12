@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   symtab.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 07:28:23 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/08 22:56:22 by lhasmi           ###   ########.fr       */
+/*   Updated: 2023/06/12 02:08:34 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@
  * The symbol table supports operations like insertion, deletion,
  * and lookup of symbols.
  */
-
-
 void dump_local_symtab(void)
 {
 	struct s_symtab *symtab = s_symtab_stack.local_symtab;

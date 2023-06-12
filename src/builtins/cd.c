@@ -6,7 +6,11 @@
 /*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:48 by asioud            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/06/08 22:41:05 by lhasmi           ###   ########.fr       */
+=======
+/*   Updated: 2023/06/08 18:30:09 by asioud           ###   ########.fr       */
+>>>>>>> pipemein
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +30,9 @@
 
 int	cd(int argc, ...)
 {
-	va_list					args;
-	char					**path;
-	int						result;
-	struct s_symtab			*st;
-	struct s_symtab_entry	*entry;
-	struct s_symtab_entry	*oldpwd;
-	char *newpwd;
+    va_list args;
+    char    **path;
+    int     result;
 
 	st = s_symtab_stack.local_symtab;
 	entry = NULL;
@@ -72,6 +72,17 @@ int	cd(int argc, ...)
 		printf("oldpath: %s\n", oldpwd->val);
 		update_entry(entry, oldpwd->val, "OLDPWD");
 		update_entry(entry, newpwd, "PWD");
+
+
+		if (result != 0)
+		{
+			fprintf(stderr, "cd: %s: %s\n", *(path + 1), strerror(errno));
+			return (1);
+		}
+	}
+	return (0);
+}
+>>>>>>> pipemein
 
 
 		if (result != 0)

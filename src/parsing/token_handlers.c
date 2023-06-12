@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:37:53 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/06 01:24:06 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/10 22:31:26 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 #include <stdio.h>
 
 
-int is_valid_variable_name(const char *str) {
+int is_valid_variable_name(const char *str)
+{
 	if (!str || !*str) return 0;
 
 	if (!isalpha(*str) && *str != '_') return 0;
@@ -26,7 +27,6 @@ int is_valid_variable_name(const char *str) {
 
 	return 1;
 }
-
 
 void *handle_quotes(t_cli *cli, t_curr_tok *curr, char nc)
 {
@@ -101,16 +101,22 @@ void handle_newline(t_cli *cli, t_curr_tok *curr, int *endloop)
 
 void handle_equals_sign(t_curr_tok *curr)
 {
-	curr->parse_state = PARSE_ASSIGNMENT;	
+	curr->tok_type = PARSE_ASSIGNMENT;	
 	add_to_buf('=', curr);
 	return ;
 }
 
-void handle_pipe(t_curr_tok *curr)
+void handle_pipe(t_cli *cli, t_curr_tok *curr, int *endloop)
 {
-	(void)curr;
-
-	return ;
+    if (curr->tok_buff_index > 0)
+	{
+        *endloop = 1;
+		unget_char(cli);
+		return ;
+	}
+	add_to_buf('|', curr);
+	curr->tok_type = TOKEN_PIPE;
+	*endloop = 1;
 }
 
 int handle_redirection(t_cli *cli, t_curr_tok *curr, char nc)

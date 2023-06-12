@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:58:27 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/06 01:21:19 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/10 16:29:47 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ t_token *get_token(t_cli *cli, t_curr_tok *curr)
             handle_newline(cli, curr, &endloop);
         else if (nc == '=')
             handle_equals_sign(curr);
-        // else if (nc == '|')
-        //     handle_pipe(curr);
+        else if (nc == '|')
+            handle_pipe(cli, curr, &endloop);
         // else if (nc == '>' || nc == '<' || nc == '&')
         //     handle_redirection(cli, curr, nc);
         else
@@ -136,7 +136,7 @@ void init_curr_tok(t_curr_tok *curr)
     curr->tok_buff = NULL;
     curr->tok_buff_size = 0;
     curr->tok_buff_index = -1;
-    curr->parse_state = PARSE_DEFAULT;
+    curr->tok_type = PARSE_DEFAULT;
 }
 
 static void *init_curr_tok_buff(t_cli *cli, t_curr_tok *curr)

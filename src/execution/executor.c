@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/11 08:16:16 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/12 01:50:12 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,55 @@
 #include "../parsing/node.h"
 #include "../execution/executor.h"
 #include "../expansion/expansion.h" // free_all_words
+
+/**
+ * @brief Waits for a child process to terminate and returns its status.
+ * @param child_pid The process ID of the child process.
+ * @return The status of the child process.
+*/
+int wait_for_child(pid_t child_pid)
+{
+	int status = 0;
+	waitpid(child_pid, &status, 0);
+	return status;
+}
+
+int execute_pipeline(t_node *node)
+{
+    int pipefd[2];
+	pid_t child_pid;
+	
+    if (pipe(pipefd) == -1)
+    {
+        perror("pipe");
+        return 1;
+    }
+
+    child_pid = fork();
+    if (child_pid == -1)
+    {
+        perror("fork");
+        return 1;
+    }
+
+    if (child_pid == 0)
+    {
+        close(pipefd[0]);
+        dup2(pipefd[1], STDOUT_FILENO);
+        close(pipefd[1]);
+        execc(node->first_child);
+        exit(EXIT_FAILURE);
+    }
+
+    close(pipefd[1]);
+    dup2(pipefd[0], STDIN_FILENO);
+    close(pipefd[0]);
+
+    int status = execc(node->first_child->next_sibling);
+    wait_for_child(child_pid);
+    return status;
+}
+
 
 /**
  * @brief Executes a command with the given arguments.
@@ -45,17 +94,7 @@ int exec_cmd(int argc, char **argv)
 	return (0);
 }
 
-/**
- * @brief Waits for a child process to terminate and returns its status.
- * @param child_pid The process ID of the child process.
- * @return The status of the child process.
-*/
-int wait_for_child(pid_t child_pid)
-{
-	int status = 0;
-	waitpid(child_pid, &status, 0);
-	return status;
-}
+
 
 /**
  * @brief Frees the memory allocated for the given arguments.
@@ -180,17 +219,31 @@ int execc(t_node *node)
 	int		argc = 0;
 	int		targc = 0;
 	pid_t	child_pid;
-	/* Handle assignment*/
+	int		status;
+
+    if (!node)
+        return 1;
+
 	if (node->type == NODE_ASSIGNMENT)
     {
 		string_to_symtab(node->first_child->val.str);
         return 0;
-    }
-	/* Handle pipes, redirections... */
+	}
 
-	/* Handle simple commands */
+
+    if (node->val.str && strcmp(node->val.str, "|") == 0)
+    {
+        int original_stdin = dup(STDIN_FILENO);
+        int pipeline_status = execute_pipeline(node);
+        dup2(original_stdin, STDIN_FILENO);
+        close(original_stdin);
+
+        return pipeline_status;
+    }
+
 	if (parse_arguments(node, &argc, &targc, &argv) != 0 || !node)
 		return (1);
+
 	if (run_builtin(argc, argv) == 0)
 	{
 		free_argv(argc, argv);
@@ -203,8 +256,9 @@ int execc(t_node *node)
 		free_argv(argc, argv);
 		return (1);
 	}
-
-	int status = wait_for_child(child_pid);
+	
+	status = wait_for_child(child_pid);
 	free_argv(argc, argv);
 	return (status == 0 ? 0 : 1);
 }
+
