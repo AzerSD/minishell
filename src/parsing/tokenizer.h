@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:58:31 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/10 22:31:26 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/12 21:58:08 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,11 @@ typedef enum {
     PARSE_DEFAULT,
     PARSE_ASSIGNMENT,
 	TOKEN_PIPE,
-	PARSE_REDIR,
 	TOKEN_EOF,
-	TOKEN_AND,
-	TOKEN_OR,
+	TOKEN_OUTPUT,
+	TOKEN_INPUT,
+	TOKEN_APPEND,
+	TOKEN_HEREDOC,
 } e_token_type;
 
 /**
@@ -73,7 +74,6 @@ void	init_curr_tok(t_curr_tok *curr);
 void    free_token(t_token *tok);
 
 void add_to_buf(char c, t_curr_tok *curr);
-int handle_redirection(t_cli *cli, t_curr_tok *curr, char nc);
 void handle_pipe(t_cli *cli, t_curr_tok *curr, int *endloop);
 void handle_equals_sign(t_curr_tok *curr);
 void handle_newline(t_cli *cli, t_curr_tok *curr, int *endloop);
@@ -81,5 +81,6 @@ void handle_whitespace(t_curr_tok *curr, int *endloop);
 void *handle_dollar_sign(t_cli *cli, t_curr_tok *curr);
 void handle_backslash(t_cli *cli, t_curr_tok *curr);
 void *handle_quotes(t_cli *cli, t_curr_tok *curr, char nc);
+void handle_redirection(t_cli *cli, t_curr_tok *curr, int *endloop, char nc);
 
 #endif

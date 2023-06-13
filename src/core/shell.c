@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/12 21:09:45 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/12 22:11:28 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int parse_and_execute(t_cli *cli)
 	print_ast(ast_cmd, 0);
 	if (!ast_cmd)
 		return 1;
-	execc(ast_cmd);
+	// execc(ast_cmd);
 	// free_node_tree(ast_cmd);
 	return (0);
 }

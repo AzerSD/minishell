@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:37:53 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/10 22:31:26 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/12 21:58:23 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,11 +119,50 @@ void handle_pipe(t_cli *cli, t_curr_tok *curr, int *endloop)
 	*endloop = 1;
 }
 
-int handle_redirection(t_cli *cli, t_curr_tok *curr, char nc)
+void handle_redirection(t_cli *cli, t_curr_tok *curr, int *endloop, char nc)
 {
-	(void)cli;
-	(void)curr;
-	(void)nc;
+    if (curr->tok_buff_index > 0)
+    {
+        *endloop = 1;
+        unget_char(cli);
+        return;
+    }
 
-	return (0);
+    if (nc == '>')
+    {
+        curr->tok_type = TOKEN_OUTPUT;
+        add_to_buf('>', curr);
+        nc = get_next_char(cli);
+        if (nc == '>')
+        {
+            curr->tok_type = TOKEN_APPEND;
+            add_to_buf('>', curr);
+        }
+        else
+        {
+            unget_char(cli);
+        }
+    }
+    else if (nc == '<')
+    {
+        curr->tok_type = TOKEN_INPUT;
+        add_to_buf('<', curr);
+        nc = get_next_char(cli);
+        if (nc == '<')
+        {
+            curr->tok_type = TOKEN_HEREDOC;
+            add_to_buf('<', curr);
+        }
+        else
+        {
+            unget_char(cli);
+        }
+    }
+    else
+    {
+        add_to_buf(nc, curr);
+    }
+
+    *endloop = 1;
 }
+

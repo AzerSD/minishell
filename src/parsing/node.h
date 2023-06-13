@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 01:58:12 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/11 16:19:53 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/12 21:18:31 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
  * @param NODE_VAR	represents the simple command's child nodes
  * @param NODE_ASSIGNMENT represents the root node of an assignment
  * @param NODE_PIPE represents the root node of a pipe
+ * @param 
 */
 enum e_node_type
 {
@@ -29,6 +30,10 @@ enum e_node_type
 	NODE_ASSIGNMENT,        /* assignment */
 	NODE_PIPE,              /* pipe */
 	NODE_LIST,			  /* list */
+	NODE_INPUT,
+	NODE_OUTPUT,
+	NODE_APPEND,
+	NODE_HEREDOC,
 };
 
 /**
