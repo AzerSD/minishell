@@ -6,13 +6,13 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:34:08 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/11 12:25:05 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 01:40:54 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../symbol_table/symtab.h"
 
-int unset(int argc, ...)
+int ft_unset(int argc, ...)
 {
     va_list args;
     char    **var_name;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lhasmi <lhasmi@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:25 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/08 11:26:41 by lhasmi           ###   ########.fr       */
+/*   Updated: 2023/06/16 01:39:02 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // shell should parse command-line arguments before passing them to the echo().
 #include "./builtins.h"
 
-int				echo(int    argc, ...)
+int				ft_echo(int    argc, ...)
 {
 	int		i;
 	int		n_option;

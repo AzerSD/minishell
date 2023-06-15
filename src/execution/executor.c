@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/15 23:17:28 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 01:35:06 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,50 @@
 #include <string.h>
 #include <errno.h>
 #include <sys/wait.h>
-
+#include <fcntl.h> // open
 #include "../core/shell.h"
 #include "../parsing/node.h"
 #include "../execution/executor.h"
 #include "../expansion/expansion.h" // free_all_words
+
+void execute_redirection(int argc, char **argv) {
+    int input_fd = -1;
+    int output_fd = -1;
+
+    for (int i = 0; i < argc; i++) {
+        if (strcmp(argv[i], "<") == 0) {
+            // Handle input redirection
+            input_fd = open(argv[i + 1], O_RDONLY);
+            if (input_fd == -1) {
+                perror("open");
+                exit(EXIT_FAILURE);
+            }
+            dup2(input_fd, STDIN_FILENO);
+            close(input_fd);
+            argv[i] = NULL; // Remove the input redirection operator and filename
+        } else if (strcmp(argv[i], ">") == 0) {
+            // Handle output redirection
+            output_fd = open(argv[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+            if (output_fd == -1) {
+                perror("open");
+                exit(EXIT_FAILURE);
+            }
+            dup2(output_fd, STDOUT_FILENO);
+            close(output_fd);
+            argv[i] = NULL; // Remove the output redirection operator and filename
+        } else if (strcmp(argv[i], ">>") == 0) {
+            // Handle append output redirection
+            output_fd = open(argv[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+            if (output_fd == -1) {
+                perror("open");
+                exit(EXIT_FAILURE);
+            }
+            dup2(output_fd, STDOUT_FILENO);
+            close(output_fd);
+            argv[i] = NULL; // Remove the append output redirection operator and filename
+        }
+    }
+}
 
 /**
  * @brief Waits for a child process to terminate and returns its status.
@@ -231,7 +270,7 @@ int execc(t_node *node)
 	}
 	
 
-    if (node->val.str && strcmp(node->val.str, "|") == 0)
+    if (node->type == NODE_PIPE)
     {
         int original_stdin = dup(STDIN_FILENO);
         int pipeline_status = execute_pipeline(node);
@@ -240,7 +279,7 @@ int execc(t_node *node)
 
         return pipeline_status;
     }
-
+	
 	if (parse_arguments(node, &argc, &targc, &argv) != 0 || !node)
 		return (1);
 

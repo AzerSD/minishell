@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:34:49 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/08 13:57:11 by lhasmi           ###   ########.fr       */
+/*   Updated: 2023/06/16 01:40:26 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../symbol_table/symtab.h"
 #include "../core/shell.h"
 
-int exit_builtin(int argc, ...)
+int ft_exit(int argc, ...)
 {
     va_list args;
     int     exit_code;

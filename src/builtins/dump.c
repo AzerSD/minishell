@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dump.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:42:20 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/08 14:31:57 by lhasmi           ###   ########.fr       */
+/*   Updated: 2023/06/16 01:44:52 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 #include "../core/shell.h"
 #include "../symbol_table/symtab.h"
 
-int dump(int argc, ...)
+int ft_dump(int argc, ...)
 {
     (void) argc;
     dump_local_symtab();

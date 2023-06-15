@@ -1,48 +1,60 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:58 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/11 15:57:33 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 01:40:36 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+//
+#include "../core/shell.h"
 #include "../symbol_table/symtab.h"
 
-int export(int argc, ...)
-{
-    struct s_symtab_entry   *entry = NULL;
-    struct s_symtab         *symtab = s_symtab_stack.local_symtab;
-    char   **argv;
+// struct s_symtab_entry
+// {
+// 	struct s_node           *func_body;
+// 	enum e_symbol_type      val_type;
+// 	struct s_symtab_entry   *next;
+// 	unsigned int            flags;
+// 	char                    *name;
+// 	char                    *val;
+// };
 
-    va_list args;
-    va_start(args, argc);
-    argv = va_arg(args, char **);
-    entry = symtab->first;
-    va_end(args);
-    
-    if (argc == 1)
-    {
-        /* display all env vars e.g `declare -x var=value` */
-        while (entry)
-        {
-            fprintf(stderr, "declare -x %s=%s\n", entry->name, entry->val);
-            entry = entry->next;
-        }
-        return (0);   
-    }
-    else
-    {
-        /* display only the env vars passed as arguments */
-        va_start(args, argc);
-        argv = va_arg(args, char **);
-        entry = do_lookup(argv[1], symtab);
-        va_end(args);
-        if (entry)
-            fprintf(stderr, "declare -x %s=%s\n", entry->name, entry->val);
-        return (1);
-    }
+int	ft_export(int argc, ...)
+{
+	va_list	args;
+	char	**argv;
+	char	*envar;
+	int		i;
+
+	envar = NULL;
+	va_start(args, argc);
+	argv = va_arg(args, char **);
+	if (argc == 1)
+	{
+		dump_export_local_symtab();
+		va_end(args);
+	}
+	else
+	{
+		if(argv[1] != NULL && (argv[2] == NULL || ft_strcmp(argv[2], "") == 0))
+		{
+			envar = va_arg(args, char *);
+			string_to_symtab((const char *)argv[1]);
+		}
+		i = 1;
+		while (i < argc)
+		{
+			/* Check if the argument is a valid environment variable */
+			envar = va_arg(args, char *);
+			string_to_symtab((const char *)argv[i]);
+			i++;
+		}
+		va_end(args);
+	}
+	return (0);
 }

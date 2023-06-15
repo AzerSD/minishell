@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/15 23:19:10 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 01:41:07 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(int argc, char **argv)
 		if (strncmp(cmd, "exit", 5) == 0)
 		{
 			free(cmd);
-			exit_builtin(1, 0);
+			ft_exit(1, 0);
 		}
 		/* If it is a terminal not running by a script or smth*/
 		if (isatty(STDIN_FILENO))
@@ -94,9 +94,8 @@ int parse_and_execute(t_cli *cli)
 	print_ast(ast_cmd, 0);
 	if (!ast_cmd)
 		return 1;
-	// execc(ast_cmd);
+	execc(ast_cmd);
 
-	
 	// free_node_tree(ast_cmd);
 	return (0);
 }

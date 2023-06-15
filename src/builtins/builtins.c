@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:41:31 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/08 14:33:42 by lhasmi           ###   ########.fr       */
+/*   Updated: 2023/06/16 01:44:57 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@
 
 struct s_builtin builtins[] =
 {
-    { "dump"    , dump },
-    { "echo"    , echo },
-    { "env"     , env },
-    { "pwd"     , pwd },
-    { "cd"      , cd }, /* lacking changing pwd and old_pwd*/
-    { "export"  , export_builtin },
-    { "unset"   , unset },
-    { "exit"    , exit_builtin },
+    { "dump"    , ft_dump },
+    { "echo"    , ft_echo },
+    { "env"     , ft_env },
+    { "pwd"     , ft_pwd },
+    { "cd"      , ft_cd }, /* lacking changing pwd and old_pwd*/
+    { "export"  , ft_export },
+    { "unset"   , ft_unset },
+    { "exit"    , ft_exit },
 };
 
 int builtins_count = sizeof(builtins) / sizeof(struct s_builtin);

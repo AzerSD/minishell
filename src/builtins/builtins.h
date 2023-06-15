@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 11:22:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/12 02:04:41 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 01:38:40 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ typedef struct	s_env
 }	t_env;
 
 /* shell builtin utilities */
-int			exit_builtin(int argc, ...);
-int			unset(int argc, ...);
-int			dump(int argc, ...);
-int			echo(int argc, ...);
-int			env(int argc, ...);
-int			pwd(int argc, ...);
-int			cd(int argc, ...);
-int			export_builtin(int argc, ...) __attribute__((unused));
+int			ft_exit(int argc, ...);
+int			ft_unset(int argc, ...);
+int			ft_dump(int argc, ...);
+int			ft_echo(int argc, ...);
+int			ft_env(int argc, ...);
+int			ft_pwd(int argc, ...);
+int			ft_cd(int argc, ...);
+int			ft_export(int argc, ...) __attribute__((unused));
 
 /* struct for builtin utilities */
 struct s_builtin

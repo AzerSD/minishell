@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:48 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/12 02:40:35 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 01:39:54 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <unistd.h>
 #include <stdio.h>
 
-int	cd(int argc, ...)
+int	ft_cd(int argc, ...)
 {
 	va_list					args;
 	char					**path;
