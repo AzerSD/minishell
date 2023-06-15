@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:58:31 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/12 21:58:08 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/15 23:35:35 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef enum {
 	TOKEN_INPUT,
 	TOKEN_APPEND,
 	TOKEN_HEREDOC,
+	TOKEN_FILE,
 } e_token_type;
 
 /**

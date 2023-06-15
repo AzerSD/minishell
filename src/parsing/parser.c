@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:58:16 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/12 22:16:01 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 00:17:06 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,18 +100,36 @@ t_node *parse_cmd(t_token *tok, t_curr_tok *curr)
         }
         else if (type == NODE_INPUT || type == NODE_OUTPUT || type == NODE_APPEND || type == NODE_HEREDOC)
         {
-            if (first_pipe)
-                ptr = parent;
-            printf("hiiiiiiii\n");
-            parent = new_node(type);
-            parent->val.str = curr->tok_buff;
-            add_child_node(parent, ptr);
-            ptr = parent;
+            t_node *redirection_node = new_node(type);
+            set_node_val_str(redirection_node, tok->text);
+            if (!redirection_node)
+            {
+                free_node_tree(ptr);
+                free_token(tok);
+                return NULL;
+            }
 
-            t_node *null_node = new_node(NODE_COMMAND);
-            add_child_node(ptr, null_node);
-            ptr = null_node; 
+            free_token(tok);
+            tok = get_token(cli, curr);
+            if (tok == EOF_TOKEN)
+            {
+                free_node_tree(ptr);
+                return NULL;
+            }
+
+            t_node *file_node = new_node(NODE_FILE);
+            set_node_val_str(file_node, tok->text);
+            if (!file_node)
+            {
+                free_node_tree(ptr);
+                free_token(tok);
+                return NULL;
+            }
+
+            add_child_node(ptr, redirection_node);
+            add_child_node(ptr, file_node);
         }
+
         else
         {
             word = new_node(type);

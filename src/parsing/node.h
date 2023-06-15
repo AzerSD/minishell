@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 01:58:12 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/12 21:18:31 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/15 23:35:15 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ enum e_node_type
 	NODE_OUTPUT,
 	NODE_APPEND,
 	NODE_HEREDOC,
+	NODE_FILE,
 };
 
 /**

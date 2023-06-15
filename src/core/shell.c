@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/12 22:11:28 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/15 23:19:10 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,12 @@ void print_ast(t_node *node, int indent) {
     }
 }
 
+
 int parse_and_execute(t_cli *cli)
 {
 	t_node		*ast_cmd;
 	t_token		*tok;
 	t_curr_tok	*curr;
-
 	curr = malloc(sizeof(t_curr_tok));
 	skip_whitespaces(cli);
 	tok = get_token(cli, curr);
@@ -95,35 +95,9 @@ int parse_and_execute(t_cli *cli)
 	if (!ast_cmd)
 		return 1;
 	// execc(ast_cmd);
+
+	
 	// free_node_tree(ast_cmd);
 	return (0);
 }
 
-
-
-// int parse_and_execute(t_cli* cli) {
-// 	t_node* ast = new_node(NODE_COMMAND);
-// 	t_node* c1 = new_node(NODE_COMMAND);
-// 	t_node* c2 = new_node(NODE_COMMAND);
-// 	t_node* c3 = new_node(NODE_COMMAND);
-// 	t_node* c4 = new_node(NODE_COMMAND);
-
-// 	ast->val.str = "ast";
-// 	c1->val.str = "c1";
-// 	c2->val.str = "c2";
-// 	c3->val.str = "c3";
-// 	c4->val.str = "c4";
-
-// 	add_parent_node(c1, ast);
-// 	add_parent_node(c2, ast);
-// 	add_parent_node(c3, c2);
-// 	add_parent_node(c4, c3);
-
-// 	print_ast(ast, 0);
-
-// 	// Clean up the tree nodes
-// 	// ...
-
-// 	(void)cli;
-// 	return 0;
-// }

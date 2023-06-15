@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/12 01:50:12 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/15 23:17:28 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +229,7 @@ int execc(t_node *node)
 		string_to_symtab(node->first_child->val.str);
         return 0;
 	}
-
+	
 
     if (node->val.str && strcmp(node->val.str, "|") == 0)
     {

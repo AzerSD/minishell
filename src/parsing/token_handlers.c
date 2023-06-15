@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:37:53 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/12 21:58:23 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 00:09:56 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,6 @@ void handle_redirection(t_cli *cli, t_curr_tok *curr, int *endloop, char nc)
     {
         add_to_buf(nc, curr);
     }
-
     *endloop = 1;
 }
 
