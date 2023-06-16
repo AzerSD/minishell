@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:58:16 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 00:17:06 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 03:03:28 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,9 @@ t_node *parse_cmd(t_token *tok, t_curr_tok *curr)
                 return NULL;
             }
 
+            add_child_node(redirection_node, file_node);
+            // add_child_node(ptr, redirection_node);
             add_child_node(ptr, redirection_node);
-            add_child_node(ptr, file_node);
         }
 
         else

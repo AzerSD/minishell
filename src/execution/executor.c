@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 01:35:06 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 03:19:27 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,44 +23,66 @@
 #include "../execution/executor.h"
 #include "../expansion/expansion.h" // free_all_words
 
-void execute_redirection(int argc, char **argv) {
-    int input_fd = -1;
-    int output_fd = -1;
 
-    for (int i = 0; i < argc; i++) {
-        if (strcmp(argv[i], "<") == 0) {
-            // Handle input redirection
-            input_fd = open(argv[i + 1], O_RDONLY);
-            if (input_fd == -1) {
-                perror("open");
-                exit(EXIT_FAILURE);
+int setup_redirections(t_node *node, int *out_fd)
+{
+    t_node *child = node->first_child;
+
+    while (child)
+ {
+        if (child->type == NODE_INPUT || child->type == NODE_OUTPUT || child->type == NODE_APPEND || child->type == NODE_HEREDOC)
+        {
+            int fd;
+            int flags = 0;
+            int std_fd = -1;
+
+            if (child->type == NODE_INPUT)
+            {
+                flags = O_RDONLY;
+                std_fd = STDIN_FILENO;
             }
-            dup2(input_fd, STDIN_FILENO);
-            close(input_fd);
-            argv[i] = NULL; // Remove the input redirection operator and filename
-        } else if (strcmp(argv[i], ">") == 0) {
-            // Handle output redirection
-            output_fd = open(argv[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-            if (output_fd == -1) {
-                perror("open");
-                exit(EXIT_FAILURE);
+            else if (child->type == NODE_OUTPUT)
+            {
+                flags = O_WRONLY | O_CREAT | O_TRUNC;
+                std_fd = STDOUT_FILENO;
             }
-            dup2(output_fd, STDOUT_FILENO);
-            close(output_fd);
-            argv[i] = NULL; // Remove the output redirection operator and filename
-        } else if (strcmp(argv[i], ">>") == 0) {
-            // Handle append output redirection
-            output_fd = open(argv[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-            if (output_fd == -1) {
-                perror("open");
-                exit(EXIT_FAILURE);
+            else if (child->type == NODE_APPEND)
+            {
+                flags = O_WRONLY | O_CREAT | O_APPEND;
+                std_fd = STDOUT_FILENO;
             }
-            dup2(output_fd, STDOUT_FILENO);
-            close(output_fd);
-            argv[i] = NULL; // Remove the append output redirection operator and filename
+
+            if (child->first_child && child->first_child->val.str)
+            {
+                fd = open(child->first_child->val.str, flags, 0644);
+                if (fd == -1)
+                {
+                    perror("open");
+                    return 1;
+                }
+
+                if (std_fd == STDOUT_FILENO)
+                {
+                    *out_fd = fd;
+                }
+                else
+                {
+                    if (dup2(fd, std_fd) == -1)
+                    {
+                        perror("dup2");
+                        close(fd);
+                        return 1;
+                    }
+                    close(fd);
+                }
+            }
         }
+        child = child->next_sibling;
     }
+
+    return 0;
 }
+
 
 /**
  * @brief Waits for a child process to terminate and returns its status.
@@ -178,11 +200,16 @@ static int run_builtin(int argc, char **argv)
  * @return The process ID of the child process on success,
  * 		or -1 if an error occurs.
 */
-static pid_t fork_command(int argc, char **argv)
+static pid_t fork_command(int argc, char **argv, t_node *node)
 {
+    int out_fd = -1;
 	pid_t child_pid = fork();
 	if (child_pid == 0)
 	{
+            if (setup_redirections(node, &out_fd) != 0)
+        {
+            exit(1);
+        }
 		exec_cmd(argc, argv);
 		fprintf(stderr, "error: failed to execute command: %s\n", strerror(errno));
 		if (errno == ENOEXEC)
@@ -215,6 +242,8 @@ static int parse_arguments(t_node *node, int *argc, int *targc, char ***argv)
 	while (child)
 	{
 		str = child->val.str;
+		if (child->type == NODE_INPUT || child->type == NODE_OUTPUT || child->type == NODE_APPEND || child->type == NODE_HEREDOC)
+            break;
 		w = expand(str);
 		if (!w)
 		{
@@ -259,6 +288,7 @@ int execc(t_node *node)
 	int		targc = 0;
 	pid_t	child_pid;
 	int		status;
+    int		out_fd;
 
     if (!node)
         return 1;
@@ -283,21 +313,36 @@ int execc(t_node *node)
 	if (parse_arguments(node, &argc, &targc, &argv) != 0 || !node)
 		return (1);
 
-	if (run_builtin(argc, argv) == 0)
-	{
-		free_argv(argc, argv);
-		return (0);
-	}
-	child_pid = fork_command(argc, argv);
-	if (child_pid == -1)
-	{
-		fprintf(stderr, "error: failed to fork command: %s\n", strerror(errno));
-		free_argv(argc, argv);
-		return (1);
-	}
-	
-	status = wait_for_child(child_pid);
-	free_argv(argc, argv);
-	return (status == 0 ? 0 : 1);
-}
+    if (setup_redirections(node, &out_fd) != 0)
+    {
+        free_argv(argc, argv);
+        return 1;
+    }
 
+    if (run_builtin(argc, argv) == 0)
+    {
+        free_argv(argc, argv);
+        if (out_fd != -1)
+            close(out_fd);
+        return (0);
+    }
+
+    child_pid = fork_command(argc, argv, node);
+    if (child_pid == -1)
+    {
+        fprintf(stderr, "error: failed to fork command: %s\n", strerror(errno));
+        free_argv(argc, argv);
+        if (out_fd != -1)
+            close(out_fd);
+        return (1);
+    }
+
+    status = wait_for_child(child_pid);
+    free_argv(argc, argv);
+    if (out_fd != -1)
+    {
+        close(out_fd);
+            fflush(stdout);
+    }
+    return (status == 0 ? 0 : 1);
+}
