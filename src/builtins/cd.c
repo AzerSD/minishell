@@ -6,14 +6,11 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:48 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 01:39:54 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/17 00:10:12 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../core/shell.h"
-
-#include <unistd.h>
-#include <stdio.h>
+#include "minishell.h"
 
 int	ft_cd(int argc, ...)
 {
@@ -37,7 +34,7 @@ int	ft_cd(int argc, ...)
 		}
 		oldpwd = do_lookup("PWD", st);
 		result = chdir(entry->val);
-		newpwd = getwd(NULL);
+		newpwd = getcwd(NULL, 0);
 		update_entry(entry, oldpwd->val, "OLDPWD");
 		update_entry(entry, newpwd, "PWD");
 		if (result != 0)
@@ -54,7 +51,7 @@ int	ft_cd(int argc, ...)
 		va_end(args);
 		oldpwd = do_lookup("PWD", st);
 		result = chdir(*(path + 1));
-		newpwd = getwd(NULL);
+		newpwd = getcwd(NULL, 0);
 		update_entry(entry, oldpwd->val, "OLDPWD");
 		update_entry(entry, newpwd, "PWD");
 

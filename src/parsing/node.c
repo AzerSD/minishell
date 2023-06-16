@@ -6,20 +6,13 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 01:58:07 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/13 05:14:01 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 22:46:01 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-#include <errno.h>
-
-#include "../core/shell.h"
-#include "node.h"
-#include "parser.h"
+#include "minishell.h"
 
 /**
  * @brief allocates and initializes a new node with the specified type.

@@ -6,23 +6,11 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 03:19:27 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 22:41:21 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <errno.h>
-#include <sys/wait.h>
-#include <fcntl.h> // open
-#include "../core/shell.h"
-#include "../parsing/node.h"
-#include "../execution/executor.h"
-#include "../expansion/expansion.h" // free_all_words
-
+# include "minishell.h"
 
 int setup_redirections(t_node *node, int *out_fd)
 {

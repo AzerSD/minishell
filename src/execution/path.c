@@ -6,17 +6,12 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 05:03:22 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/04 05:12:24 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 22:41:55 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../core/shell.h"
-#include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include "../execution/executor.h"
+#include "minishell.h"
+
 
 static int file_exists(char *path)
 {

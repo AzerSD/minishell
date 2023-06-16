@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 22:49:31 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/09 15:28:50 by lhasmi           ###   ########.fr       */
+/*   Updated: 2023/06/16 22:47:55 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 #ifndef SIGNALS_H
 #define SIGNALS_H
 
-#include <termios.h>  // for struct termios
-#include <signal.h>   // for struct sigaction, sigemptyset, sigaction
-#include <unistd.h>
-#include <readline/readline.h>
+#include "minishell.h"
 
 // Global variable to track SIGINT
 extern int g_ctrl_c;

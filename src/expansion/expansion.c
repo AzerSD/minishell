@@ -6,11 +6,11 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:05:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/03 15:53:50 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 22:42:30 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expansion.h"
+#include "minishell.h"
 
 struct s_word	*expand(char *orig_word)
 {

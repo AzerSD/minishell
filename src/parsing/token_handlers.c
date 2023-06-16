@@ -6,13 +6,11 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:37:53 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 00:09:56 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 22:46:47 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenizer.h"
-#include "../expansion/expansion.h"
-#include <stdio.h>
+#include "minishell.h"
 
 
 int is_valid_variable_name(const char *str)

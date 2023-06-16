@@ -10,13 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include "../core/shell.h"
-#include "../parsing/node.h"
-#include "../parsing/parser.h"
-#include "symtab.h"
+#include "minishell.h"
+
+struct s_symtab_stack	s_symtab_stack; // pointer to our symbol table stack (we only need one stack per shell).
+int						symtab_level; // our current level in the stack (0 if we're working with the global symbol table, non-zero otherwise).
+
 
 /**
  * @brief adds the given symbol table to the stack, 

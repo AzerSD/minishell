@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <string.h>
-#include "../core/shell.h"
-#include "expansion.h"
+#include "minishell.h"
 
 /**
  * @brief search string for any one of the passed characters.

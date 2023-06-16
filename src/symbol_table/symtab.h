@@ -3,26 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   symtab.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 07:05:51 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/08 22:17:37 by lhasmi           ###   ########.fr       */
+/*   Updated: 2023/06/17 00:27:50 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SYMTAB_H
-#define SYMTAB_H
+# define SYMTAB_H
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include "../core/shell.h"
-#include "../parsing/node.h"
-#include "../parsing/parser.h"
+#include "minishell.h"
 
-
-struct s_symtab_stack	s_symtab_stack; // pointer to our symbol table stack (we only need one stack per shell).
-int						symtab_level; // our current level in the stack (0 if we're working with the global symbol table, non-zero otherwise).
+// extern struct s_symtab_stack	s_symtab_stack; // pointer to our symbol table stack (we only need one stack per shell).
+// extern int						symtab_level; // our current level in the stack (0 if we're working with the global symbol table, non-zero otherwise).
 extern char				**environ;
 
 /**

@@ -6,14 +6,14 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:25 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 01:39:02 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 22:35:33 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // The echo command in a shell prints its arguments followed by a newline. 
 // When the -n option is given, the trailing newline is suppressed.
 // shell should parse command-line arguments before passing them to the echo().
-#include "./builtins.h"
+#include "minishell.h"
 
 int				ft_echo(int    argc, ...)
 {

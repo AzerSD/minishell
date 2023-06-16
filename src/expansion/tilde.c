@@ -10,11 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/types.h>
-#include <pwd.h>
-#include <unistd.h>
-
-#include "expansion.h"
+#include "minishell.h"
 
 /**
  * @brief perform tilde expansion.

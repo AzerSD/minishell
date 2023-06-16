@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:42:20 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 01:44:52 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 22:34:56 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@
 // getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
 // tgetnum, tgetstr, tgoto, tputs
 
-#include "../core/shell.h"
-#include "../symbol_table/symtab.h"
+#include "minishell.h"
 
 int ft_dump(int argc, ...)
 {
