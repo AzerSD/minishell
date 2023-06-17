@@ -6,14 +6,11 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:58:38 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/03 23:45:37 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 22:45:38 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
-
-#include "../core/shell.h"
-#include "lexer.h"
+#include "minishell.h"
 
 void	unget_char(t_cli *cli)
 {

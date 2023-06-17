@@ -6,17 +6,11 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 07:28:23 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/12 02:08:34 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 22:48:30 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include "../core/shell.h"
-#include "../parsing/node.h"
-#include "../parsing/parser.h"
-#include "symtab.h"
+#include "minishell.h"
 
 /**
  * @brief The symbol table will be used to store information about

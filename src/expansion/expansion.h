@@ -16,17 +16,8 @@
 /* required macro definition for popen() and pclose() */
 #define _POSIX_C_SOURCE 200809L
 
-#include "../execution/executor.h"
-#include "../symbol_table/symtab.h"
-#include "../core/shell.h"
-#include <sys/types.h>
-#include <limits.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include <errno.h>
-#include <stdio.h>
-#include <glob.h> // https://c-for-dummies.com/blog/?p=4782
+
+#include "minishell.h"
 
 
 /* special value to represent an invalid variable */

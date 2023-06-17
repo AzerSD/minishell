@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "symtab.h"
+#include "minishell.h"
 
 void free_symtab(struct s_symtab *symtab)
 {

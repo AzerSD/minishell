@@ -10,13 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include "../core/shell.h"
-#include "../parsing/node.h"
-#include "../parsing/parser.h"
-#include "symtab.h"
+#include "minishell.h"
+
 
 /**
  * @brief adds the given symbol table to the stack, 

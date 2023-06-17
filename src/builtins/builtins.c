@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:41:31 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 01:44:57 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 23:55:19 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
  as built-in commands in your shell.
  This will likely involve writing a function to code its expected behavior.
  */
-//  readline, rl_clear_history, rl_on_new_line,
+// readline, rl_clear_history, rl_on_new_line,
 // rl_replace_line, rl_redisplay, add_history,
 // printf, malloc, free, write, access, open, read,
 // close, fork, wait, waitpid, wait3, wait4, signal,
@@ -37,7 +37,8 @@
 // strerror, perror, isatty, ttyname, ttyslot, ioctl,
 // getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
 // tgetnum, tgetstr, tgoto, tputs
-#include"builtins.h"
+
+#include "minishell.h"
 
 struct s_builtin builtins[] =
 {

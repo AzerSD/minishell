@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:58:27 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 01:11:28 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 22:46:55 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,7 @@
  * to scan the input and turn them into tokens
 */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <errno.h>
-#include <ctype.h>
-
-#include "../core/shell.h"
-#include "tokenizer.h"
-#include "lexer.h"
-#include "../expansion/expansion.h"
+#include "minishell.h"
 
 static void *init_curr_tok_buff(t_cli *cli, t_curr_tok *curr);
 

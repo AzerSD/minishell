@@ -6,21 +6,13 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:58:16 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 03:03:28 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 22:46:30 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 
-#include <unistd.h>
-#include <stdio.h>
-
-#include "../core/shell.h"
-#include "parser.h"
-#include "tokenizer.h"
-#include "node.h"
-#include "lexer.h"
-#include "string.h"
+#include "minishell.h"
 
 enum e_node_type get_node_type(e_token_type state)
 {

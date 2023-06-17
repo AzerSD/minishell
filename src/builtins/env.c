@@ -6,11 +6,11 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:34:19 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 01:40:17 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 22:35:44 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../symbol_table/symtab.h"
+#include "minishell.h"
 
 int ft_env(int argc, ...)
 {

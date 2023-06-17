@@ -6,16 +6,15 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 11:22:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 01:38:40 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 22:33:16 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-# include "../core/shell.h"
-# include <limits.h>
-# include <stdarg.h>
+# include "minishell.h"
+
 
 
 typedef struct	s_env

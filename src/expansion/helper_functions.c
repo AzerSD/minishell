@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expansion.h"
+#include "minishell.h"
 /**
  * @brief convert a tree of tokens into a command string (i.e. re-create the original
  * command line from the token tree.

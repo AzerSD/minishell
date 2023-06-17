@@ -6,61 +6,11 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/17 19:58:57 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/17 20:00:53 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <errno.h>
-#include <sys/wait.h>
-#include <fcntl.h> // open
-#include "../core/shell.h"
-#include "../parsing/node.h"
-#include "../execution/executor.h"
-#include "../expansion/expansion.h" // free_all_words
-
-void execute_redirection(int argc, char **argv) {
-    int input_fd = -1;
-    int output_fd = -1;
-
-    for (int i = 0; i < argc; i++) {
-        if (strcmp(argv[i], "<") == 0) {
-            // Handle input redirection
-            input_fd = open(argv[i + 1], O_RDONLY);
-            if (input_fd == -1) {
-                perror("open");
-                exit(EXIT_FAILURE);
-            }
-            dup2(input_fd, STDIN_FILENO);
-            close(input_fd);
-            argv[i] = NULL; // Remove the input redirection operator and filename
-        } else if (strcmp(argv[i], ">") == 0) {
-            // Handle output redirection
-            output_fd = open(argv[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-            if (output_fd == -1) {
-                perror("open");
-                exit(EXIT_FAILURE);
-            }
-            dup2(output_fd, STDOUT_FILENO);
-            close(output_fd);
-            argv[i] = NULL; // Remove the output redirection operator and filename
-        } else if (strcmp(argv[i], ">>") == 0) {
-            // Handle append output redirection
-            output_fd = open(argv[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-            if (output_fd == -1) {
-                perror("open");
-                exit(EXIT_FAILURE);
-            }
-            dup2(output_fd, STDOUT_FILENO);
-            close(output_fd);
-            argv[i] = NULL; // Remove the append output redirection operator and filename
-        }
-    }
-}
+# include "minishell.h"
 
 int setup_redirections(t_node *node)
 {

@@ -6,14 +6,16 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 01:58:12 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/15 23:35:15 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 22:46:19 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 
 #ifndef NODE_H
-#define NODE_H
+# define NODE_H
+
+# include "minishell.h"
 
 /**
  * Define the type of our AST Node
