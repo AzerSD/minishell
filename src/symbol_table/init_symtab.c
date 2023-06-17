@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_symtab.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:28:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 22:48:13 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/18 01:05:14 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	init_symtab(void)
 
 	st = s_symtab_stack.local_symtab;
 	init_symtab_stack();
+	entry = add_to_symtab("?");
 	char **p2 = environ; /* user env variables @see printenv */
 	while (*p2)
 	{
