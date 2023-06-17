@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/17 20:00:53 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/18 00:49:37 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 
 int setup_redirections(t_node *node)
 {
+    int fd;
+    int flags = 0;
+    int std_fd = -1;
     t_node *child = node->first_child;
 
     while (child)
     {
         if (child->type == NODE_INPUT || child->type == NODE_OUTPUT || child->type == NODE_APPEND || child->type == NODE_HEREDOC)
         {
-            int fd;
-            int flags = 0;
-            int std_fd = -1;
+
 
             if (child->type == NODE_INPUT)
             {
@@ -292,6 +293,7 @@ int execc(t_node *node)
 	if (parse_arguments(node, &argc, &targc, &argv) != 0 || !node)
 		return (1);
 
+
     if (setup_redirections(node) != 0)
     {
         free_argv(argc, argv);
@@ -303,6 +305,7 @@ int execc(t_node *node)
 		free_argv(argc, argv);
 		return (0);
 	}
+    
 	child_pid = fork_command(argc, argv, node);
 
 	if (child_pid == -1)

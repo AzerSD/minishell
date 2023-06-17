@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 22:38:31 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/18 00:58:45 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	main(int argc, char **argv)
 	(void)argv;
 	init_symtab();
 	signals(&mirror_termios);
+	int original_stdout = dup(STDOUT_FILENO);
 	while (true)
 	{
 		cmd = readline("minishell> ");
@@ -47,6 +48,7 @@ int	main(int argc, char **argv)
 		cli.buff_size = strlen(cmd);
 		cli.cur_pos = INIT_SRC_POS;
 		parse_and_execute(&cli);
+		dup2(original_stdout, STDOUT_FILENO);
 		free(cmd);;
 	}
 	clear_history();
@@ -77,12 +79,12 @@ void print_ast(t_node *node, int indent) {
     }
 }
 
-
 int parse_and_execute(t_cli *cli)
 {
 	t_node		*ast_cmd;
 	t_token		*tok;
 	t_curr_tok	*curr;
+
 	curr = malloc(sizeof(t_curr_tok));
 	skip_whitespaces(cli);
 	tok = get_token(cli, curr);

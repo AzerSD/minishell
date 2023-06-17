@@ -26,6 +26,7 @@
 		"ratio": "c",
 		"tuple": "c",
 		"utility": "c",
-		"expansion.h": "c"
+		"expansion.h": "c",
+		"locale": "c"
 	}
 }
