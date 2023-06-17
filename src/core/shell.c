@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 22:38:31 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/17 22:58:10 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,29 +53,29 @@ int	main(int argc, char **argv)
 	exit(EXIT_SUCCESS);
 }
 
-void print_ast(t_node *node, int indent) {
-    if (node == NULL) {
-        return;
-    }
+// void print_ast(t_node *node, int indent) {
+//     if (node == NULL) {
+//         return;
+//     }
 
-    for (int i = 0; i < indent - 1; i++) {
-        printf("  │");
-    }
+//     for (int i = 0; i < indent - 1; i++) {
+//         printf("  │");
+//     }
 
-    if (indent > 0) {
-        printf("  ├─");
-    }
+//     if (indent > 0) {
+//         printf("  ├─");
+//     }
 
-    printf("Value: %s,	level: %u\n", \
-			 node->val.str, node->type);
+//     printf("Value: %s,	level: %u\n", \
+// 			 node->val.str, node->type);
 
-    // Recursively print child nodes
-    t_node *child = node->first_child;
-    while (child != NULL) {
-        print_ast(child, indent + 1);
-        child = child->next_sibling;
-    }
-}
+//     // Recursively print child nodes
+//     t_node *child = node->first_child;
+//     while (child != NULL) {
+//         print_ast(child, indent + 1);
+//         child = child->next_sibling;
+//     }
+// }
 
 
 int parse_and_execute(t_cli *cli)
@@ -87,7 +87,7 @@ int parse_and_execute(t_cli *cli)
 	skip_whitespaces(cli);
 	tok = get_token(cli, curr);
 	ast_cmd = parse_cmd(tok, curr);
-	print_ast(ast_cmd, 0);
+	// print_ast(ast_cmd, 0);
 	if (!ast_cmd)
 		return 1;
 	execc(ast_cmd);
@@ -95,4 +95,3 @@ int parse_and_execute(t_cli *cli)
 	// free_node_tree(ast_cmd);
 	return (0);
 }
-
