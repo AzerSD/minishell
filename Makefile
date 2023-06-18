@@ -6,7 +6,7 @@
 #    By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/25 10:59:44 by asioud            #+#    #+#              #
-#    Updated: 2023/06/17 20:04:10 by asioud           ###   ########.fr        #
+#    Updated: 2023/06/18 02:38:56 by asioud           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,9 @@ SRC	=	core/shell \
 		\
 		execution/executor \
 		execution/path \
+		execution/pipeline \
+		execution/redirections \
+		execution/exec_utils \
 		\
 		parsing/lexer \
 		parsing/node \
