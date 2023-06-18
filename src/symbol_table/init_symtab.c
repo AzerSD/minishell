@@ -6,17 +6,11 @@
 /*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:28:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/08 22:53:42 by lhasmi           ###   ########.fr       */
+/*   Updated: 2023/06/18 14:25:01 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../core/shell.h"
-#include "../parsing/node.h"
-#include "../parsing/parser.h"
-#include "symtab.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "minishell.h"
 
 void	string_to_symtab(const char *env_var)
 {
@@ -48,6 +42,7 @@ void	init_symtab(void)
 
 	st = s_symtab_stack.local_symtab;
 	init_symtab_stack();
+	entry = add_to_symtab("?");
 	char **p2 = environ; /* user env variables @see printenv */
 	while (*p2)
 	{

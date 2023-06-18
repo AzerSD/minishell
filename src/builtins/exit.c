@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_builtin.c                                     :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:34:49 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/08 13:57:11 by lhasmi           ###   ########.fr       */
+/*   Updated: 2023/06/18 19:07:19 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../symbol_table/symtab.h"
-#include "../core/shell.h"
+#include "minishell.h"
 
-int exit_builtin(int argc, ...)
+int	ft_exit(int argc, ...)
 {
-    va_list args;
-    int     exit_code;
+	va_list	args;
+	int		exit_code;
 
-    if (argc > 1)
-    {
-        va_start(args, argc);
-        va_arg(args, int);
-        exit_code = va_arg(args, int);
-        va_end(args);
-        exit(exit_code);
-    }
-
-    exit(0);
+	if (argc > 1)
+	{
+		va_start(args, argc);
+		va_arg(args, int);
+		exit_code = va_arg(args, int);
+		va_end(args);
+		exit(exit_code);
+	}
+	exit(0);
 }

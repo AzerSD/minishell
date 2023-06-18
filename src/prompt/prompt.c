@@ -6,13 +6,11 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:54:40 by asioud            #+#    #+#             */
-/*   Updated: 2023/04/23 05:29:07 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 22:47:21 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "../core/shell.h"
-#include "../symbol_table/symtab.h"
+#include "minishell.h"
 
 void prompt_display_ps1(void)
 {

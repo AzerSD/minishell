@@ -6,7 +6,7 @@
 #    By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/25 10:59:44 by asioud            #+#    #+#              #
-#    Updated: 2023/06/12 02:04:20 by asioud           ###   ########.fr        #
+#    Updated: 2023/06/18 02:38:56 by asioud           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ NAME		=	minishell
 CC			=	cc
 RM			=	rm -rf
 LIBFT		= 	libs/libft/libft.a
-CFLAGS		=	-Wall -Wextra -Werror -g
+CFLAGS		=	-g
+HEADER_FILES=	-I ./includes -I ./libs/libft/includes
 
 ifeq ($(OS), Linux)
 INCL_RDL_HEADER	= -I /home/linuxbrew/.linuxbrew/opt/readline/include/readline
@@ -29,25 +30,28 @@ READLINE		= /Users/$(USER)/.brew/opt/readline/include/readline
 
 SRC	=	core/shell \
 		\
+		symbol_table/symtab_stack \
+		symbol_table/symtab \
+		symbol_table/init_symtab \
+		symbol_table/free_symtab \
+		\
 		builtins/cd \
 		builtins/pwd \
 		builtins/env \
 		builtins/echo \
 		builtins/dump \
-		builtins/exit_builtin \
+		builtins/exit \
 		builtins/unset \
-		builtins/export_builtin \
+		builtins/export \
 		builtins/builtins \
-		\
 		prompt/prompt \
 		\
-		symbol_table/init_symtab \
-		symbol_table/symtab \
-		symbol_table/free_symtab \
-		symbol_table/symtab_stack \
 		\
 		execution/executor \
 		execution/path \
+		execution/pipeline \
+		execution/redirections \
+		execution/exec_utils \
 		\
 		parsing/lexer \
 		parsing/node \
@@ -79,12 +83,12 @@ all:	$(NAME)
 
 
 $(NAME): $(OBJS)
-	$(CC) -lreadline -lhistory  $(INCL_RDL_LIB) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	$(CC) $(HEADER_FILES) -lreadline -lhistory $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(INCL_RDL_LIB)
 
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
 	@mkdir -p $(@D)
-	$(CC) $(INCL_RDL_HEADER) $(CFLAGS) -c $< -o $@
+	$(CC) $(HEADER_FILES) $(INCL_RDL_HEADER) $(CFLAGS) -c $< -o $@
 
 clean:
 	@$(RM) $(OBJ_DIR)

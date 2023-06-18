@@ -12,19 +12,7 @@
 
 #define _GNU_SOURCE         /* FNM_CASEFOLD */
 
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <ctype.h>
-#include <dirent.h>
-#include <errno.h>
-#include <regex.h>
-#include <fnmatch.h>
-#include <locale.h>
-#include <glob.h>
-#include <sys/stat.h>
-#include "../core/shell.h"
+# include "minishell.h"
 
 /**
  * @brief check if the string *p has any regular expression (regex) characters,

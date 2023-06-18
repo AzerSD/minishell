@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:59 by asioud            #+#    #+#             */
-/*   Updated: 2023/05/04 05:09:14 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/18 02:41:50 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #ifndef EXECUTOR_H
 #define EXECUTOR_H
 
-#include "../parsing/node.h"
+#include "minishell.h"
 
 /**
  * @brief Searches for a file in the system's `PATH` environment variable.
@@ -24,6 +24,7 @@
 */
 char *search_path(char *file);
 
+
 /**
  * @brief Executes a command with the given argument count and argument list. 
  * @param argc Number of arguments in argv.
@@ -31,6 +32,7 @@ char *search_path(char *file);
  * @return int 0 on success, 1 on failure.
  */
 int exec_cmd(int argc, char **argv);
+
 
 /**
  * @brief  Handle the execution of simple commands by creating an 
@@ -41,6 +43,94 @@ int exec_cmd(int argc, char **argv);
  */
 int execc(t_node *node);
 
+
 char *search_path(char *file);
+
+
+/**
+ * @brief Frees the memory allocated for the given arguments.
+ * @param argc The number of arguments.
+ * @param argv null-terminated strings containing the arguments.
+*/
+void free_argv(int argc, char **argv);
+
+
+/**
+ * @brief Runs a built-in command if it matches the given arguments.
+ * @param argc The number of arguments, including the command itself.
+ * @param argv A null-terminated strings, where the first element is the 
+ * 			command and the rest are its arguments.
+ * @return 0 if the built-in command was found and executed,
+ * 		or -1 if no matching built-in command was found.
+*/
+int run_builtin(int argc, char **argv);
+
+
+int execute_pipeline(t_node *node);
+
+
+/**
+ * @brief Executes a command represented by a node tree.
+ * @param node A pointer to a t_node struct representing the command node.
+ * @return 0 on success, or 1 if an error occurs.
+ *
+ * This function parses the arguments from the node tree, checks for built-in
+ * commands, and forks the current process to execute the command. It waits for
+ * the child process to terminate and returns its status.
+*/
+int execc(t_node *node);
+
+
+/**
+ * @brief Parses the command arguments from a node tree and stores them in an
+ * 		array of strings.
+ * @param node A pointer to a t_node struct representing the command node.
+ * @param argc To store the number of arguments.
+ * @param targc To Store the Total number of arguments.
+ * @param argv A null-terminated strings that will store the arguments.
+ * @return 0 on success, or a non-zero value if an error occurs.
+*/
+int parse_arguments(t_node *node, int *argc, int *targc, char ***argv);
+
+
+/**
+ * @brief Executes a command with the given arguments.
+ * @param argc The number of arguments, including the command itself.
+ * @param argv The first element is the command and the rest are the arguments.
+ * @return 0 on success, or 1 if an error occurs.
+*/
+int exec_cmd(int argc, char **argv);
+
+
+/**
+ * @brief Forks the current process and executes the given command in the
+ * 		child process.
+ * @param argc The number of arguments, including the command itself.
+ * @param argv A null-terminated strings, where the first element is the command
+ * 			and the rest are its arguments.
+ * @return The process ID of the child process on success,
+ * 		or -1 if an error occurs.
+*/
+pid_t fork_command(int argc, char **argv, t_node *node);
+
+
+/**
+ * @brief Waits for a child process to terminate and returns its status.
+ * @param child_pid The process ID of the child process.
+ * @return The status of the child process.
+*/
+int wait_for_child(pid_t child_pid);
+
+
+////////////////////////////////////////////////////////////////////
+//                          Redirections                          //
+////////////////////////////////////////////////////////////////////
+
+/**
+ * @brief Redirects the standard input and output of the current process.
+ * @param node The AST node representing the command to be executed.
+ * @return 0 on success, 1 on failure.
+*/
+int setup_redirections(t_node *node);
 
 #endif

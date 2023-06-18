@@ -1,7 +1,10 @@
 references:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.gnu.org/software/bash/manual/html_node/">bash_manual</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="https://git.savannah.gnu.org/cgit/bash.git/tree/">bash_source_code</a><br>
-  
+To be fixed:
+- cat /dev/random | head -c 100 | wc -c <it gave an infinite loop AND BUGGED> <expected output:> bash-3.2$ cat /dev/random | head -c 100 | wc -c   -- >	-->   100
+- ls with and without pipes of ls works
+
 ## Features
 
 - [ ] Structure
@@ -34,7 +37,7 @@ references:<br>
   - [ ] Waits for the end of a quote or double quote.
   - [ ] ctrl+D and ctrl+C usable when editing a line or in multi-line.
   - [ ] Multiline line editing
-  
+
 
 - [ ] Builtins with their POSIX options (For more info type `help` once in the shell)
   - [ ] `cd` | `chdir`
@@ -78,7 +81,7 @@ references:<br>
 
 - [ ] Signals
   - [ ] We kill all childs when we get a signal that kills the program so no zombie process is left behind
-  
+
 
 - [ ] Autocompletion
   - [ ] Dynamic autocompletion

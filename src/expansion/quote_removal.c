@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expansion.h"
+#include "minishell.h"
 
 /**
  * @brief perform quote removal.

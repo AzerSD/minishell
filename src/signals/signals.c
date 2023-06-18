@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 22:28:21 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/09 19:40:52 by lhasmi           ###   ########.fr       */
+/*   Updated: 2023/06/16 22:47:39 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@
 // strerror, perror, isatty, ttyname, ttyslot, ioctl,
 // getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
 // tgetnum, tgetstr, tgoto, tputs
-#include "../core/shell.h"
-#include "signals.h"
-#include <readline/readline.h>
+#include "minishell.h"
 
 // can be used to check whether the `SIGINT` signal has been received recently.
 int		g_ctrl_c = 0; // global variable to track SIGINT

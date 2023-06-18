@@ -6,7 +6,7 @@
 /*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:42:20 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/08 14:31:57 by lhasmi           ###   ########.fr       */
+/*   Updated: 2023/06/18 19:07:47 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,11 @@
 // getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
 // tgetnum, tgetstr, tgoto, tputs
 
-#include "../core/shell.h"
-#include "../symbol_table/symtab.h"
+#include "minishell.h"
 
-int dump(int argc, ...)
+int	ft_dump(int argc, ...)
 {
-    (void) argc;
-    dump_local_symtab();
-    return 0;
+	(void)argc;
+	dump_local_symtab();
+	return (0);
 }
