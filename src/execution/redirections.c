@@ -6,12 +6,13 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:09 by lhasmi            #+#    #+#             */
-/*   Updated: 2023/06/18 02:29:02 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/18 03:28:06 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*  redirect the file descriptor to the temporary file. */
 int setup_redirections(t_node *node)
 {
     int fd;
