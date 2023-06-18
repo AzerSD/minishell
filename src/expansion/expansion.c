@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:05:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/17 22:55:39 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/18 14:18:25 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,11 +171,29 @@ struct s_word	*expand(char *orig_word)
 			* - parameter expansions: ${var} or $var
 			* - command substitutions: $()
 			* - arithmetic expansions: $(())
+			* - environment variable that should expand to its value
+			*exp bash-3.2$ $USER
+				bash: lhasmi: command not found  DONE
+			*    When you type $? and hit enter, bash interprets this as a command to be executed.
+Before executing, bash performs variable substitution.
+It replaces $? with the exit code of the last command executed in the shell.
+Bash then tries to execute the command 127.
+Since there is no command named 127, it prints an error message bash: 127: command not found.
 			*/
 		case '$':
 			c = p[1];
 			switch (c)
 			{
+			// case '?':
+				/* interpret this as a command to be executed */
+
+				/*
+				Before executing, minishell performs variable substitution.
+				It replaces $? with the exit code of the last command executed in the shell.
+			*/
+			/*
+
+			*/
 			case '{':
 				/* find the closing quote */
 				if ((len = find_closing_brace(p + 1)) == 0)
@@ -239,7 +257,7 @@ struct s_word	*expand(char *orig_word)
 			break ;
 		}
 		break ;
-		
+
 		default:
 			if (isspace(*p) && !in_double_quotes)
 				expanded = 1;
@@ -556,4 +574,3 @@ void	free_all_words(struct s_word *first)
 		free(del);
 	}
 }
-

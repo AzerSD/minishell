@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/18 03:28:14 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/18 20:21:45 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	main(int argc, char **argv)
 	while (true)
 	{
 		cmd = readline("minishell> ");
-		rl_clear_history();
 		if (!cmd)
 			exit(EXIT_SUCCESS);
 		if (cmd[0] == '\0' || strncmp(cmd, "\n", 1) == 0)
@@ -52,32 +51,33 @@ int	main(int argc, char **argv)
 		free(cmd);;
 	}
 	clear_history();
+		// rl_clear_history();
 	exit(EXIT_SUCCESS);
 }
 
-void print_ast(t_node *node, int indent) {
-    if (node == NULL) {
-        return;
-    }
+// void print_ast(t_node *node, int indent) {
+//     if (node == NULL) {
+//         return;
+//     }
 
-    for (int i = 0; i < indent - 1; i++) {
-        printf("  │");
-    }
+//     for (int i = 0; i < indent - 1; i++) {
+//         printf("  │");
+//     }
 
-    if (indent > 0) {
-        printf("  ├─");
-    }
+//     if (indent > 0) {
+//         printf("  ├─");
+//     }
 
-    printf("Value: %s,	level: %u\n", \
-			 node->val.str, node->type);
+//     printf("Value: %s,	level: %u\n", \
+// 			 node->val.str, node->type);
 
-    // Recursively print child nodes
-    t_node *child = node->first_child;
-    while (child != NULL) {
-        print_ast(child, indent + 1);
-        child = child->next_sibling;
-    }
-}
+//     // Recursively print child nodes
+//     t_node *child = node->first_child;
+//     while (child != NULL) {
+//         print_ast(child, indent + 1);
+//         child = child->next_sibling;
+//     }
+// }
 
 int parse_and_execute(t_cli *cli)
 {

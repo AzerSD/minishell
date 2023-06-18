@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:58 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 22:36:19 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/18 19:07:15 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_export(int argc, ...)
 	}
 	else
 	{
-		if(argv[1] != NULL && (argv[2] == NULL || ft_strcmp(argv[2], "") == 0))
+		if (argv[1] != NULL && (argv[2] == NULL || ft_strcmp(argv[2], "") == 0))
 		{
 			envar = va_arg(args, char *);
 			string_to_symtab((const char *)argv[1]);
