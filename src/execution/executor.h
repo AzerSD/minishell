@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:59 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/19 03:17:48 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/19 17:56:55 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,6 @@ char *search_path(char *file);
  * @param argv null-terminated strings containing the arguments.
 */
 void free_argv(int argc, char **argv);
-
-
-/**
- * @brief Runs a built-in command if it matches the given arguments.
- * @param argc The number of arguments, including the command itself.
- * @param argv A null-terminated strings, where the first element is the 
- * 			command and the rest are its arguments.
- * @return 0 if the built-in command was found and executed,
- * 		or -1 if no matching built-in command was found.
-*/
-int run_builtin(int argc, char **argv);
 
 
 int execute_pipeline(int argc, char **argv, t_node *node);

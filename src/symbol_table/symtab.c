@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 07:28:23 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 22:48:30 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/19 17:16:52 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@
  * shell itself like environment variables...
  * The symbol table supports operations like insertion, deletion,
  * and lookup of symbols.
- */
+**/
+
+
+
 void dump_local_symtab(void)
 {
 	struct s_symtab *symtab = s_symtab_stack.local_symtab;

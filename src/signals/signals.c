@@ -6,30 +6,13 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 22:28:21 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 22:47:39 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/19 17:38:46 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// A signal is a software interrupt delivered to a process.
-// Some signals, like SIGINT and SIGSTOP, can be sent by the user to a running
-// program (via ctrl-C and ctrl-Z). For these,
-	// you'll need to set up signal handlers
-// using the signal() or sigaction() system calls to specify how your shell should
-// respond to these signals.
-//  readline, rl_clear_history, rl_on_new_line,
-// rl_replace_line, rl_redisplay, add_history,
-// printf, malloc, free, write, access, open, read,
-// close, fork, wait, waitpid, wait3, wait4, signal,
-// sigaction, sigemptyset, sigaddset, kill, exit,
-// getcwd, chdir, stat, lstat, fstat, unlink, execve,
-// dup, dup2, pipe, opendir, readdir, closedir,
-// strerror, perror, isatty, ttyname, ttyslot, ioctl,
-// getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
-// tgetnum, tgetstr, tgoto, tputs
+
 #include "minishell.h"
 
-// can be used to check whether the `SIGINT` signal has been received recently.
-int		g_ctrl_c = 0; // global variable to track SIGINT
 
 // This function is designed to handle terminal settings and is part of handling SIGINT signal
 void	save_settings_and_remove_c(struct termios *mirror_termios)
@@ -62,8 +45,6 @@ void	handle_sigint(int sig_num)
 {
 	if (sig_num == SIGINT)
 	{
-		// setting the global variable `g_ctrl_c` to 1,
-		g_ctrl_c = 1;
 		// writing a newline to the standard output,
 		write(STDOUT_FILENO, "\n", 1);
 		/*This tells readline that the cursor is on a new line*/
@@ -108,7 +89,6 @@ void	signal_ctrl_d(void) //SIGQUIT
 
 void	signals(struct termios *mirror_termios)
 {
-	g_ctrl_c = 0;
 	save_settings_and_remove_c(mirror_termios);
 	signal_ctrl_backslash();
 	signal_ctrl_c();

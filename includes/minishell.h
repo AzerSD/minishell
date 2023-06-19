@@ -13,6 +13,15 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# define RESET "\033[0m"
+# define RED "\033[31m" // Red
+# define GRN "\033[32m" // Green
+# define YEL "\033[33m" // Yellow
+# define BLU "\033[34m" // Blue
+# define MAG "\033[35m" // Magenta
+# define CYN "\033[36m" // Cyan
+# define WHT "\033[37m" // White
+
 # include <unistd.h>
 # include <limits.h>
 # include <stdarg.h>
@@ -25,17 +34,17 @@
 # include <signal.h>
 # include <errno.h>
 # include <string.h>
-#include <termios.h>
-#include <stdbool.h>
-#include <glob.h> // https://c-for-dummies.com/blog/?p=4782
-#include <ctype.h>
-#include <dirent.h>
-#include <regex.h>
-#include <fnmatch.h>
-#include <pwd.h>
-#include <locale.h>
-#include <readline/history.h>
-#include <readline/readline.h>
+# include <termios.h>
+# include <stdbool.h>
+# include <glob.h> // https://c-for-dummies.com/blog/?p=4782
+# include <ctype.h>
+# include <dirent.h>
+# include <regex.h>
+# include <fnmatch.h>
+# include <pwd.h>
+# include <locale.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 
 # include "libft.h"
 # include "../src/symbol_table/symtab.h"
@@ -47,8 +56,7 @@
 # include "../src/execution/executor.h"
 # include "../src/expansion/expansion.h"
 # include "../src/core/shell.h"
-
-#include "../src/signals/signals.h"
+# include "../src/signals/signals.h"
 
 
 

@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 07:05:51 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/17 20:05:01 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/19 17:36:27 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 
 #include "minishell.h"
 
-struct s_symtab_stack	s_symtab_stack; // pointer to our symbol table stack (we only need one stack per shell).
-int						symtab_level; // our current level in the stack (0 if we're working with the global symbol table, non-zero otherwise).
-extern char				**environ;
+struct s_symtab_stack	s_symtab_stack;
 
 /**
  * @brief defines the type of a symbol table entry's value
@@ -161,7 +159,7 @@ struct s_symtab			*symtab_stack_pop(void);
 /**
  * @brief create a new symbol table
 */
-struct s_symtab			*new_symtab(int level);
+struct s_symtab			*new_symtab();
 
 
 /**
@@ -192,6 +190,8 @@ void free_symtab(struct s_symtab *symtab);
  * of our shell's global symbol table).
 */
 void dump_local_symtab(void);
+
+
 void dump_export_local_symtab(void);
 
 
@@ -209,7 +209,7 @@ void init_symtab_stack(void);
  * @see man environ
  * @see printenv
  */
-void init_symtab(void);
+void init_symtab(char **env);
 
 void string_to_symtab(const char *env_var);
 

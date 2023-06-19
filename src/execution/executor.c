@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/19 03:17:04 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/19 18:20:44 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ int execc(t_node *node)
 	int		targc = 0;
 	pid_t	child_pid;
 	int		status;
+	t_builtin_info *bt = get_bt();
+
 
     if (!node)
         return 1;
@@ -122,7 +124,7 @@ int execc(t_node *node)
 		return (1);
 
     
-	if (run_builtin(argc, argv) == 0)
+	if (is_builtin(argc, argv, bt) == 0)
 	{
 		free_argv(argc, argv);
 		return (0);

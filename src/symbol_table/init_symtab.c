@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:28:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 22:48:13 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/19 17:35:27 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ void	string_to_symtab(const char *env_var)
 	}
 }
 
-void	init_symtab(void)
+void	init_symtab(char **env)
 {
 	struct s_symtab_entry	*entry;
 	struct s_symtab			*st;
 
 	st = s_symtab_stack.local_symtab;
 	init_symtab_stack();
-	char **p2 = environ; /* user env variables @see printenv */
+	char **p2 = env;
 	while (*p2)
 	{
 		string_to_symtab(*p2);
@@ -58,7 +58,6 @@ void	init_symtab_stack(void)
 
 	global_symtab = malloc(sizeof(struct s_symtab));
 	s_symtab_stack.symtab_count = 1;
-	symtab_level = 0;
 	if (!global_symtab)
 	{
 		fprintf(stderr, "fatal error: no memory for global symbol table\n");
@@ -68,10 +67,9 @@ void	init_symtab_stack(void)
 	s_symtab_stack.global_symtab = global_symtab;
 	s_symtab_stack.local_symtab = global_symtab;
 	s_symtab_stack.symtab_list[0] = global_symtab;
-	global_symtab->level = 0;
 }
 
-struct s_symtab	*new_symtab(int level)
+struct s_symtab	*new_symtab()
 {
 	struct s_symtab	*symtab;
 
@@ -82,6 +80,5 @@ struct s_symtab	*new_symtab(int level)
 		exit(EXIT_FAILURE);
 	}
 	memset(symtab, 0, sizeof(struct s_symtab));
-	symtab->level = level;
 	return (symtab);
 }
