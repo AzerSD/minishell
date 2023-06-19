@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 07:28:23 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/19 17:16:52 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/19 20:05:27 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,13 @@ void dump_export_local_symtab(void)
 	struct s_symtab_entry *entry = symtab->first;
 	while (entry)
 	{
-		if (entry->val)
-			fprintf(stdout, "declare -x %s=%s\n", entry->name, entry->val);
-		else
-			fprintf(stdout, "declare -x %s\n", entry->name);
+		if (is_valid_variable_name(entry->name))
+		{
+			if (entry->val)
+				fprintf(stdout, "declare -x %s=%s\n", entry->name, entry->val);
+			else
+				fprintf(stdout, "declare -x %s\n", entry->name);
+		}
 		entry = entry->next;
 	}
 }

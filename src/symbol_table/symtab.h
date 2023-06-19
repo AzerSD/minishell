@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 07:05:51 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/19 18:29:40 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/19 19:50:42 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ enum						e_symbol_type
  * @param func_body	For shell functions. The AST of the function body
  * @param val_type  SYM_STR or SYM_FUNC
 
-			* @param flags		Different properties assigned to variables and functions like export and readonly flags
+* @param flags		Different properties assigned to variables and functions like export and readonly flags
  * @param name		The name of the shell variable represented by the entry
  * @param next		Pointer to the next symbol table entry
  * @param val		String value (for shell variables only)

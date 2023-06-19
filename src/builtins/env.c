@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:34:19 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 22:35:44 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/19 20:01:44 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int ft_env(int argc, ...)
 
 	while (entry)
 	{
-		fprintf(stderr, "%s=%s\n", entry->name, entry->val);
+		if (is_valid_variable_name(entry->name))
+			ft_printf_fd(1, "%s=%s\n", entry->name, entry->val);
 		entry = entry->next;
 	}
     return 0;

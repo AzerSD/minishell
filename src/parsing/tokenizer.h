@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:58:31 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 22:47:00 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/19 20:00:40 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,6 @@ void *handle_dollar_sign(t_cli *cli, t_curr_tok *curr);
 void handle_backslash(t_cli *cli, t_curr_tok *curr);
 void *handle_quotes(t_cli *cli, t_curr_tok *curr, char nc);
 void handle_redirection(t_cli *cli, t_curr_tok *curr, int *endloop, char nc);
+int is_valid_variable_name(const char *str);
 
 #endif

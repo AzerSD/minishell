@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:28:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/19 17:35:27 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/19 20:03:19 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	init_symtab(char **env)
 		p2++;
 	}
 	entry = do_lookup("OLDPWD", st);
+	entry = add_to_symtab("?");
 	update_entry(entry, NULL, "OLDPWD");
 }
 

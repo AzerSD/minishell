@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/19 18:37:27 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/19 20:06:20 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int argc, char **argv, char **env)
 	original_stdout = dup(STDOUT_FILENO);
 	while (true)
 	{
-		cmd = readline("minishell> ");
+		cmd = readline(MAG"minishell> "RESET);
 		if (!cmd)
 			exit(EXIT_SUCCESS);
 		if (cmd[0] == '\0' || strncmp(cmd, "\n", 1) == 0)
