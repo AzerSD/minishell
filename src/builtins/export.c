@@ -6,31 +6,36 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:58 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 22:36:19 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/19 20:33:40 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//
+
 #include "minishell.h"
 
-// struct s_symtab_entry
-// {
-// 	struct s_node           *func_body;
-// 	enum e_symbol_type      val_type;
-// 	struct s_symtab_entry   *next;
-// 	unsigned int            flags;
-// 	char                    *name;
-// 	char                    *val;
-// };
+static char* get_varname(const char *str)
+{
+    char* equalsSignPosition = strchr(str, '=');
+    if (equalsSignPosition)
+	{
+        int len = equalsSignPosition - str;
+        char *varName = malloc(len + 1);
+        strncpy(varName, str, len);
+        varName[len] = '\0';
+        return varName;
+    }
+	else
+        return NULL;
+}
 
 int	ft_export(int argc, ...)
 {
+	char	*ep;
 	va_list	args;
 	char	**argv;
-	char	*envar;
 	int		i;
+	char *var_name;
 
-	envar = NULL;
 	va_start(args, argc);
 	argv = va_arg(args, char **);
 	if (argc == 1)
@@ -42,15 +47,15 @@ int	ft_export(int argc, ...)
 	{
 		if(argv[1] != NULL && (argv[2] == NULL || ft_strcmp(argv[2], "") == 0))
 		{
-			envar = va_arg(args, char *);
-			string_to_symtab((const char *)argv[1]);
+			if (is_valid_variable_name(argv[2]))
+				string_to_symtab((const char *)argv[1]);
 		}
 		i = 1;
 		while (i < argc)
 		{
-			/* Check if the argument is a valid environment variable */
-			envar = va_arg(args, char *);
-			string_to_symtab((const char *)argv[i]);
+			var_name = get_varname(argv[i]);
+			if (is_valid_variable_name(var_name))
+				string_to_symtab((const char *)argv[i]);
 			i++;
 		}
 		va_end(args);

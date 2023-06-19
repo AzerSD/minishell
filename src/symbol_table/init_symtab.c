@@ -6,23 +6,40 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:28:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/19 20:03:19 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/19 20:34:37 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static char* get_varname(const char *str)
+{
+    char* equalsSignPosition = strchr(str, '=');
+    if (equalsSignPosition)
+	{
+        int len = equalsSignPosition - str;
+        char *varName = malloc(len + 1);
+        strncpy(varName, str, len);
+        varName[len] = '\0';
+        return varName;
+    }
+	else
+        return NULL;
+}
+
 void	string_to_symtab(const char *env_var)
 {
 	struct s_symtab_entry	*entry;
-	char					*eq = strchr(env_var, '=');
-
+	char					*eq;
+	char *name;
+	eq = strchr(env_var, '=');
 	if (eq)
 	{
-		int len = eq - env_var;
-        char name[len + 1];
-		strncpy(name, env_var, len);
-		name[len] = '\0';
+		// int len = eq - env_var;
+        // char name[len + 1];
+		// strncpy(name, env_var, len);
+		// name[len] = '\0';
+		name = get_varname(env_var);
 		entry = add_to_symtab(name);
 		if (entry)
 			symtab_entry_setval(entry, eq + 1);
