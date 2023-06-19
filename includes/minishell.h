@@ -22,39 +22,41 @@
 # define CYN "\033[36m" // Cyan
 # define WHT "\033[37m" // White
 
-# include "../src/builtins/builtins.h"
-# include "../src/core/shell.h"
-# include "../src/execution/executor.h"
-# include "../src/expansion/expansion.h"
-# include "../src/parsing/lexer.h"
-# include "../src/parsing/node.h"
-# include "../src/parsing/parser.h"
-# include "../src/parsing/tokenizer.h"
-# include "../src/signals/signals.h"
-# include "../src/symbol_table/symtab.h"
-# include "libft.h"
-# include <ctype.h>
-# include <dirent.h>
-# include <errno.h>
-# include <fcntl.h>
-# include <fnmatch.h>
-# include <glob.h> // https://c-for-dummies.com/blog/?p=4782
+# include <unistd.h>
 # include <limits.h>
-# include <locale.h>
-# include <pwd.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <regex.h>
-# include <signal.h>
 # include <stdarg.h>
-# include <stdbool.h>
-# include <stdio.h>
 # include <stdlib.h>
-# include <string.h>
-# include <sys/stat.h>
+# include <stdio.h>
+# include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <termios.h>
-# include <unistd.h>
+# include <sys/stat.h>
+# include <signal.h>
+# include <errno.h>
+# include <string.h>
+#include <termios.h>
+#include <stdbool.h>
+#include <glob.h> // https://c-for-dummies.com/blog/?p=4782
+#include <ctype.h>
+#include <dirent.h>
+#include <regex.h>
+#include <fnmatch.h>
+#include <pwd.h>
+#include <locale.h>
+#include <readline/history.h>
+#include <readline/readline.h>
+
+# include "libft.h"
+# include "../src/symbol_table/symtab.h"
+# include "../src/parsing/lexer.h"
+# include "../src/parsing/node.h"
+# include "../src/parsing/tokenizer.h"
+# include "../src/builtins/builtins.h"
+# include "../src/parsing/parser.h"
+# include "../src/execution/executor.h"
+# include "../src/expansion/expansion.h"
+# include "../src/core/shell.h"
+
+#include "../src/signals/signals.h"
 
 #endif
