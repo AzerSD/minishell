@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/18 02:41:57 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/19 02:32:42 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,7 @@ pid_t fork_command(int argc, char **argv, t_node *node)
     pid_t child_pid = fork();
     if (child_pid == 0)
     {
-        if (setup_redirections(node) == 0)
-        {
-            exec_cmd(argc, argv);
-        }
+        exec_cmd(argc, argv);
         fprintf(stderr, "error: failed to execute command: %s\n", strerror(errno));
         if (errno == ENOEXEC)
             exit(126);
