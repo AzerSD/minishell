@@ -6,10 +6,9 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/19 17:31:49 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/19 18:27:51 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -18,12 +17,13 @@ int	main(int argc, char **argv, char **env)
 	t_cli			cli;
 	char			*cmd;
 	struct termios	mirror_termios;
+	int				original_stdout;
 
 	(void)argc;
 	(void)argv;
 	init_symtab(env);
 	signals(&mirror_termios);
-	int original_stdout = dup(STDOUT_FILENO);
+	original_stdout = dup(STDOUT_FILENO);
 	while (true)
 	{
 		cmd = readline("minishell> ");
@@ -49,13 +49,13 @@ int	main(int argc, char **argv, char **env)
 		parse_and_execute(&cli);
 		rl_clear_history();
 		// dup2(original_stdout, STDOUT_FILENO);
-		free(cmd);;
+		free(cmd);
 	}
 	clear_history();
 	exit(EXIT_SUCCESS);
 }
 
-int parse_and_execute(t_cli *cli)
+int	parse_and_execute(t_cli *cli)
 {
 	t_node		*ast_cmd;
 	t_token		*tok;
@@ -67,31 +67,36 @@ int parse_and_execute(t_cli *cli)
 	ast_cmd = parse_cmd(tok, curr);
 	print_ast(ast_cmd, 0);
 	if (!ast_cmd)
-		return 1;
+		return (1);
 	execc(ast_cmd);
-
 	// free_node_tree(ast_cmd);
 	return (0);
 }
 
-void print_ast(t_node *node, int indent)
+void	print_ast(t_node *node, int indent)
 {
-    if (node == NULL)
-        return;
+	t_node	*child;
 
-    for (int i = 0; i < indent - 1; i++)
-        printf("%s  │%s", BLU, RESET);
-
-    if (indent > 0)
-        printf("%s  ├─%s", CYN, RESET);
-
-    printf("%sValue: %s%s,%s	%slevel: %s%u%s\n", \
-		GRN, YEL, node->val.str, RESET, RED, YEL,node->type, RESET);
-
-    // Recursively print child nodes
-    t_node *child = node->first_child;
-    while (child != NULL) {
-        print_ast(child, indent + 1);
-        child = child->next_sibling;
-    }
+	if (node == NULL)
+		return ;
+	for (int i = 0; i < indent - 1; i++)
+		printf("%s  │%s", BLU, RESET);
+	if (indent > 0)
+		printf("%s  ├─%s", CYN, RESET);
+	printf("%sValue: %s%s,%s	%slevel: %s%u%s\n",
+			GRN,
+			YEL,
+			node->val.str,
+			RESET,
+			RED,
+			YEL,
+			node->type,
+			RESET);
+	// Recursively print child nodes
+	child = node->first_child;
+	while (child != NULL)
+	{
+		print_ast(child, indent + 1);
+		child = child->next_sibling;
+	}
 }

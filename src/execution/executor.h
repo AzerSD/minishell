@@ -6,15 +6,14 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:59 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/19 17:56:55 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/19 18:28:25 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #ifndef EXECUTOR_H
-#define EXECUTOR_H
+# define EXECUTOR_H
 
-#include "minishell.h"
+# include "minishell.h"
 
 /**
  * @brief Searches for a file in the system's `PATH` environment variable.
@@ -22,8 +21,7 @@
  * @param file The name of the file to search for.
  * @return The full path to the file if found, or NULL if not found.
 */
-char *search_path(char *file);
-
+char	*search_path(char *file);
 
 /**
  * @brief Executes a command with the given argument count and argument list. 
@@ -31,8 +29,7 @@ char *search_path(char *file);
  * @param argv The command and its arguments.
  * @return int 0 on success, 1 on failure.
  */
-int exec_cmd(int argc, char **argv);
-
+int		exec_cmd(int argc, char **argv);
 
 /**
  * @brief  Handle the execution of simple commands by creating an 
@@ -41,22 +38,18 @@ int exec_cmd(int argc, char **argv);
  * @param node The AST node representing the command to be executed.
  * @return 1 on success, 0 on failure.
  */
-int execc(t_node *node);
+int		execc(t_node *node);
 
-
-char *search_path(char *file);
-
+char	*search_path(char *file);
 
 /**
  * @brief Frees the memory allocated for the given arguments.
  * @param argc The number of arguments.
  * @param argv null-terminated strings containing the arguments.
 */
-void free_argv(int argc, char **argv);
+void	free_argv(int argc, char **argv);
 
-
-int execute_pipeline(int argc, char **argv, t_node *node);
-
+int		execute_pipeline(int argc, char **argv, t_node *node);
 
 /**
  * @brief Executes a command represented by a node tree.
@@ -67,8 +60,7 @@ int execute_pipeline(int argc, char **argv, t_node *node);
  * commands, and forks the current process to execute the command. It waits for
  * the child process to terminate and returns its status.
 */
-int execc(t_node *node);
-
+int		execc(t_node *node);
 
 /**
  * @brief Parses the command arguments from a node tree and stores them in an
@@ -79,8 +71,7 @@ int execc(t_node *node);
  * @param argv A null-terminated strings that will store the arguments.
  * @return 0 on success, or a non-zero value if an error occurs.
 */
-int parse_arguments(t_node *node, int *argc, int *targc, char ***argv);
-
+int		parse_arguments(t_node *node, int *argc, int *targc, char ***argv);
 
 /**
  * @brief Executes a command with the given arguments.
@@ -88,8 +79,7 @@ int parse_arguments(t_node *node, int *argc, int *targc, char ***argv);
  * @param argv The first element is the command and the rest are the arguments.
  * @return 0 on success, or 1 if an error occurs.
 */
-int exec_cmd(int argc, char **argv);
-
+int		exec_cmd(int argc, char **argv);
 
 /**
  * @brief Forks the current process and executes the given command in the
@@ -100,16 +90,14 @@ int exec_cmd(int argc, char **argv);
  * @return The process ID of the child process on success,
  * 		or -1 if an error occurs.
 */
-pid_t fork_command(int argc, char **argv, t_node *node);
-
+pid_t	fork_command(int argc, char **argv, t_node *node);
 
 /**
  * @brief Waits for a child process to terminate and returns its status.
  * @param child_pid The process ID of the child process.
  * @return The status of the child process.
 */
-int wait_for_child(pid_t child_pid);
-
+int		wait_for_child(pid_t child_pid);
 
 ////////////////////////////////////////////////////////////////////
 //                          Redirections                          //
@@ -120,6 +108,6 @@ int wait_for_child(pid_t child_pid);
  * @param node The AST node representing the command to be executed.
  * @return 0 on success, 1 on failure.
 */
-int setup_redirections(t_node *node);
+int		setup_redirections(t_node *node);
 
 #endif

@@ -6,25 +6,25 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 05:13:44 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/19 17:56:11 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/19 18:27:36 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
-void free_argv(int argc, char **argv)
+void	free_argv(int argc, char **argv)
 {
 	if (!argc)
-		return;
+		return ;
 	while (argc--)
 		free(argv[argc]);
 }
 
-
-int wait_for_child(pid_t child_pid)
+int	wait_for_child(pid_t child_pid)
 {
-	int status = 0;
+	int	status;
+
+	status = 0;
 	waitpid(child_pid, &status, 0);
-	return status;
+	return (status);
 }
