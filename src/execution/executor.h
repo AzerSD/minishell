@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:59 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/18 02:41:50 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/19 03:17:48 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void free_argv(int argc, char **argv);
 int run_builtin(int argc, char **argv);
 
 
-int execute_pipeline(t_node *node);
+int execute_pipeline(int argc, char **argv, t_node *node);
 
 
 /**

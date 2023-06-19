@@ -6,6 +6,12 @@ This is the input file contents.
 EOF
 ```
 
+cat < todo | grep "pipe"
+cat < todo | grep "pipe" | wc -l
+cat < todo | grep "pipe" | cat > out.txt
+cat < todo | (grep "pipe" | wc -l) > file2.txt
+cat < todo | (grep "pipe" | (wc -l | cat > out.txt))
+
 
 ---- Test commands for each part of the subject ----
 
@@ -50,11 +56,6 @@ echo $?
 ./minishell
 exit 42
 echo $?
-
-- SEMICOLONS:
-ls . ; ls .. ; cat correction/test_commands ; ls parser
-cat ; cat ; echo -n "salut " ; echo cher correcteur ; ls
-cat;cat;echo -n "salut "; echo cher correcteur ;ls
 
 
 - SIGNALS (blocking command to test):

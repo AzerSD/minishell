@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/19 02:32:42 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/19 03:17:04 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ pid_t fork_command(int argc, char **argv, t_node *node)
     pid_t child_pid = fork();
     if (child_pid == 0)
     {
-        exec_cmd(argc, argv);
+		if (setup_redirections(node) != 0)
+			exit(EXIT_FAILURE);
+		else
+        	exec_cmd(argc, argv);
         fprintf(stderr, "error: failed to execute command: %s\n", strerror(errno));
         if (errno == ENOEXEC)
             exit(126);
@@ -108,7 +111,7 @@ int execc(t_node *node)
     if (node->type == NODE_PIPE)
     {
         int original_stdin = dup(STDIN_FILENO);
-        int pipeline_status = execute_pipeline(node);
+        int pipeline_status = execute_pipeline(argc, argv, node);
         dup2(original_stdin, STDIN_FILENO);
         close(original_stdin);
 
@@ -118,12 +121,6 @@ int execc(t_node *node)
 	if (parse_arguments(node, &argc, &targc, &argv) != 0 || !node)
 		return (1);
 
-
-    if (setup_redirections(node) != 0)
-    {
-        free_argv(argc, argv);
-        return 1;
-    }
     
 	if (run_builtin(argc, argv) == 0)
 	{
@@ -144,4 +141,3 @@ int execc(t_node *node)
 	free_argv(argc, argv);
 	return (status == 0 ? 0 : 1);
 }
-

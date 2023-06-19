@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:09 by lhasmi            #+#    #+#             */
-/*   Updated: 2023/06/19 02:27:42 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/19 02:39:06 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ int setup_redirections(t_node *node)
             }
             else
             {
-                // Invalid node type
                 return 1;
             }
 

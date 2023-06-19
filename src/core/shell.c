@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/19 02:23:44 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/19 03:24:11 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	main(int argc, char **argv)
 		cli.buff_size = strlen(cmd);
 		cli.cur_pos = INIT_SRC_POS;
 		parse_and_execute(&cli);
-		dup2(original_stdout, STDOUT_FILENO);
+		// dup2(original_stdout, STDOUT_FILENO);
 		free(cmd);;
 	}
 	clear_history();
