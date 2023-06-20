@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/20 00:30:21 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/21 01:29:37 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@ int	main(int argc, char **argv, char **env)
 	struct termios	mirror_termios;
 	int				original_stdout;
 
-	exit(0);
 	(void)argc;
 	(void)argv;
 	init_symtab(env);
 
 	signals(&mirror_termios);
-	// original_stdout = dup(STDOUT_FILENO);
+	original_stdout = dup(STDOUT_FILENO);
 	while (true)
 	{
 		cmd = readline("minishell> ");
@@ -49,10 +48,10 @@ int	main(int argc, char **argv, char **env)
 		cli.buff_size = strlen(cmd);
 		cli.cur_pos = INIT_SRC_POS;
 		parse_and_execute(&cli);
-		rl_clear_history();
 		// dup2(original_stdout, STDOUT_FILENO);
 		free(cmd);
 	}
+		rl_clear_history();
 	clear_history();
 	exit(EXIT_SUCCESS);
 }
