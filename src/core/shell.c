@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/19 20:06:20 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/20 00:30:21 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,16 @@ int	main(int argc, char **argv, char **env)
 	struct termios	mirror_termios;
 	int				original_stdout;
 
+	exit(0);
 	(void)argc;
 	(void)argv;
 	init_symtab(env);
+
 	signals(&mirror_termios);
-	original_stdout = dup(STDOUT_FILENO);
+	// original_stdout = dup(STDOUT_FILENO);
 	while (true)
 	{
-		cmd = readline(MAG"minishell> "RESET);
+		cmd = readline("minishell> ");
 		if (!cmd)
 			exit(EXIT_SUCCESS);
 		if (cmd[0] == '\0' || strncmp(cmd, "\n", 1) == 0)

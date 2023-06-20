@@ -6,20 +6,11 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 07:28:23 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/19 20:05:27 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/20 00:40:22 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/**
- * @brief The symbol table will be used to store information about
- * variables, aliases, and functions defined by the user or the
- * shell itself like environment variables...
- * The symbol table supports operations like insertion, deletion,
- * and lookup of symbols.
-**/
-
 
 
 void dump_local_symtab(void)
@@ -55,9 +46,9 @@ void dump_export_local_symtab(void)
 		if (is_valid_variable_name(entry->name))
 		{
 			if (entry->val)
-				fprintf(stdout, "declare -x %s=%s\n", entry->name, entry->val);
+				fprintf(stderr, "declare -x %s=%s\n", entry->name, entry->val);
 			else
-				fprintf(stdout, "declare -x %s\n", entry->name);
+				fprintf(stderr, "declare -x %s\n", entry->name);
 		}
 		entry = entry->next;
 	}

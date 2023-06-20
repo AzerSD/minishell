@@ -59,7 +59,8 @@
 
 #include "../src/signals/signals.h"
 
-typedef unsigned char    t_status;
+typedef unsigned char	t_status;
+t_status				g_status;
 
 
 #endif
