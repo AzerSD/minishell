@@ -6,11 +6,17 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:05:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/17 22:55:39 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/21 05:20:38 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char* exit_code_to_str(unsigned char status) {
+    static char str[4];  // 3 digits and a null terminator should be enough for any exit code
+    snprintf(str, sizeof(str), "%d", status);
+    return str;
+}
 
 struct s_word	*expand(char *orig_word)
 {
@@ -176,6 +182,10 @@ struct s_word	*expand(char *orig_word)
 			c = p[1];
 			switch (c)
 			{
+			case '?':
+				printf("%s\n", exit_code_to_str(g_status));
+				expanded = 1;
+				break;
 			case '{':
 				/* find the closing quote */
 				if ((len = find_closing_brace(p + 1)) == 0)

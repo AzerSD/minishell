@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/21 02:05:49 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/21 04:59:45 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	main(int argc, char **argv, char **env)
 	init_symtab(env);
 
 	signals(&mirror_termios);
-	original_stdout = dup(STDOUT_FILENO);
 	while (true)
 	{
 		cmd = readline("minishell> ");
@@ -43,12 +42,10 @@ int	main(int argc, char **argv, char **env)
 		/* If it is a terminal not running by a script or smth*/
 		if (isatty(STDIN_FILENO))
 			add_history(cmd);
-		/* Init Command Line Struct */
 		cli.buffer = cmd;
 		cli.buff_size = strlen(cmd);
 		cli.cur_pos = INIT_SRC_POS;
 		parse_and_execute(&cli);
-		// dup2(original_stdout, STDOUT_FILENO);
 		free(cmd);
 	}
 		rl_clear_history();

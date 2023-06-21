@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/19 18:28:14 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/21 04:57:41 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,33 +27,25 @@ int	exec_cmd(int argc, char **argv)
 		execv(path, argv);
 		free(path);
 	}
-	return (0);
+    return (errno == ENOEXEC ? 126 : errno == ENOENT ? 127 : EXIT_FAILURE);
 }
 
-pid_t	fork_command(int argc, char **argv, t_node *node)
+pid_t fork_command(int argc, char **argv, t_node *node)
 {
-	pid_t	child_pid;
+    pid_t child_pid;
 
-	child_pid = fork();
-	if (child_pid == 0)
-	{
-		if (setup_redirections(node) != 0)
-			exit(EXIT_FAILURE);
-		else
-			exec_cmd(argc, argv);
-		fprintf(stderr, "error: failed to execute command: %s\n",
-				strerror(errno));
-		if (errno == ENOEXEC)
-			exit(126);
-		else if (errno == ENOENT)
-			exit(127);
-		else
-			exit(EXIT_FAILURE);
-	}
-	return (child_pid);
+    child_pid = fork();
+    if (child_pid == 0)
+    {
+        if (setup_redirections(node) != 0)
+            exit(EXIT_FAILURE);
+        else
+            exit(exec_cmd(argc, argv));
+    }
+    return (child_pid);
 }
 
-int	parse_arguments(t_node *node, int *argc, int *targc, char ***argv)
+int	parse_ast(t_node *node, int *argc, int *targc, char ***argv)
 {
 	struct s_word	*w;
 	struct s_word	*w2;
@@ -124,11 +116,12 @@ int	execc(t_node *node)
 		return (pipeline_status);
 	}
 
-	if (parse_arguments(node, &argc, &targc, &argv) != 0 || !node)
+	if (parse_ast(node, &argc, &targc, &argv) != 0 || !node)
 		return (1);
 
 	if (is_builtin(argc, argv, bt) == 0)
 	{
+		/* builtins should return the exit point to this fucntion */
 		free_argv(argc, argv);
 		return (0);
 	}
@@ -142,7 +135,7 @@ int	execc(t_node *node)
 		return (1);
 	}
 
-	status = wait_for_child(child_pid);
-	free_argv(argc, argv);
-	return (status == 0 ? 0 : 1);
+	waitpid(child_pid, &status, 0);
+	g_status = WEXITSTATUS(status);
+    return g_status;
 }

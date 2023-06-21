@@ -27,6 +27,7 @@
 		"tuple": "c",
 		"utility": "c",
 		"expansion.h": "c",
-		"locale": "c"
+		"locale": "c",
+		"unordered_map": "c"
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 02:34:11 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/19 03:28:48 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/21 04:58:22 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int execute_pipeline(int argc, char **argv, t_node *node)
 {
     int pipefd[2];
 	pid_t child_pid;
+    int status;
 	
     if (pipe(pipefd) == -1)
     {
@@ -41,10 +42,12 @@ if (child_pid == 0)
 }
 
     close(pipefd[1]);
-    wait_for_child(child_pid);
+    waitpid(child_pid, &status, 0);
+    g_status = WEXITSTATUS(status);
     dup2(pipefd[0], STDIN_FILENO);
     close(pipefd[0]);
 
-    int status = execc(node->first_child->next_sibling);
-    return status;
+    int pipeline_status = execc(node->first_child->next_sibling);
+    g_status = pipeline_status;
+    return pipeline_status;
 }

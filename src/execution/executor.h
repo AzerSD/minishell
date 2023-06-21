@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:59 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/19 18:28:25 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/21 04:49:01 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		execc(t_node *node);
  * @param argv A null-terminated strings that will store the arguments.
  * @return 0 on success, or a non-zero value if an error occurs.
 */
-int		parse_arguments(t_node *node, int *argc, int *targc, char ***argv);
+int		parse_ast(t_node *node, int *argc, int *targc, char ***argv);
 
 /**
  * @brief Executes a command with the given arguments.
@@ -92,12 +92,7 @@ int		exec_cmd(int argc, char **argv);
 */
 pid_t	fork_command(int argc, char **argv, t_node *node);
 
-/**
- * @brief Waits for a child process to terminate and returns its status.
- * @param child_pid The process ID of the child process.
- * @return The status of the child process.
-*/
-int		wait_for_child(pid_t child_pid);
+
 
 ////////////////////////////////////////////////////////////////////
 //                          Redirections                          //
