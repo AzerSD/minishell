@@ -6,6 +6,10 @@ This is the input file contents.
 EOF
 ```
 
+cat << eof | ls | cat << end
+cat << eof | l | cat << end
+
+
 cat < todo | grep "pipe"
 cat < todo | grep "pipe" | wc -l
 cat < todo | grep "pipe" | cat > out.txt

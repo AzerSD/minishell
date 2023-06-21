@@ -6,14 +6,15 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:05:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/21 05:20:38 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/21 05:27:27 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char* exit_code_to_str(unsigned char status) {
-    static char str[4];  // 3 digits and a null terminator should be enough for any exit code
+char* exit_code_to_str(unsigned char status)
+{
+    static char str[4];
     snprintf(str, sizeof(str), "%d", status);
     return str;
 }
