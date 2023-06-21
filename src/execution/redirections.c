@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:09 by lhasmi            #+#    #+#             */
-/*   Updated: 2023/06/19 02:39:06 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/21 02:10:32 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,42 +51,8 @@ int setup_redirections(t_node *node)
             }
             else if (child->type == NODE_HEREDOC)
             {
-                flags = O_RDWR | O_CREAT | O_TRUNC;
+                flags = O_RDONLY;
                 std_fd = STDIN_FILENO;
-
-                // Create a temporary file for heredoc content
-                char filename[20];
-                sprintf(filename, "/tmp/heredoc-%d", getpid());
-                fd = open(filename, flags, 0644);
-                if (fd == -1)
-                {
-                    perror("open");
-                    return 1;
-                }
-
-                // Redirect the file descriptor to the temporary file
-                if (dup2(fd, std_fd) == -1)
-                {
-                    perror("dup2");
-                    close(fd);
-                    return 1;
-                }
-
-                close(fd);
-
-                // Copy the heredoc content to the temporary file
-                t_node *content_node = child->first_child;
-                if (content_node && content_node->val.str)
-                {
-                    FILE *temp_file = fopen(filename, "w");
-                    if (temp_file == NULL)
-                    {
-                        perror("fopen");
-                        return 1;
-                    }
-                    fprintf(temp_file, "%s", content_node->val.str);
-                    fclose(temp_file);
-                }
             }
             else
             {

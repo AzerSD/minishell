@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:58:16 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 22:46:30 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/21 02:05:22 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,6 @@ enum e_node_type get_node_type(e_token_type state)
         return NODE_HEREDOC;
 	else
 		return NODE_VAR;
-}
-
-t_node *parse_redirection(t_node *ptr, t_token *tok, enum e_node_type type)
-{
-    t_node *redir_node = new_node(type);
-    set_node_val_str(redir_node, tok->text);
-    if (!redir_node)
-    {
-        free_node_tree(ptr);
-        free_token(tok);
-        return NULL;
-    }
-    add_parent_node(ptr, redir_node);
-    ptr = redir_node;
-    return ptr;
 }
 
 t_node *parse_cmd(t_token *tok, t_curr_tok *curr)
@@ -75,6 +60,7 @@ t_node *parse_cmd(t_token *tok, t_curr_tok *curr)
             break;
         }
         type = get_node_type(curr->tok_type);    
+
         if (type == NODE_PIPE)
         {
             if (first_pipe)
@@ -90,7 +76,7 @@ t_node *parse_cmd(t_token *tok, t_curr_tok *curr)
             ptr = null_node;
             first_pipe = 1;
         }
-        else if (type == NODE_INPUT || type == NODE_OUTPUT || type == NODE_APPEND || type == NODE_HEREDOC)
+        else if (type == NODE_INPUT || type == NODE_OUTPUT || type == NODE_APPEND)
         {
             t_node *redirection_node = new_node(type);
             set_node_val_str(redirection_node, tok->text);
@@ -117,9 +103,60 @@ t_node *parse_cmd(t_token *tok, t_curr_tok *curr)
                 free_token(tok);
                 return NULL;
             }
-
             add_child_node(redirection_node, file_node);
-            // add_child_node(ptr, redirection_node);
+            add_child_node(ptr, redirection_node);
+        }
+        else if (type == NODE_HEREDOC)
+        {
+            t_node *redirection_node = new_node(type);
+            set_node_val_str(redirection_node, tok->text);
+
+            if (!redirection_node)
+            {
+                free_node_tree(ptr);
+                free_token(tok);
+                return NULL;
+            }
+
+            free_token(tok);
+            tok = get_token(cli, curr);
+            if (tok == EOF_TOKEN)
+            {
+                free_node_tree(ptr);
+                return NULL;
+            }
+
+            // Temp file handling.
+            char tmp_filename[] = "/tmp/heredocXXXXXX";  // Template for mkstemp().
+            int tmp_fd = mkstemp(tmp_filename);
+            if (tmp_fd == -1)
+            {
+                free_node_tree(ptr);
+                free_token(tok);
+                return NULL;
+            }
+
+            // Write to the temp file until delimiter is encountered.
+            char *line = NULL;
+            
+            ft_fgets(&line);
+            while (line && ft_strncmp(line, tok->text, ft_strlen(tok->text)) != 0)
+            {
+                write(tmp_fd, line, strlen(line));
+                free(line);
+                ft_fgets(&line);
+            }
+
+            close(tmp_fd);
+            free_token(tok);
+            t_node *file_node = new_node(NODE_FILE);
+            set_node_val_str(file_node, tmp_filename);
+            if (!file_node)
+            {
+                free_node_tree(ptr);
+                return NULL;
+            }
+            add_child_node(redirection_node, file_node);
             add_child_node(ptr, redirection_node);
         }
 
@@ -135,7 +172,7 @@ t_node *parse_cmd(t_token *tok, t_curr_tok *curr)
             }
             add_child_node(ptr, word);
         }
-        free_token(tok);
+        // free_token(tok);
     } while ((tok = get_token(cli, curr)) != EOF_TOKEN);
     return parent;
 }
