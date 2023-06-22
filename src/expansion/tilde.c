@@ -27,7 +27,6 @@ char	*tilde_expansion(char *s)
 	home = NULL;
 	len = strlen(s);
 	s2 = NULL;
-	/* null tilde prefix. substitute with the value of home */
 	if (len == 1)
 	{
 		entry = get_symtab_entry("HOME");
@@ -35,31 +34,21 @@ char	*tilde_expansion(char *s)
 			home = entry->val;
 		else
 		{
-			/*
-				* POSIX doesn't say what to do if $HOME is null/unset.. we follow
-				* what bash does,
-				which is searching our home directory in the password
-				* database.
-				*/
 			pass = getpwuid(getuid());
 			if (pass)
 			{
-				/* get the value of home */
 				home = pass->pw_dir;
 			}
 		}
 	}
 	else
 	{
-		/* we have a login name */
 		pass = getpwnam(s + 1);
 		if (pass)
 			home = pass->pw_dir;
 	}
-	/* we have a NULL value */
 	if (!home)
 		return NULL;
-	/* return the home dir we've found */
 	s2 = malloc(strlen(home) + 1);
 	if (!s2)
 		return NULL;

@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/21 04:57:41 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/22 02:39:20 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,16 @@ pid_t fork_command(int argc, char **argv, t_node *node)
         if (setup_redirections(node) != 0)
             exit(EXIT_FAILURE);
         else
-            exit(exec_cmd(argc, argv));
+		{
+    	exec_cmd(argc, argv);
+		fprintf(stderr, "minishell: %s: command not found\n", argv[0]);
+		}
+		if (errno == ENOEXEC)
+			exit(126);
+		else if (errno == ENOENT)
+			exit(127);
+		else
+			exit(EXIT_FAILURE);
     }
     return (child_pid);
 }

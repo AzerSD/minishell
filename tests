@@ -1,4 +1,5 @@
 https://github.com/thallard/minishell_tester
+https://github.com/solaldunckel/minishell-tester/tree/master
 
 ```
 echo "Hello, World!" > output.txt | cat -n | tee output.txt >> appended.txt < input.txt << EOF

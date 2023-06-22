@@ -139,7 +139,6 @@ int	substitute_word(char **pstart, char **p, size_t len, char *(func)(char *),
 	char	*tmp2;
 	size_t	i;
 
-	/* extract the word to be substituted */
 	tmp = malloc(len + 1);
 	if (!tmp)
 	{
@@ -148,7 +147,7 @@ int	substitute_word(char **pstart, char **p, size_t len, char *(func)(char *),
 	}
 	strncpy(tmp, *p, len);
 	tmp[len--] = '\0';
-	/* and expand it */
+	
 	if (func)
 	{
 		tmp2 = func(tmp);
@@ -159,31 +158,26 @@ int	substitute_word(char **pstart, char **p, size_t len, char *(func)(char *),
 	}
 	else
 		tmp2 = tmp;
-	/* error expanding the string. keep the original string as-is */
 	if (!tmp2)
 	{
 		(*p) += len;
 		free(tmp);
 		return 0;
 	}
-	/* save our current position in the word */
 	i = (*p) - (*pstart);
-	/* substitute the expanded word */
 	tmp = quote_val(tmp2, add_quotes);
 	free(tmp2);
 	if (tmp)
 	{
-		/* substitute the expanded word */
 		if ((tmp2 = substitute_str(*pstart, tmp, i, i + len)))
 		{
-			/* adjust our pointer to point to the new string */
 			free(*pstart);
 			(*pstart) = tmp2;
 			len = strlen(tmp);
 		}
 		free(tmp);
 	}
-	/* adjust our pointer to point to the new string */
+
 	(*p) = (*pstart) + i + len - 1;
 	return 1;
 }

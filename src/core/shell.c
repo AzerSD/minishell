@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/21 04:59:45 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/21 23:30:39 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	init_symtab(env);
-
 	signals(&mirror_termios);
 	while (true)
 	{
@@ -39,7 +38,6 @@ int	main(int argc, char **argv, char **env)
 			free(cmd);
 			ft_exit(1, 0);
 		}
-		/* If it is a terminal not running by a script or smth*/
 		if (isatty(STDIN_FILENO))
 			add_history(cmd);
 		cli.buffer = cmd;
@@ -48,8 +46,7 @@ int	main(int argc, char **argv, char **env)
 		parse_and_execute(&cli);
 		free(cmd);
 	}
-		rl_clear_history();
-	clear_history();
+	rl_clear_history();
 	exit(EXIT_SUCCESS);
 }
 

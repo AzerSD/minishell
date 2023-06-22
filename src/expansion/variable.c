@@ -12,42 +12,13 @@
 
 #include "minishell.h"
 
-/**
- * @brief perform variable (parameter) expansion.
- * our options are:
- * syntax           POSIX description   var defined     var undefined
- * ======           =================   ===========     =============
- * $var             Substitute          var             nothing
- * ${var}           Substitute          var             nothing
- * ${var:-thing}    Use Deflt Values    var             thing (var unchanged)
- * ${var:=thing}    Assgn Deflt Values  var             thing (var set to thing)
+char* exit_code_to_str(unsigned char status)
+{
+    static char str[4];  // 3 digits and a null terminator should be enough for any exit code
+    snprintf(str, sizeof(str), "%d", status);
+    return str;
+}
 
- * ${var:?message}  Error if NULL/Unset var             print message and exit shell,
- *                                                      (if message is empty, print
-
- *                                                      "var: parameter not set")
- * ${var:+thing}    Use Alt. Value      thing           nothing
- * ${#var}          Calculate String Length
- *
- * Using the same options in the table above, but without the colon, results in
- * a test for a parameter that is unset. using the colon results in a test for a
- * parameter that is unset or null.
- *
- * @todo: we should test our implementation of the following string processing
- *       functions (see section 2.6.2 - Parameter Expansion in POSIX):
- *       ${parameter%[word]}      Remove Smallest Suffix Pattern
- *       ${parameter%%[word]}     Remove Largest Suffix Pattern
- *       ${parameter#[word]}      Remove Smallest Prefix Pattern
- *       ${parameter##[word]}     Remove Largest Prefix Pattern
-*/
-
-/**
- * @brief perform variable (parameter) expansion.
- * @returns an malloc'd string of the expanded variable value, or NULL if the
- * variable is not defined or the expansion failed.
- * this function should not be called directly by any function outside of this
- * module (hence the double underscores that prefix the function name).
-*/
 char	*var_expand(char *orig_var_name)
 {
 	size_t					len;
@@ -101,6 +72,17 @@ char	*var_expand(char *orig_var_name)
 	/* check we don't have an empty varname */
 	if (!*orig_var_name)
 		return NULL;
+	if (strcmp(orig_var_name, "?") == 0)
+	{
+    	char* exit_code_str = exit_code_to_str(g_status);
+    	char* exit_code_copy = strdup(exit_code_str);
+		if (exit_code_copy == NULL) 
+		{
+			fprintf(stderr, "error: failed to allocate memory for exit code\n");
+			return INVALID_VAR;
+		}
+		return exit_code_copy;
+	}
 	/*
 		* search for a colon,
 			which we use to separate the variable name from the
@@ -122,6 +104,8 @@ char	*var_expand(char *orig_var_name)
 	/* copy the varname to a buffer */
 	strncpy(var_name, orig_var_name, len);
 	var_name[len] = '\0';
+
+
 	/*
 		* commence variable substitution.
 		*/
