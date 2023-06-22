@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/21 23:30:39 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/22 03:43:35 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,15 @@ int	main(int argc, char **argv, char **env)
 	signals(&mirror_termios);
 	while (true)
 	{
-		cmd = readline("minishell> ");
+		// cmd = readline("minishell> ");
+		if (isatty(fileno(stdin)))
+			cmd = readline("minishell> ");
+		else
+		{
+			cmd = get_next_line(fileno(stdin));
+			cmd = ft_strtrim(cmd, "\n");
+			free(cmd);
+		}
 		if (!cmd)
 			exit(EXIT_SUCCESS);
 		if (cmd[0] == '\0' || strncmp(cmd, "\n", 1) == 0)
@@ -60,7 +68,7 @@ int	parse_and_execute(t_cli *cli)
 	skip_whitespaces(cli);
 	tok = get_token(cli, curr);
 	ast_cmd = parse_cmd(tok, curr);
-	print_ast(ast_cmd, 0);
+	// print_ast(ast_cmd, 0);
 	if (!ast_cmd)
 		return (1);
 	execc(ast_cmd);

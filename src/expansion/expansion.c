@@ -6,108 +6,132 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:05:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/22 03:23:53 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/22 23:07:53 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+struct s_word	*make_word_if(struct s_word *words, char *pstart)
+{
+	words = make_word(pstart);
+	if (!words)
+	{
+		fprintf(stderr, "error: insufficient memory\n");
+		free(pstart);
+		return (NULL);
+	}
+	return (words);
+}
 
+void	check_double_quotes(char **p, int *in_double_quotes)
+{
+	if (**p == '"')
+	{
+		*in_double_quotes = !(*in_double_quotes);
+		(*p)++;
+	}
+}
+
+void	check_backslash(char **p)
+{
+	if (**p == '\\')
+	{
+		(*p)++;
+	}
+}
+
+void	check_single_quotes(char **p, int in_double_quotes)
+{
+	if (**p == '\'' && !in_double_quotes)
+	{
+		*p += find_closing_quote(*p);
+	}
+}
+
+void	check_backtick(char **pstart, char **p)
+{
+	size_t	len;
+
+	if (**p == '`')
+	{
+		if ((len = find_closing_quote(*p)) != 0)
+		{
+			substitute_word(pstart, p, len + 1, command_substitute, 0);
+		}
+	}
+}
+
+void	check_dollar_sign(char **pstart, char **p)
+{
+	char c, *p2;
+	if (**p == '$')
+	{
+		c = (*p)[1];
+		if (c == '?')
+		{
+			substitute_word(pstart, p, 2, var_expand, 0);
+		}
+		else
+		{
+			if (!isalpha((*p)[1]) && (*p)[1] != '_')
+			{
+				return ;
+			}
+			p2 = *p + 1;
+			while (*p2)
+			{
+				if (!isalnum(*p2) && *p2 != '_')
+					break ;
+				p2++;
+			}
+			if (p2 == *p + 1)
+			{
+				return ;
+			}
+			substitute_word(pstart, p, p2 - *p, var_expand, 0);
+		}
+	}
+}
 
 struct s_word	*expand(char *orig_word)
 {
 	char			*pstart;
 	char			*p;
-	char			*p2;
 	size_t			i;
-	size_t			len;
 	int				in_double_quotes;
-	int				in_var_assign;
-	int				var_assign_eq;
-	int				expanded;
-	int				tilde_quoted;
-	int				endme;
 	struct s_word	*words;
-	char			*tmp;
-	char			c;
-	char *(*func)(char *);
 
+	in_double_quotes = 0;
+	char			*(*func)(char *);
 	if (!orig_word)
-		return NULL;
+		return (NULL);
 	if (!*orig_word)
-		return make_word(orig_word);
+		return (make_word(orig_word));
 	pstart = malloc(strlen(orig_word) + 1);
 	if (!pstart)
-		return NULL;
+		return (NULL);
 	strcpy(pstart, orig_word);
 	p = pstart;
 	i = 0;
-	in_double_quotes = 0;
-	in_var_assign = 0;
-	var_assign_eq = 0;
-	do
+	while (*p)
 	{
-		switch (*p)
-		{
-			case '"':
-				in_double_quotes = !in_double_quotes;
-				break ;
-			case '\\':
-				p++;
-				break ;
-			case '\'':
-
-				if (in_double_quotes)
-					break ;
-				p += find_closing_quote(p);
-				break ;
-			case '`':
-				if ((len = find_closing_quote(p)) == 0)
-					break ;
-				substitute_word(&pstart, &p, len + 1, command_substitute, 0);
-				break ;
-
-			case '$':
-				c = p[1];
-				if (c == '?')
-				{
-					substitute_word(&pstart, &p, 2, var_expand, 0);
-					break;
-				}
-				else
-				{
-						if (!isalpha(p[1]) && p[1] != '_')
-							break ;
-						p2 = p + 1;
-						while (*p2)
-						{
-							if (!isalnum(*p2) && *p2 != '_')
-								break ;
-							p2++;
-						}
-						if (p2 == p + 1)
-							break ;
-						substitute_word(&pstart, &p, p2 - p, var_expand, 0);
-						break ;
-				}
-			}
-
-	} while (*(++p));
-	words = NULL;
+		check_double_quotes(&p, &in_double_quotes);
+		check_backslash(&p);
+		check_single_quotes(&p, in_double_quotes);
+		check_backtick(&pstart, &p);
+		check_dollar_sign(&pstart, &p);
+		p++;
+	}
+	words = make_word_if(words, pstart);
 	if (!words)
 	{
-		words = make_word(pstart);
-		if (!words)
-		{
-			fprintf(stderr, "error: insufficient memory\n");
-			free(pstart);
-			return NULL;
-		}
+		return (NULL);
 	}
 	free(pstart);
 	words = pathnames_expand(words);
 	remove_quotes(words);
-	return words;
+	return (words);
 }
 
 char	*word_expand_to_str(char *word)
@@ -117,12 +141,11 @@ char	*word_expand_to_str(char *word)
 
 	w = expand(word);
 	if (!w)
-		return NULL;
+		return (NULL);
 	res = wordlist_to_str(w);
 	free_all_words(w);
-	return res;
+	return (res);
 }
-
 
 struct s_word	*make_word(char *str)
 {
@@ -160,4 +183,3 @@ void	free_all_words(struct s_word *first)
 		free(del);
 	}
 }
-
