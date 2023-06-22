@@ -7,6 +7,22 @@ This is the input file contents.
 EOF
 ```
 
+Globing aka RegEx
+ls *
+ls *.c
+ls *.[ch]
+ls *.[ch] *.[ch]
+ls *.[ch] *.[ch] *.[ch]
+ls ?rc
+ls ?rc ?rc
+ls [!...]rc
+ls [!...]rc [!...]rc
+
+
+Command Substitution
+
+
+
 cat << eof | ls | cat << end
 cat << eof | l | cat << end
 
