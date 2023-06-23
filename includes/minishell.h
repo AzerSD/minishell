@@ -13,6 +13,9 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+
+
+
 # define RESET "\033[0m"
 # define RED "\033[31m" // Red
 # define GRN "\033[32m" // Green

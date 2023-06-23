@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 01:58:12 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/21 02:50:08 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/23 04:20:11 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #ifndef NODE_H
 # define NODE_H
 
-# include "minishell.h"
 
 /**
  * Define the type of our AST Node

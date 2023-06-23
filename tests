@@ -20,11 +20,6 @@ ls [!...]rc [!...]rc
 
 
 Command Substitution
-echo "Today is $(date)"
-echo "The current user is $(whoami)"
-echo "There are $(ls | wc -l) files in the current directory."
-echo "The current directory is $(pwd)"
-
 
 
 

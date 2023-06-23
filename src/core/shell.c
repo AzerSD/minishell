@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/23 03:53:09 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/23 17:37:41 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	main(int argc, char **argv, char **env)
 	int				original_stdout;
 	t_memory *mem = malloc(sizeof(t_memory));
 	mem->head = NULL;
+	// g_status = 0;
 
 	(void)argc;
 	(void)argv;

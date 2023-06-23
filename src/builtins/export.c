@@ -6,11 +6,11 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:58 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/20 00:47:13 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/23 17:37:05 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../symbol_table/symtab.h"
+#include "minishell.h"
 
 int ft_export(int argc, ...)
 {
@@ -23,6 +23,7 @@ int ft_export(int argc, ...)
     argv = va_arg(args, char **);
     entry = symtab->first;
     va_end(args);
+    g_status = 0;
     
     if (argc == 1)
     {

@@ -17,7 +17,6 @@
 #define _POSIX_C_SOURCE 200809L
 
 
-#include "minishell.h"
 
 
 /* special value to represent an invalid variable */
