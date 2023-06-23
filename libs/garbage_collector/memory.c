@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 03:33:04 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/23 03:40:03 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/23 20:26:44 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	my_free(void **p_head, void *adresse)
 {
 	remove_mem_block(p_head, adresse);
 	free(adresse);
+	adresse = ((void *) 0);
 }
 
 void	free_all_mem(void **p_head)

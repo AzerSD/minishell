@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 07:28:23 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/20 00:40:22 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/23 18:09:30 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,14 @@ struct s_symtab_entry *add_to_symtab(const char *symbol)
 	if ((entry = do_lookup(symbol, st)))
 		return entry;
 
-	entry = malloc(sizeof(struct s_symtab_entry));
+	entry = my_malloc(&shell.memory, sizeof(struct s_symtab_entry));
 	if (!entry)
 	{
 		fprintf(stderr, "fatal error: no memory for new symbol table entry\n");
 		exit(EXIT_FAILURE);
 	}
 	memset(entry, 0, sizeof(struct s_symtab_entry));
-	entry->name = malloc(strlen(symbol)+1);
+	entry->name = my_malloc(&shell.memory, strlen(symbol)+1);
 	if (!entry->name)
 	{
 		fprintf(stderr, "fatal error: no memory for new symbol table entry\n");
@@ -165,7 +165,7 @@ void symtab_entry_setval(struct s_symtab_entry *entry, char *val)
 	}
 	else
 	{
-		char *val2 = malloc(strlen(val)+1);        if (val2)
+		char *val2 = my_malloc(&shell.memory, strlen(val)+1);        if (val2)
 		{
 			strcpy(val2, val);
 		}

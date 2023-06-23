@@ -32,7 +32,7 @@ char	*wordlist_to_str(struct s_word *word)
 		len += w->len + 1;
 		w = w->next;
 	}
-	str = malloc(len + 1);
+	str = my_malloc(&shell.memory, len + 1);
 	if (!str)
 	{
 		return (NULL);
@@ -103,7 +103,7 @@ char	*substitute_str(char *s1, char *s2, size_t start, size_t end)
 	strcpy(after, s1 + end + 1);
 	/* alloc memory for the new string */
 	totallen = start + afterlen + strlen(s2);
-	final = malloc(totallen + 1);
+	final = my_malloc(&shell.memory, totallen + 1);
 	if (!final)
 	{
 		fprintf(stderr,
@@ -139,7 +139,7 @@ int	substitute_word(char **pstart, char **p, size_t len, char *(func)(char *),
 	char	*tmp2;
 	size_t	i;
 
-	tmp = malloc(len + 1);
+	tmp = my_malloc(&shell.memory, len + 1);
 	if (!tmp)
 	{
 		(*p) += len;

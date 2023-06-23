@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:28:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/22 03:39:36 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/23 18:09:29 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char* get_varname(const char *str)
     if (equalsSignPosition)
 	{
         int len = equalsSignPosition - str;
-        char *varName = malloc(len + 1);
+        char *varName = my_malloc(&shell.memory, len + 1);
         strncpy(varName, str, len);
         varName[len] = '\0';
         return varName;
@@ -74,7 +74,7 @@ void	init_symtab_stack(void)
 {
 	struct s_symtab	*global_symtab;
 
-	global_symtab = malloc(sizeof(struct s_symtab));
+	global_symtab = my_malloc(&shell.memory, sizeof(struct s_symtab));
 	s_symtab_stack.symtab_count = 1;
 	if (!global_symtab)
 	{
@@ -91,7 +91,7 @@ struct s_symtab	*new_symtab()
 {
 	struct s_symtab	*symtab;
 
-	symtab = malloc(sizeof(struct s_symtab));
+	symtab = my_malloc(&shell.memory, sizeof(struct s_symtab));
 	if (!symtab)
 	{
 		fprintf(stderr, "fatal error: no memory for new symbol table\n");

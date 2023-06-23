@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:58 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/23 17:37:05 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/23 17:49:12 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int ft_export(int argc, ...)
     argv = va_arg(args, char **);
     entry = symtab->first;
     va_end(args);
-    g_status = 0;
+    shell.status = 0;
     
     if (argc == 1)
     {
@@ -34,7 +34,7 @@ int ft_export(int argc, ...)
             entry = entry->next;
         }
         
-        return (g_status = 0, 0);   
+        return (shell.status = 0, 0);   
     }
     else
     {
@@ -45,6 +45,6 @@ int ft_export(int argc, ...)
         va_end(args);
         if (entry)
             fprintf(stderr, "declare -x %s=%s\n", entry->name, entry->val);
-        return (g_status = 1, 1);
+        return (shell.status = 1, 1);
     }
 }

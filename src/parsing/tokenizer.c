@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:58:27 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 22:46:55 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/23 18:09:28 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ void add_to_buf(char c, t_curr_tok *curr)
 */
 static t_token *create_token(char *str)
 {
-    t_token *tok = malloc(sizeof(t_token));
+    t_token *tok = my_malloc(&shell.memory, sizeof(t_token));
     if (!tok)
         return NULL;
     memset(tok, 0, sizeof(t_token));
     tok->text_len = strlen(str);
-    char *nstr = malloc(tok->text_len+1);
+    char *nstr = my_malloc(&shell.memory, tok->text_len+1);
     if (!nstr)
     {
         free(tok);
@@ -140,7 +140,7 @@ static void *init_curr_tok_buff(t_cli *cli, t_curr_tok *curr)
     if (!curr->tok_buff)
     {
         curr->tok_buff_size = 1024;
-        curr->tok_buff = malloc(curr->tok_buff_size);
+        curr->tok_buff = my_malloc(&shell.memory, curr->tok_buff_size);
         if (!curr->tok_buff)
         {
             errno = ENOMEM;

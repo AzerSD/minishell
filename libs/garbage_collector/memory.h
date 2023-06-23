@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 03:32:19 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/23 03:47:56 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/23 18:12:28 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,6 @@ typedef struct s_memory_block
 	size_t					size;
 	struct s_memory_block	*next;
 }				t_memory_block;
-
-typedef struct s_memory
-{
-    void	*head;
-}				t_memory;
 
 void	*add_mem_block(void **p_head, size_t size);
 void	remove_mem_block(void **p_head, void *ptr);

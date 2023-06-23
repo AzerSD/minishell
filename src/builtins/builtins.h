@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 11:22:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/23 04:19:34 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/24 01:00:04 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_builtin_info
 	int					count;
 }						t_builtin_info;
 
-int		is_builtin(int argc, char **argv, t_builtin_info *bt);
+int		exec_builtin(int argc, char **argv);
 int		ft_exit(int argc, ...);
 int		ft_unset(int argc, ...);
 int		ft_dump(int argc, ...);

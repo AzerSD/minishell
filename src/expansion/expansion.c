@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:05:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/22 23:24:16 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/23 18:09:15 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ struct s_word	*expand(char *orig_word)
 		return (NULL);
 	if (!*orig_word)
 		return (make_word(orig_word));
-	pstart = malloc(strlen(orig_word) + 1);
+	pstart = my_malloc(&shell.memory, strlen(orig_word) + 1);
 	if (!pstart)
 		return (NULL);
 	strcpy(pstart, orig_word);
@@ -153,11 +153,11 @@ struct s_word	*make_word(char *str)
 	size_t			len;
 	char			*data;
 
-	word = malloc(sizeof(struct s_word));
+	word = my_malloc(&shell.memory, sizeof(struct s_word));
 	if (!word)
 		return (NULL);
 	len = strlen(str);
-	data = malloc(len + 1);
+	data = my_malloc(&shell.memory, len + 1);
 	if (!data)
 	{
 		free(word);

@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 05:03:22 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 22:41:55 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/23 18:05:29 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int file_exists(char *path)
 
 static char *build_path(char *start, char *end, char *file, int plen)
 {
-	char *path = malloc(plen + 1 + strlen(file) + 1);
+	char *path = my_malloc(&shell.memory, plen + 1 + strlen(file) + 1);
 	if (!path)
 		return (NULL);
 	

@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:41:31 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/19 18:25:46 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/24 00:58:44 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_builtin_info	*get_bt(void)
 {
 	t_builtin_info	*bt;
 
-	bt = malloc(sizeof(t_builtin_info));
+	bt = my_malloc(&shell.memory, sizeof(t_builtin_info));
 	if (bt == NULL)
 	{
 		return (NULL); // handle error as needed
@@ -38,8 +38,11 @@ t_builtin_info	*get_bt(void)
 	return (bt);
 }
 
-int	is_builtin(int argc, char **argv, t_builtin_info *bt)
+int	exec_builtin(int argc, char **argv)
 {
+	t_builtin_info	*bt = get_bt();
+	if (argc < 1)
+		return (-1);
 	for (int i = 0; i < bt->count; i++)
 	{
 		if (strcmp(argv[0], bt->builtins[i].name) == 0)

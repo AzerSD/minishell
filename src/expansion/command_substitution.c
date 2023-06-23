@@ -21,7 +21,7 @@
  * @return A newly allocated string, or NULL if memory allocation failed.
 */
 char *fix_cmd(char *orig_cmd, int backquoted) {
-    char *cmd = malloc(strlen(orig_cmd + 1));
+    char *cmd = my_malloc(&shell.memory, strlen(orig_cmd + 1));
     if (!cmd) {
         fprintf(stderr,
                 "error: insufficient memory to perform command substitution\n");
@@ -141,7 +141,7 @@ char *command_substitute(char *orig_cmd) {
 
     while ((i = fread(b, 1, 1024, fp))) {
         if (!buf) {
-            buf = malloc(i + 1);
+            buf = my_malloc(&shell.memory, i + 1);
             if (!buf) {
                 goto fin;
             }

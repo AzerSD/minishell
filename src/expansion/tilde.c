@@ -49,7 +49,7 @@ char	*tilde_expansion(char *s)
 	}
 	if (!home)
 		return NULL;
-	s2 = malloc(strlen(home) + 1);
+	s2 = my_malloc(&shell.memory, strlen(home) + 1);
 	if (!s2)
 		return NULL;
 	strcpy(s2, home);

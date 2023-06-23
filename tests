@@ -22,7 +22,7 @@ ls [!...]rc [!...]rc
 Command Substitution
 
 
-
+echo 42 > ff > gg > hh
 cat << eof | ls | cat << end
 cat << eof | l | cat << end
 

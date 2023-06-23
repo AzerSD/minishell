@@ -63,7 +63,14 @@
 #include "../libs/garbage_collector/memory.h"
 
 typedef unsigned char	t_status;
-t_status				g_status;
+
+typedef struct g_shell
+{
+    t_status   status;
+    void   *memory;
+}            t_shell;
+
+t_shell shell;
 
 
 #endif

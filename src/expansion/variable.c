@@ -74,7 +74,7 @@ char	*var_expand(char *orig_var_name)
 		return NULL;
 	if (strcmp(orig_var_name, "?") == 0)
 	{
-    	char* exit_code_str = exit_code_to_str(g_status);
+    	char* exit_code_str = exit_code_to_str(shell.status);
     	char* exit_code_copy = strdup(exit_code_str);
 		if (exit_code_copy == NULL) 
 		{
@@ -204,7 +204,7 @@ char	*var_expand(char *orig_var_name)
 				if ((len = match_suffix(sub, p, longest)) == 0)
 					return p;
 				/* return the match */
-				p2 = malloc(len + 1);
+				p2 = my_malloc(&shell.memory, len + 1);
 				if (p2)
 				{
 					strncpy(p2, p, len);
@@ -227,7 +227,7 @@ char	*var_expand(char *orig_var_name)
 				if ((len = match_prefix(sub, p, longest)) == 0)
 					return p;
 				/* return the match */
-				p2 = malloc(strlen(p) - len + 1);
+				p2 = my_malloc(&shell.memory, strlen(p) - len + 1);
 				if (p2)
 					strcpy(p2, p + len);
 				free(p);
@@ -265,14 +265,14 @@ char	*var_expand(char *orig_var_name)
 		else
 			sprintf(buf, "%lu", strlen(tmp));
 		/* get a copy of the buffer */
-		p = malloc(strlen(buf) + 1);
+		p = my_malloc(&shell.memory, strlen(buf) + 1);
 		if (p)
 			strcpy(p, buf);
 	}
 	else
 	{
 		/* "normal" variable value */
-		p = malloc(strlen(tmp) + 1);
+		p = my_malloc(&shell.memory, strlen(tmp) + 1);
 		if (p)
 			strcpy(p, tmp);
 	}

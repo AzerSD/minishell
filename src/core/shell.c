@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/23 17:37:41 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/24 01:02:05 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,17 @@ int	main(int argc, char **argv, char **env)
 	char			*cmd;
 	struct termios	mirror_termios;
 	int				original_stdout;
-	t_memory *mem = malloc(sizeof(t_memory));
-	mem->head = NULL;
-	// g_status = 0;
+
+	t_shell *shell = malloc(sizeof(t_shell));
+	shell->memory = NULL;
 
 	(void)argc;
 	(void)argv;
 	init_symtab(env);
+	shell->status = 0;
 	signals(&mirror_termios);
-	
-	// char *s = my_malloc(mem->head, sizeof(char) * 333);
 	while (true)
 	{
-		// cmd = readline("minishell> ");
 		if (isatty(fileno(stdin)))
 			cmd = readline(MAG"minishell> "RESET);
 		else
@@ -40,7 +38,7 @@ int	main(int argc, char **argv, char **env)
 			free(cmd);
 		}
 		if (!cmd)
-			exit(EXIT_SUCCESS);
+			exit(0);
 		if (cmd[0] == '\0' || strncmp(cmd, "\n", 1) == 0)
 		{
 			free(cmd);
@@ -48,8 +46,11 @@ int	main(int argc, char **argv, char **env)
 		}
 		if (strncmp(cmd, "exit", 5) == 0)
 		{
+			
 			free(cmd);
-			ft_exit(1, 0);
+			free_all_mem(&shell->memory);
+			system("leaks minishell");
+			exit(0);
 		}
 		if (isatty(STDIN_FILENO))
 			add_history(cmd);
@@ -60,7 +61,7 @@ int	main(int argc, char **argv, char **env)
 		free(cmd);
 	}
 	rl_clear_history();
-	exit(EXIT_SUCCESS);
+	exit(0);
 }
 
 int	parse_and_execute(t_cli *cli)
@@ -69,7 +70,7 @@ int	parse_and_execute(t_cli *cli)
 	t_token		*tok;
 	t_curr_tok	*curr;
 
-	curr = malloc(sizeof(t_curr_tok));
+	curr = my_malloc(&shell.memory, sizeof(t_curr_tok));
 	skip_whitespaces(cli);
 	tok = get_token(cli, curr);
 	ast_cmd = parse_cmd(tok, curr);
@@ -77,7 +78,6 @@ int	parse_and_execute(t_cli *cli)
 	if (!ast_cmd)
 		return (1);
 	execc(ast_cmd);
-	// free_node_tree(ast_cmd);
 	return (0);
 }
 

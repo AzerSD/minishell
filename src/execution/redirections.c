@@ -6,15 +6,11 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:09 by lhasmi            #+#    #+#             */
-/*   Updated: 2023/06/21 02:10:32 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/24 01:00:38 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*  redirect the file descriptor to the temporary file. */
-#include <unistd.h> // for getpid()
-#include <stdio.h>  // for sprintf()
 
 /**
  * @brief Set the up redirections object
