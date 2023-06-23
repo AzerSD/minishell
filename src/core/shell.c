@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/22 03:43:35 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/23 03:53:09 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,20 @@ int	main(int argc, char **argv, char **env)
 	char			*cmd;
 	struct termios	mirror_termios;
 	int				original_stdout;
+	t_memory *mem = malloc(sizeof(t_memory));
+	mem->head = NULL;
 
 	(void)argc;
 	(void)argv;
 	init_symtab(env);
 	signals(&mirror_termios);
+	
+	// char *s = my_malloc(mem->head, sizeof(char) * 333);
 	while (true)
 	{
 		// cmd = readline("minishell> ");
 		if (isatty(fileno(stdin)))
-			cmd = readline("minishell> ");
+			cmd = readline(MAG"minishell> "RESET);
 		else
 		{
 			cmd = get_next_line(fileno(stdin));
