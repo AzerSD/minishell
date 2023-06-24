@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/24 02:46:25 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/24 03:04:38 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,13 @@ int	parse_ast(t_node *node, int *argc, int *targc, char ***argv)
 	child = node->first_child;
 	while (child)
 	{
-		str = child->val.str;
 		if (child->type == NODE_INPUT || child->type == NODE_OUTPUT
 			|| child->type == NODE_APPEND || child->type == NODE_HEREDOC)
-			break ;
+			{
+				child = child->next_sibling;
+				continue ;
+			}
+		str = child->val.str;
 		w = expand(str);
 		if (!w)
 		{
