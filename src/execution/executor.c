@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/24 03:26:18 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/24 23:35:56 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,5 @@ int	execc(t_node *node)
 
 	waitpid(child_pid, &status, 0);
 	shell.status = WEXITSTATUS(status);
-	// shell.status = status;
     return status;
 }

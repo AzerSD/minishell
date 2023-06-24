@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:58:16 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/21 06:34:17 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/24 23:39:59 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,12 +140,13 @@ t_node *parse_cmd(t_token *tok, t_curr_tok *curr)
             char *line = NULL;
             
             ft_fgets(&line);
-            while (line && ft_strncmp(line, tok->text, ft_strlen(tok->text)) != 0)
+            struct s_word *w = expand(line);
+            while (line && ft_strncmp(w->data, tok->text, ft_strlen(tok->text)) != 0)
             {
 
-                write(tmp_fd, line, strlen(line));
-                free(line);
+                write(tmp_fd, w->data, strlen(w->data));
                 ft_fgets(&line);
+                w = expand(line);
             }
 
             close(tmp_fd);
