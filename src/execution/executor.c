@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/24 03:04:38 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/24 03:26:18 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ pid_t fork_command(int argc, char **argv, t_node *node)
     if (child_pid == 0)
     {
         if (setup_redirections(node) != 0)
-            exit(EXIT_FAILURE);
+            exit(0);
         else
 		{
 			if (exec_builtin(argc, argv) != 0)
@@ -52,7 +52,7 @@ pid_t fork_command(int argc, char **argv, t_node *node)
 		else if (errno == ENOENT)
 			exit(127);
 		else
-			exit(EXIT_FAILURE);
+			exit(0);
     }
     return (child_pid);
 }
@@ -144,5 +144,6 @@ int	execc(t_node *node)
 
 	waitpid(child_pid, &status, 0);
 	shell.status = WEXITSTATUS(status);
-    return shell.status;
+	// shell.status = status;
+    return status;
 }

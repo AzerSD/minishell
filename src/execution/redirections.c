@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:09 by lhasmi            #+#    #+#             */
-/*   Updated: 2023/06/24 02:53:06 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/24 03:10:55 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int setup_redirections(t_node *node)
             if (child->first_child && child->first_child->val.str)
             {
                 struct s_word *w;
-                w = make_word(child->val.str);
+                w = make_word(child->first_child->val.str);
                 remove_quotes(w);
                 fd = open(w->data, flags, 0644);
                 free_all_words(w);

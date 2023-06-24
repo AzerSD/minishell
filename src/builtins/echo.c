@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:25 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/24 01:49:08 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/24 03:15:42 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ int ft_echo(int argc, ...)
     if (n_option == 0)
         ft_putchar_fd('\n', STDOUT_FILENO);
     va_end(args);
+    shell.status = 0;
     return (0);
 }
