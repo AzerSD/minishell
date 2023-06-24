@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/24 01:02:05 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/24 02:09:48 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	main(int argc, char **argv, char **env)
 	t_cli			cli;
 	char			*cmd;
 	struct termios	mirror_termios;
-	int				original_stdout;
 
 	t_shell *shell = malloc(sizeof(t_shell));
 	shell->memory = NULL;
@@ -27,6 +26,7 @@ int	main(int argc, char **argv, char **env)
 	init_symtab(env);
 	shell->status = 0;
 	signals(&mirror_termios);
+		int original_stdout = dup(STDOUT_FILENO);
 	while (true)
 	{
 		if (isatty(fileno(stdin)))
@@ -49,7 +49,7 @@ int	main(int argc, char **argv, char **env)
 			
 			free(cmd);
 			free_all_mem(&shell->memory);
-			system("leaks minishell");
+			// system("leaks minishell");
 			exit(0);
 		}
 		if (isatty(STDIN_FILENO))
@@ -58,6 +58,7 @@ int	main(int argc, char **argv, char **env)
 		cli.buff_size = strlen(cmd);
 		cli.cur_pos = INIT_SRC_POS;
 		parse_and_execute(&cli);
+		dup2(original_stdout, STDOUT_FILENO);
 		free(cmd);
 	}
 	rl_clear_history();
@@ -74,7 +75,7 @@ int	parse_and_execute(t_cli *cli)
 	skip_whitespaces(cli);
 	tok = get_token(cli, curr);
 	ast_cmd = parse_cmd(tok, curr);
-	// print_ast(ast_cmd, 0);
+	print_ast(ast_cmd, 0);
 	if (!ast_cmd)
 		return (1);
 	execc(ast_cmd);

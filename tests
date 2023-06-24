@@ -1,6 +1,11 @@
 https://github.com/thallard/minishell_tester
 https://github.com/solaldunckel/minishell-tester/tree/master
 
+
+cd -
+cd - -
+cd --
+
 ```
 echo "Hello, World!" > output.txt | cat -n | tee output.txt >> appended.txt < input.txt << EOF
 This is the input file contents.

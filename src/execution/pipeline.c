@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 02:34:11 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/24 01:20:28 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/24 01:21:32 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,3 @@ int execute_pipeline(int argc, char **argv, t_node *node)
     shell.status = pipeline_status;
     return pipeline_status;
 }
-
