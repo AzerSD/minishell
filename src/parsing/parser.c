@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:58:16 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/24 23:39:59 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/25 02:02:51 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,80 +34,57 @@ enum e_node_type get_node_type(e_token_type state)
 		return NODE_VAR;
 }
 
-t_node *parse_cmd(t_token *tok, t_curr_tok *curr)
-{
-    t_node *ptr;
-    t_node *parent;
-    t_cli *cli;
-    t_node *word;
-    enum e_node_type type;
-    int first_pipe = 0;
+t_node *p_pipe(t_node **ptr, t_node **parent, int *first_pipe) {
+    t_node *null_node;
+    if (*first_pipe)
+        *ptr = *parent;
 
-    if (!tok || !curr)
+    *parent = new_node(NODE_PIPE);
+    (*parent)->val.str = "|";
+    add_child_node(*parent, *ptr);
+    *ptr = *parent;
+
+    null_node = new_node(NODE_COMMAND);
+    add_child_node(*ptr, null_node);
+    *ptr = null_node;
+    *first_pipe = 1;
+
+    return *ptr;
+}
+
+t_node *p_redirection(t_token *tok, t_cli *cli, t_curr_tok *curr, t_node *ptr, enum e_node_type type) {
+    t_node *redirection_node = new_node(type);
+    set_node_val_str(redirection_node, tok->text);
+
+    if (!redirection_node) {
+        free_node_tree(ptr);
+        free_token(tok);
         return NULL;
+    }
 
-    type = get_node_type(curr->tok_type);    
-    ptr = new_node(type);
-    parent = ptr;
-    if (!ptr)
-        return free_token(tok), NULL;
+    free_token(tok);
+    tok = get_token(cli, curr);
+    if (tok == EOF_TOKEN) {
+        free_node_tree(ptr);
+        return NULL;
+    }
 
-    cli = tok->cli;
-    do {
-        if (tok->text[0] == '\n')
-        {
-            free_token(tok);
-            break;
-        }
-        type = get_node_type(curr->tok_type);    
+    t_node *file_node = new_node(NODE_FILE);
+    set_node_val_str(file_node, tok->text);
+    if (!file_node) {
+        free_node_tree(ptr);
+        free_token(tok);
+        return NULL;
+    }
 
-        if (type == NODE_PIPE)
-        {
-            if (first_pipe)
-                ptr = parent;
+    add_child_node(redirection_node, file_node);
+    add_child_node(ptr, redirection_node);
 
-            parent = new_node(NODE_PIPE);
-            parent->val.str = "|";
-            add_child_node(parent, ptr);
-            ptr = parent;
+    return ptr;
+}
 
-            t_node *null_node = new_node(NODE_COMMAND);
-            add_child_node(ptr, null_node);
-            ptr = null_node;
-            first_pipe = 1;
-        }
-        else if (type == NODE_INPUT || type == NODE_OUTPUT || type == NODE_APPEND)
-        {
-            t_node *redirection_node = new_node(type);
-            set_node_val_str(redirection_node, tok->text);
-            if (!redirection_node)
-            {
-                free_node_tree(ptr);
-                free_token(tok);
-                return NULL;
-            }
-
-            free_token(tok);
-            tok = get_token(cli, curr);
-            if (tok == EOF_TOKEN)
-            {
-                free_node_tree(ptr);
-                return NULL;
-            }
-
-            t_node *file_node = new_node(NODE_FILE);
-            set_node_val_str(file_node, tok->text);
-            if (!file_node)
-            {
-                free_node_tree(ptr);
-                free_token(tok);
-                return NULL;
-            }
-            add_child_node(redirection_node, file_node);
-            add_child_node(ptr, redirection_node);
-        }
-        else if (type == NODE_HEREDOC)
-        {
+t_node *p_heredoc(t_token *tok, t_cli *cli, t_curr_tok *curr, t_node *ptr, enum e_node_type type)
+{
             t_node *redirection_node = new_node(type);
             set_node_val_str(redirection_node, tok->text);
 
@@ -126,8 +103,7 @@ t_node *parse_cmd(t_token *tok, t_curr_tok *curr)
                 return NULL;
             }
 
-            // Temp file handling.
-            char tmp_filename[] = "/tmp/heredocXXXXXX";  // Template for mkstemp().
+            char tmp_filename[] = "/tmp/heredocXXXXXX";
             int tmp_fd = mkstemp(tmp_filename);
             if (tmp_fd == -1)
             {
@@ -136,7 +112,6 @@ t_node *parse_cmd(t_token *tok, t_curr_tok *curr)
                 return NULL;
             }
 
-            // Write to the temp file until delimiter is encountered.
             char *line = NULL;
             
             ft_fgets(&line);
@@ -160,21 +135,58 @@ t_node *parse_cmd(t_token *tok, t_curr_tok *curr)
             }
             add_child_node(redirection_node, file_node);
             add_child_node(ptr, redirection_node);
-        }
+        return ptr;
+}
 
-        else
+t_node *p_word(t_token *tok, t_node *ptr, enum e_node_type type) {
+    t_node *word = new_node(type);
+    set_node_val_str(word, tok->text);
+
+    if (!word) {
+        free_node_tree(ptr);
+        free_token(tok);
+        return NULL;
+    }
+    add_child_node(ptr, word);
+
+    return ptr;
+}
+
+t_node *parse_cmd(t_token *tok, t_curr_tok *curr) {
+    t_node *ptr;
+    t_node *parent;
+    t_cli *cli;
+    t_node *word;
+    enum e_node_type type;
+    int first_pipe = 0;
+
+    if (!tok || !curr)
+        return NULL;
+
+    type = get_node_type(curr->tok_type);    
+    ptr = new_node(type);
+    parent = ptr;
+    if (!ptr)
+        return free_token(tok), NULL;
+
+    cli = tok->cli;
+    do {
+        if (tok->text[0] == '\n')
         {
-            word = new_node(type);
-            set_node_val_str(word, tok->text);
-            if (!word)
-            {
-                free_node_tree(ptr);
-                free_token(tok);
-                return NULL;
-            }
-            add_child_node(ptr, word);
+            free_token(tok);
+            break;
         }
-        // free_token(tok);
+        type = get_node_type(curr->tok_type);   
+
+        if (type == NODE_PIPE) {
+            ptr = p_pipe(&ptr, &parent, &first_pipe);
+        } else if (type == NODE_INPUT || type == NODE_OUTPUT || type == NODE_APPEND) {
+            ptr = p_redirection(tok, cli, curr, ptr, type);
+        } else if (type == NODE_HEREDOC) {
+            ptr = p_heredoc(tok, cli, curr, ptr, type);
+        } else {
+            ptr = p_word(tok, ptr, type);
+        }
     } while ((tok = get_token(cli, curr)) != EOF_TOKEN);
     return parent;
 }

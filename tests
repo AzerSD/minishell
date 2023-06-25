@@ -27,6 +27,17 @@ ls [!...]rc [!...]rc
 Command Substitution
 
 
+heredoc expansion
+cat << eof
+$OLDPWD
+$PWD
+''''$USER'''
+""$USER::""
+""$USER"" 
+'"'"$USER'"'"
+d$USERdd
+eof
+
 echo 42 > ff > gg > hh
 cat << eof | ls | cat << end
 cat << eof | l | cat << end
