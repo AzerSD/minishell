@@ -6,23 +6,12 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:05:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/23 18:09:15 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/26 05:35:17 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-struct s_word	*make_word_if(struct s_word *words, char *pstart)
-{
-	words = make_word(pstart);
-	if (!words)
-	{
-		fprintf(stderr, "error: insufficient memory\n");
-		free(pstart);
-		return (NULL);
-	}
-	return (words);
-}
 
 void	check_double_quotes(char **p, int *in_double_quotes)
 {
@@ -65,34 +54,33 @@ void	check_backtick(char **pstart, char **p)
 void	check_dollar_sign(char **pstart, char **p)
 {
 	char c, *p2;
+
 	if (**p == '$')
 	{
 		c = (*p)[1];
-		if (c == '?')
-		{
+		if (c == '\"')
+			(*pstart)++;
+		else if (c == '?')
 			substitute_word(pstart, p, 2, var_expand, 0);
-		}
 		else
 		{
-			if (!isalpha((*p)[1]) && (*p)[1] != '_')
-			{
+			if (!ft_isalpha((*p)[1]) && (*p)[1] != '_')
 				return ;
-			}
 			p2 = *p + 1;
 			while (*p2)
 			{
-				if (!isalnum(*p2) && *p2 != '_')
+				if (!ft_isalnum(*p2) && *p2 != '_')
 					break ;
 				p2++;
 			}
 			if (p2 == *p + 1)
-			{
 				return ;
-			}
+
 			substitute_word(pstart, p, p2 - *p, var_expand, 0);
 		}
 	}
 }
+
 
 struct s_word	*expand(char *orig_word)
 {
@@ -123,12 +111,11 @@ struct s_word	*expand(char *orig_word)
 		check_dollar_sign(&pstart, &p);
 		p++;
 	}
-	words = make_word_if(words, pstart);
+	words = make_word(pstart);
 	if (!words)
 	{
 		return (NULL);
 	}
-	free(pstart);
 	words = pathnames_expand(words);
 	remove_quotes(words);
 	return (words);

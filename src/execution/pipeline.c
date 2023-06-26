@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 02:34:11 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/25 00:42:37 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/25 02:45:20 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 int execute_pipeline(int argc, char **argv, t_node *node)
 {
     int pipefd[2];
-    pid_t child_pid;
-    int status;
+    pid_t child_pid1, child_pid2;
+    int status1, status2;
 
     if (pipe(pipefd) == -1)
     {
@@ -24,37 +24,46 @@ int execute_pipeline(int argc, char **argv, t_node *node)
         return 1;
     }
 
-    child_pid = fork();
-    if (child_pid == -1)
+    child_pid1 = fork();
+    if (child_pid1 == -1)
     {
         perror("fork");
         return 1;
     }
 
-    if (child_pid == 0)
+    if (child_pid1 == 0)
     {
         close(pipefd[0]);
         dup2(pipefd[1], STDOUT_FILENO);
         close(pipefd[1]);
-        execvp(argv[0], argv);
+        execc(node->first_child);
         exit(EXIT_FAILURE);
     }
 
-    close(pipefd[1]);
-
-    char buffer[4096];
-    ssize_t bytesRead;
-    while ((bytesRead = read(pipefd[0], buffer, sizeof(buffer))) > 0)
+    child_pid2 = fork();
+    if (child_pid2 == -1)
     {
-        write(STDOUT_FILENO, buffer, bytesRead);
+        perror("fork");
+        return 1;
+    }
+
+    if (child_pid2 == 0)
+    {
+        close(pipefd[1]);
+        dup2(pipefd[0], STDIN_FILENO);
+        close(pipefd[0]);
+        execc(node->first_child->next_sibling);
+        exit(EXIT_FAILURE);
     }
 
     close(pipefd[0]);
+    close(pipefd[1]);
 
-    waitpid(child_pid, &status, 0);
-    shell.status = WEXITSTATUS(status);
+    waitpid(child_pid1, &status1, 0);
+    waitpid(child_pid2, &status2, 0);
 
-    int pipeline_status = execc(node->first_child->next_sibling);
-    shell.status = pipeline_status;
-    return pipeline_status;
+    shell.status = WEXITSTATUS(status1);
+    shell.status = WEXITSTATUS(status2);
+
+    return shell.status;
 }

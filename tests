@@ -1,6 +1,13 @@
 https://github.com/thallard/minishell_tester
 https://github.com/solaldunckel/minishell-tester/tree/master
 
+tricky
+top | cat
+cat | cat | cat
+long input
+>>>>
+>>>
+
 
 cd -
 cd - -
