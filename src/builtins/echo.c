@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:25 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/26 14:15:15 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/27 15:19:28 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,15 @@ int ft_echo(int argc, ...)
     {
         while (argv[i] && argv[i][0] == '-')
         {
-            arg = argv[i] + 1;  // skip the '-' character
-            while (*arg == 'n') // check for 'n' characters
+            arg = argv[i] + 1;
+            while (*arg == 'n')
                 arg++;
-            if (*arg == '\0')   // if we've reached the end, this was a -n option
+            if (*arg == '\0')
             {
                 n_option = 1;
                 i++;
             }
-            else  // if there's more characters, this is not a -n option, so break the loop
+            else
                 break;
         }
 

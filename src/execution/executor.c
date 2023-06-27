@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/26 07:17:42 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/27 16:39:15 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,35 +27,43 @@ int	exec_cmd(int argc, char **argv)
 		execv(path, argv);
 		free(path);
 	}
+	/* set status here */
     return (errno == ENOEXEC ? 126 : errno == ENOENT ? 127 : EXIT_FAILURE);
 }
 
 pid_t fork_command(int argc, char **argv, t_node *node)
 {
     pid_t child_pid;
-
-    child_pid = fork();
-    if (child_pid == 0)
+    int builtin_status;
+	int fd;
+	fd = setup_redirections(node);
+    if (fd != 0)
+	{
+	    return (-1);
+	}
+    
+    if (exec_builtin(argc, argv) == 0)
+	{
+	    return shell.status; /* return builtin status */
+	}
+    else
     {
-        if (setup_redirections(node) != 0)
-            exit(0);
-        else
-		{
-			if (exec_builtin(argc, argv) != 0)
-			{
-				exec_cmd(argc, argv);
-				fprintf(stderr, "minishell: %s: command not found\n", argv[0]);
-			}
-		}
-		if (errno == ENOEXEC)
-			exit(126);
-		else if (errno == ENOENT)
-			exit(127);
-		else
-			exit(0);
+        child_pid = fork();
+        if (child_pid == 0)
+        {
+                exec_cmd(argc, argv);
+                fprintf(stderr, "minishell: %s: command not found\n", argv[0]);
+            if (errno == ENOEXEC)
+                exit(126);
+            else if (errno == ENOENT)
+                exit(127);
+            else
+                exit(0);
+        }
+        return (child_pid);
     }
-    return (child_pid);
 }
+
 
 int	parse_ast(t_node *node, int *argc, int *targc, char ***argv)
 {
@@ -109,7 +117,7 @@ int	execc(t_node *node)
 	int argc = 0;
 	int targc = 0;
 	pid_t child_pid;
-	int status;
+	int status = 0;
 
 	if (!node)
 		return (1);
@@ -143,6 +151,6 @@ int	execc(t_node *node)
 	}
 
 	waitpid(child_pid, &status, 0);
-	shell.status = WEXITSTATUS(status);
-    return status;
+	status = WEXITSTATUS(status);
+    return shell.status;
 }

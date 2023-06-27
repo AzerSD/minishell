@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/26 18:53:54 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/27 16:35:22 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ int	main(int argc, char **argv, char **env)
 	init_symtab(env);
 	shell->status = 0;
 	signals(&mirror_termios);
+	int original_stdout = dup(STDOUT_FILENO);
+	int original_stderr = dup(STDERR_FILENO);
+
 	while (true)
 	{
 		if (isatty(fileno(stdin)))
@@ -38,7 +41,7 @@ int	main(int argc, char **argv, char **env)
 			cmd = ft_strtrim(cmd, "\n");
 		}
 		if (!cmd)
-			exit(0);
+			exit(shell->status);
 
 		if (strncmp(cmd, "exit", 5) == 0)
 		{
@@ -52,11 +55,14 @@ int	main(int argc, char **argv, char **env)
 		cli.buffer = cmd;
 		cli.buff_size = strlen(cmd);
 		cli.cur_pos = INIT_SRC_POS;
-		parse_and_execute(&cli);
+		shell->status = parse_and_execute(&cli);
+		// printf("status: %d\n", shell->status);
+		dup2(original_stdout, STDOUT_FILENO);
+		dup2(original_stderr, STDERR_FILENO);
 		free(cmd);
 	}
 	rl_clear_history();
-	exit(0);
+	exit(shell->status);
 }
 
 int	parse_and_execute(t_cli *cli)
@@ -72,8 +78,7 @@ int	parse_and_execute(t_cli *cli)
 	// print_ast(ast_cmd, 0);
 	if (!ast_cmd)
 		return (1);
-	execc(ast_cmd);
-	return (0);
+	return (execc(ast_cmd));
 }
 
 void	print_ast(t_node *node, int indent)

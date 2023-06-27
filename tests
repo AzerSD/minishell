@@ -5,6 +5,8 @@ tricky
 top | cat
 cat | cat | cat
 long input
+error output of cd should be redirected to stdoutput
+cd "doesntexist" 2>/dev/null 
 >>>>
 >>>
 

@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 07:28:23 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/23 18:09:30 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/27 13:24:48 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void dump_export_local_symtab(void)
 		entry = entry->next;
 	}
 }
+
 struct s_symtab_entry *add_to_symtab(const char *symbol)
 {
 	if (!symbol || symbol[0] == '\0')
@@ -178,15 +179,10 @@ void symtab_entry_setval(struct s_symtab_entry *entry, char *val)
 
 void update_entry(struct s_symtab_entry *entry, char *new_val, char *name)
 {
-	struct s_symtab			*st;
-
-	st = s_symtab_stack.local_symtab;
-
-	entry = do_lookup(name, st);
+	entry = do_lookup(name, s_symtab_stack.local_symtab);
 	if (!entry)
 	{
-		fprintf(stderr, "%s not set", name);
+		entry = add_to_symtab(name);
 	}
 	symtab_entry_setval(entry, new_val);
-
 }

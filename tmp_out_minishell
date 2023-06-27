@@ -1,1 +1,1 @@
-ls | cat << stop | ls -la | cat << stop1 | ls | cat << stop2 | ls -la | cat << stop3 $USER ad as $HOME stop awd wf$PWDdqwdwqd stop1 das das stop2 dsq wd wf$PWDdqwdwqd stop3 
+minishell: cd: /Users/asioud/Desktop/42sh-1/file_tests: No such file or directory
