@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:58:16 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/25 02:10:07 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/26 09:24:44 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,11 +122,11 @@ t_node *p_heredoc(t_token *tok, t_cli *cli, t_curr_tok *curr, t_node *ptr)
         signal(SIGINT, SIG_DFL);
         signal(SIGQUIT, SIG_DFL);
 
-        ft_fgets(&line);
+        line = get_next_line(fileno(stdin));
         struct s_word *w = expand(line);
-        while (line && ft_strncmp(w->data, tok->text, ft_strlen(tok->text)) != 0) {
+        while (line && ft_strncmp(line, tok->text, ft_strlen(tok->text)) != 0) {
             write(tmp_fd, w->data, strlen(w->data));
-            ft_fgets(&line);
+            line = get_next_line(fileno(stdin));
             w = expand(line);
         }
 

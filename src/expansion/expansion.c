@@ -6,35 +6,40 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:05:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/26 05:35:17 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/26 19:07:16 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-void	check_double_quotes(char **p, int *in_double_quotes)
+void	check_single_quotes(char **p, int *in_double_quotes, int *in_single_quotes)
 {
-	if (**p == '"')
+	if (**p == '\'' && !*in_double_quotes)
+	{
+		*in_single_quotes = !(*in_single_quotes);
+		(*p)++;
+	}
+}
+
+void	check_double_quotes(char **p, int *in_double_quotes, int in_single_quotes)
+{
+	if (**p == '"' && !in_single_quotes)
 	{
 		*in_double_quotes = !(*in_double_quotes);
 		(*p)++;
 	}
 }
 
-void	check_backslash(char **p)
+
+
+
+
+void	check_backslash(char **p, int *escaped)
 {
 	if (**p == '\\')
 	{
-		(*p)++;
-	}
-}
-
-void	check_single_quotes(char **p, int in_double_quotes)
-{
-	if (**p == '\'' && !in_double_quotes)
-	{
-		*p += find_closing_quote(*p);
+			*escaped = 1;
 	}
 }
 
@@ -51,11 +56,60 @@ void	check_backtick(char **pstart, char **p)
 	}
 }
 
-void	check_dollar_sign(char **pstart, char **p)
+void	check_tilde(char **pstart, char **p, int in_double_quotes)
+{
+	char *p2;
+	int tilde_quoted;
+	int endme;
+	int len;
+
+	if (**p == '~' && !in_double_quotes)
+	{
+		tilde_quoted = 0;
+		endme = 0;
+		p2 = *p + 1;
+
+		while (*p2)
+		{
+			if (*p2 == '\\')
+			{
+				tilde_quoted = 1;
+				p2++;
+			}
+			else if (*p2 == '"' || *p2 == '\'')
+			{
+				int i = find_closing_quote(p2);
+				if (i)
+				{
+					tilde_quoted = 1;
+					p2 += i;
+				}
+			}
+			else if (*p2 == '/')
+				endme = 1;
+
+			if (endme)
+				break;
+
+			p2++;
+		}
+
+		if (tilde_quoted)
+		{
+			*p = p2;
+			return;
+		}
+
+		len = p2 - *p;
+		substitute_word(pstart, p, len, tilde_expansion, !in_double_quotes);
+	}
+}
+
+void	check_dollar_sign(char **pstart, char **p, int in_single_quotes, int *escaped)
 {
 	char c, *p2;
 
-	if (**p == '$')
+	if (**p == '$' && !in_single_quotes && !(*escaped))
 	{
 		c = (*p)[1];
 		if (c == '\"')
@@ -79,6 +133,10 @@ void	check_dollar_sign(char **pstart, char **p)
 			substitute_word(pstart, p, p2 - *p, var_expand, 0);
 		}
 	}
+	else if (*escaped)
+	{
+		(*p)++;
+	}
 }
 
 
@@ -88,9 +146,12 @@ struct s_word	*expand(char *orig_word)
 	char			*p;
 	size_t			i;
 	int				in_double_quotes;
+	int				in_single_quotes;
 	struct s_word	*words;
+	int				escaped;
 
 	in_double_quotes = 0;
+	in_single_quotes = 0;
 	char			*(*func)(char *);
 	if (!orig_word)
 		return (NULL);
@@ -104,11 +165,12 @@ struct s_word	*expand(char *orig_word)
 	i = 0;
 	while (*p)
 	{
-		check_double_quotes(&p, &in_double_quotes);
-		check_backslash(&p);
-		check_single_quotes(&p, in_double_quotes);
-		check_backtick(&pstart, &p);
-		check_dollar_sign(&pstart, &p);
+		escaped = 0;
+		check_tilde(&pstart, &p, in_double_quotes);
+		check_double_quotes(&p, &in_double_quotes, in_single_quotes);
+		check_single_quotes(&p, &in_double_quotes, &in_single_quotes);
+		check_backslash(&p, &escaped);
+		check_dollar_sign(&pstart, &p, in_single_quotes, &escaped);
 		p++;
 	}
 	words = make_word(pstart);
@@ -116,10 +178,12 @@ struct s_word	*expand(char *orig_word)
 	{
 		return (NULL);
 	}
+	
 	words = pathnames_expand(words);
 	remove_quotes(words);
 	return (words);
 }
+
 
 char	*word_expand_to_str(char *word)
 {
@@ -170,3 +234,4 @@ void	free_all_words(struct s_word *first)
 		free(del);
 	}
 }
+

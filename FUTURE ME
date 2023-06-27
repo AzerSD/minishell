@@ -8,3 +8,6 @@ make functions norm proof
 delete unused functions
 
 think about what you're doing and make the right decision
+
+expandable heredocs
+nonexpandable heredocs

@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:28:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/23 18:09:29 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/27 12:56:12 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,10 @@ void	string_to_symtab(const char *env_var)
 	struct s_symtab_entry	*entry;
 	char					*eq;
 	char *name;
+
 	eq = strchr(env_var, '=');
 	if (eq)
 	{
-		// int len = eq - env_var;
-        // char name[len + 1];
-		// strncpy(name, env_var, len);
-		// name[len] = '\0';
 		name = get_varname(env_var);
 		entry = add_to_symtab(name);
 		if (entry)
@@ -55,9 +52,7 @@ void	string_to_symtab(const char *env_var)
 void	init_symtab(char **env)
 {
 	struct s_symtab_entry	*entry;
-	struct s_symtab			*st;
 
-	st = s_symtab_stack.local_symtab;
 	init_symtab_stack();
 	char **p2 = env;
 	while (*p2)
@@ -65,9 +60,9 @@ void	init_symtab(char **env)
 		string_to_symtab(*p2);
 		p2++;
 	}
-	entry = do_lookup("OLDPWD", st);
+	entry = do_lookup("OLDPWD", s_symtab_stack.local_symtab);
 	if (entry)
-		update_entry(entry, NULL, "OLDPWD");
+		rem_from_symtab(entry, s_symtab_stack.local_symtab);
 }
 
 void	init_symtab_stack(void)
