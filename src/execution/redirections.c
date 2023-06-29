@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:09 by lhasmi            #+#    #+#             */
-/*   Updated: 2023/06/27 16:13:15 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/29 11:25:04 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int setup_redirections(t_node *node)
                 w = make_word(child->first_child->val.str);
                 remove_quotes(w);
                 fd = open(w->data, flags, 0644);
-                free_all_words(w);
                 if (fd == -1)
                 {
                     perror("open");
@@ -75,12 +74,13 @@ int setup_redirections(t_node *node)
                     close(fd);
                     return 1;
                 }
-                if (dup2(fd, std_fd_err) == -1)
-                {
-                    perror("dup2");
-                    close(fd);
-                    return 1;
-                }
+                if (std_fd_err == STDERR_FILENO)
+                    if (dup2(fd, std_fd_err) == -1)
+                    {
+                        perror("dup2");
+                        close(fd);
+                        return 1;
+                    }
 
                 close(fd);
             }

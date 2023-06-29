@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 02:34:11 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/27 16:33:18 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/29 09:27:51 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int execute_pipeline(int argc, char **argv, t_node *node)
 {
     int pipefd[2];
     pid_t child_pid1, child_pid2;
-    int status1, status2;
+    int status1 = 0, status2 = 0;
 
     if (pipe(pipefd) == -1)
     {
@@ -36,8 +36,8 @@ int execute_pipeline(int argc, char **argv, t_node *node)
         close(pipefd[0]);
         dup2(pipefd[1], STDOUT_FILENO);
         close(pipefd[1]);
-        execc(node->first_child);
-        exit(EXIT_FAILURE);
+        status1 = execc(node->first_child);
+        exit(shell.status);
     }
 
     child_pid2 = fork();
@@ -52,8 +52,8 @@ int execute_pipeline(int argc, char **argv, t_node *node)
         close(pipefd[1]);
         dup2(pipefd[0], STDIN_FILENO);
         close(pipefd[0]);
-        execc(node->first_child->next_sibling);
-        exit(EXIT_FAILURE);
+        shell.status = execc(node->first_child->next_sibling);
+        exit (shell.status);
     }
 
     close(pipefd[0]);
@@ -62,8 +62,7 @@ int execute_pipeline(int argc, char **argv, t_node *node)
     waitpid(child_pid1, &status1, 0);
     waitpid(child_pid2, &status2, 0);
 
-    shell.status = WEXITSTATUS(status1);
-    shell.status = WEXITSTATUS(status2);
-
-    return shell.status;
+    status1 = WEXITSTATUS(status1);
+    status2 = WEXITSTATUS(status2);
+    return status2;
 }

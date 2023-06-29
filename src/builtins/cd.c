@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:48 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/27 16:42:30 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/27 19:52:08 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	ft_cd(int argc, ...)
 		if (entry == NULL)
 		{
 			ft_printf_fd(STDERR_FILENO, "minishell: cd: HOME not set\n");
-			shell.status = 1;
 			return (1);
 		}
 		oldpwd = do_lookup("PWD", s_symtab_stack.local_symtab);
@@ -38,7 +37,6 @@ int	ft_cd(int argc, ...)
 		if (result != 0)
 		{
 			ft_printf_fd(STDERR_FILENO, "minishell: cd: %s: %s\n", entry->name, strerror(errno));
-			shell.status = 1;
 			return (1);
 		}
 		else
@@ -53,7 +51,17 @@ int	ft_cd(int argc, ...)
 		va_end(args);
 		oldpwd = do_lookup("PWD", s_symtab_stack.local_symtab);
 		pwd = do_lookup("PWD", s_symtab_stack.local_symtab);
-		result = chdir(*(path + 1));
+		if (strcmp(*(path + 1), "-") == 0) {
+			struct s_symtab_entry *oldpwd_entry = do_lookup("OLDPWD", s_symtab_stack.local_symtab);
+			if (oldpwd_entry == NULL) {
+				ft_printf_fd(STDERR_FILENO, "minishell: cd: OLDPWD not set\n");
+				return (1);
+			}
+			result = chdir(oldpwd_entry->val);
+			ft_printf_fd(STDOUT_FILENO, "%s\n", oldpwd_entry->val);
+		} else {
+			result = chdir(*(path + 1));
+		}
 		newpwd = getcwd(NULL, 0);
 		update_entry(oldpwd, oldpwd->val, "OLDPWD");
 		update_entry(pwd, newpwd, "PWD");
@@ -61,10 +69,8 @@ int	ft_cd(int argc, ...)
 		if (result != 0)
 		{
 			ft_printf_fd(STDERR_FILENO, "minishell: cd: %s: %s\n", *(path + 1), strerror(errno));
-			shell.status = 1;
 			return (1);
 		}
 	}
-	shell.status = 0;
 	return (0);
 }

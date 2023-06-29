@@ -6,13 +6,13 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:28:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/27 12:56:12 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/28 08:12:06 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char* get_varname(const char *str)
+char* get_varname(const char *str)
 {
     char* equalsSignPosition = strchr(str, '=');
     if (equalsSignPosition)

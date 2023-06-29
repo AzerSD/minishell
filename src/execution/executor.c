@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/27 16:39:15 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/29 11:24:49 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,33 +35,20 @@ pid_t fork_command(int argc, char **argv, t_node *node)
 {
     pid_t child_pid;
     int builtin_status;
-	int fd;
-	fd = setup_redirections(node);
-    if (fd != 0)
+
+	child_pid = fork();
+	if (child_pid == 0)
 	{
-	    return (-1);
+			exec_cmd(argc, argv);
+			fprintf(stderr, "minishell: %s: command not found\n", argv[0]);
+		if (errno == ENOEXEC)
+			exit(126);
+		else if (errno == ENOENT)
+			exit(127);
+		else
+			exit(0);
 	}
-    
-    if (exec_builtin(argc, argv) == 0)
-	{
-	    return shell.status; /* return builtin status */
-	}
-    else
-    {
-        child_pid = fork();
-        if (child_pid == 0)
-        {
-                exec_cmd(argc, argv);
-                fprintf(stderr, "minishell: %s: command not found\n", argv[0]);
-            if (errno == ENOEXEC)
-                exit(126);
-            else if (errno == ENOENT)
-                exit(127);
-            else
-                exit(0);
-        }
-        return (child_pid);
-    }
+	return (child_pid);
 }
 
 
@@ -118,6 +105,7 @@ int	execc(t_node *node)
 	int targc = 0;
 	pid_t child_pid;
 	int status = 0;
+	int ret = 0;
 
 	if (!node)
 		return (1);
@@ -134,15 +122,24 @@ int	execc(t_node *node)
 		int pipeline_status = execute_pipeline(argc, argv, node);
 		dup2(original_stdin, STDIN_FILENO);
 		close(original_stdin);
-
+		shell.status = pipeline_status;
 		return (pipeline_status);
 	}
 
+	if (setup_redirections(node))
+		return (1);
+		
 	if (parse_ast(node, &argc, &targc, &argv) != 0 || !node)
 		return (1);
 
+	
+	ret = exec_builtin(argc, argv);
+	if (ret >= 0)
+	{
+		shell.status = ret;
+		return ret;
+	}
 	child_pid = fork_command(argc, argv, node);
-
 	if (child_pid == -1)
 	{
 		fprintf(stderr, "error: failed to fork command: %s\n", strerror(errno));
@@ -152,5 +149,6 @@ int	execc(t_node *node)
 
 	waitpid(child_pid, &status, 0);
 	status = WEXITSTATUS(status);
-    return shell.status;
+	shell.status = status;
+    return status;
 }

@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/27 16:35:22 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/29 11:22:12 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int argc, char **argv, char **env)
 	{
 		if (isatty(fileno(stdin)))
 		{
-			cmd = readline(MAG"minishell> "RESET);
+			cmd = readline(MAG"minishell> "RESET); 
 		}
 		else
 		{
@@ -46,9 +46,9 @@ int	main(int argc, char **argv, char **env)
 		if (strncmp(cmd, "exit", 5) == 0)
 		{
 			free(cmd);
+			exit(shell->status);
 			free_all_mem(&shell->memory);
 			// system("leaks minishell");
-			exit(0);
 		}
 		if (isatty(STDIN_FILENO))
 			add_history(cmd);
@@ -56,7 +56,6 @@ int	main(int argc, char **argv, char **env)
 		cli.buff_size = strlen(cmd);
 		cli.cur_pos = INIT_SRC_POS;
 		shell->status = parse_and_execute(&cli);
-		// printf("status: %d\n", shell->status);
 		dup2(original_stdout, STDOUT_FILENO);
 		dup2(original_stderr, STDERR_FILENO);
 		free(cmd);

@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:58:16 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/26 09:24:44 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/29 09:50:33 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,12 +113,10 @@ t_node *p_heredoc(t_token *tok, t_cli *cli, t_curr_tok *curr, t_node *ptr)
 
     pid_t pid = fork();
     if (pid < 0) {
-        // Error occurred
         perror("fork");
         exit(EXIT_FAILURE);
     }
     else if (pid == 0) {
-        // Child process
         signal(SIGINT, SIG_DFL);
         signal(SIGQUIT, SIG_DFL);
 

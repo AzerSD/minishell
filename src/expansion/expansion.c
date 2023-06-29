@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:05:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/26 19:07:16 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/27 17:54:00 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,6 @@ void	check_double_quotes(char **p, int *in_double_quotes, int in_single_quotes)
 		(*p)++;
 	}
 }
-
-
-
-
 
 void	check_backslash(char **p, int *escaped)
 {
@@ -138,7 +134,6 @@ void	check_dollar_sign(char **pstart, char **p, int in_single_quotes, int *escap
 		(*p)++;
 	}
 }
-
 
 struct s_word	*expand(char *orig_word)
 {
