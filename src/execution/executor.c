@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/29 11:56:26 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/29 12:09:14 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,13 @@ pid_t fork_command(int argc, char **argv, t_node *node)
 	child_pid = fork();
 	if (child_pid == 0)
 	{
+			if (setup_redirections(node))
+				return (1);
+			else
+			{
 			exec_cmd(argc, argv);
 			fprintf(stderr, "minishell: %s: command not found\n", argv[0]);
+			}
 		if (errno == ENOEXEC)
 			exit(126);
 		else if (errno == ENOENT)
@@ -125,9 +130,6 @@ int	execc(t_node *node)
 		shell.status = pipeline_status;
 		return (pipeline_status);
 	}
-
-	if (setup_redirections(node))
-		return (1);
 		
 	if (parse_ast(node, &argc, &targc, &argv) != 0 || !node)
 		return (1);
