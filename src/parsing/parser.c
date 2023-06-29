@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:58:16 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/29 09:50:33 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/29 17:36:27 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,38 +111,59 @@ t_node *p_heredoc(t_token *tok, t_cli *cli, t_curr_tok *curr, t_node *ptr)
 
     char *line = NULL;
 
-    pid_t pid = fork();
-    if (pid < 0) {
-        perror("fork");
-        exit(EXIT_FAILURE);
-    }
-    else if (pid == 0) {
-        signal(SIGINT, SIG_DFL);
-        signal(SIGQUIT, SIG_DFL);
+        pid_t pid;
+        int pipe_fd[2];
 
-        line = get_next_line(fileno(stdin));
-        struct s_word *w = expand(line);
-        while (line && ft_strncmp(line, tok->text, ft_strlen(tok->text)) != 0) {
-            write(tmp_fd, w->data, strlen(w->data));
-            line = get_next_line(fileno(stdin));
-            w = expand(line);
+        if (pipe(pipe_fd) < 0) {
+            perror("pipe");
+            exit(EXIT_FAILURE);
         }
 
-        exit(EXIT_SUCCESS);
-    } else {
-        wait(NULL);
-    }
+        pid = fork();
+        if (pid < 0) {
+            perror("fork");
+            exit(EXIT_FAILURE);
+        }
+        else if (pid == 0) {
+            close(pipe_fd[1]); // Close the write end of the pipe in the child
 
-    close(tmp_fd);
-    free_token(tok);
-    t_node *file_node = new_node(NODE_FILE);
-    set_node_val_str(file_node, tmp_filename);
-    if (!file_node) {
-        free_node_tree(ptr);
-        return NULL;
-    }
-    add_child_node(redirection_node, file_node);
-    add_child_node(ptr, redirection_node);
+            char buffer[4096];
+            ssize_t bytes_read;
+            
+            signal(SIGINT, SIG_DFL);
+            signal(SIGQUIT, SIG_DFL);
+
+            // Read from the pipe and write to the temp file
+            while ((bytes_read = read(pipe_fd[0], buffer, sizeof(buffer) - 1)) > 0) {
+                buffer[bytes_read] = '\0';
+                write(tmp_fd, buffer, bytes_read);
+            }
+
+            exit(EXIT_SUCCESS);
+        } 
+        else {
+            close(pipe_fd[0]); // Close the read end of the pipe in the parent
+
+            line = get_next_line(fileno(stdin));
+            struct s_word *w = expand(line);
+            while (line && ft_strncmp(line, tok->text, ft_strlen(tok->text)) != 0) {
+                write(pipe_fd[1], w->data, strlen(w->data));
+                line = get_next_line(fileno(stdin));
+                w = expand(line);
+            }
+            close(pipe_fd[1]); // Close the write end of the pipe after done writing
+            wait(NULL);
+        }
+        free_token(tok);
+        t_node *file_node = new_node(NODE_FILE);
+        set_node_val_str(file_node, tmp_filename);
+        if (!file_node) {
+            free_node_tree(ptr);
+            return NULL;
+        }
+        add_child_node(redirection_node, file_node);
+        add_child_node(ptr, redirection_node);
+
 
     return ptr;
 }
