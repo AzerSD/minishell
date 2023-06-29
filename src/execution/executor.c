@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/29 11:24:49 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/29 11:56:26 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,6 @@ int	execc(t_node *node)
 	if (parse_ast(node, &argc, &targc, &argv) != 0 || !node)
 		return (1);
 
-	
 	ret = exec_builtin(argc, argv);
 	if (ret >= 0)
 	{
