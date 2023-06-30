@@ -6,107 +6,119 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:58 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/28 10:18:31 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/01 00:42:53 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_export(int argc, ...)
+int	print_export(struct s_symtab_entry *entry)
 {
-    struct s_symtab_entry   *entry = NULL;
-    struct s_symtab         *symtab = s_symtab_stack.local_symtab;
-    char   **argv;
-    char   *name;
-    char   *value;
-    char   *old_value;
+	while (entry)
+	{
+		ft_printf_fd(STDERR_FILENO, "declare -x %s=%s\n", \
+        entry->name, entry->val);
+		entry = entry->next;
+	}
+	return (0);
+}
 
-    va_list args;
-    va_start(args, argc);
-    argv = va_arg(args, char **);
-    entry = symtab->first;
-    va_end(args);
-    
-    if (argc == 1)
-    {
-        while (entry)
-        {
-            ft_printf_fd(STDERR_FILENO, "declare -x %s=%s\n", entry->name, entry->val);
-            entry = entry->next;
-        }
-        return (0);   
-    }
-    else
-    {
-        va_start(args, argc);
-        argv = va_arg(args, char **);
-        va_end(args);
+int	process_plus_equal(char *name, struct s_symtab *symtab, char **argv)
+{
+	char					*value;
+	char					*old_value;
+	struct s_symtab_entry	*entry;
+	char					*new_value;
 
-        // Check if the argument starts with a hyphen
-        if (argv[1][0] == '-')
-        {
-            ft_printf_fd(STDERR_FILENO, "bash: export: --: invalid option\nexport: usage: export [-nf] [name[=value] ...] or export -p\n");
-            return 2;
-        }
+	old_value = "";
+	if (!name || !is_valid_variable_name(argv[1]))
+	{
+		ft_printf_fd(STDERR_FILENO, \
+			"minishell: export: `%s': not a valid identifier\n", argv[1]);
+		return (1);
+	}
+	value = strtok(NULL, "+=");
+	entry = do_lookup(name, symtab);
+	if (entry)
+		old_value = entry->val;
+	new_value = malloc(strlen(old_value) + strlen(value) + 1);
+	strcpy(new_value, old_value);
+	strcat(new_value, value);
+	setenv(name, new_value, 1);
+	free(new_value);
+	return (0);
+}
 
-        name = get_varname(argv[1]);
-        if (!name)
-            name = argv[1];
-        if (strstr(argv[1], "+=") != NULL)
-        {
-            name = strtok(argv[1], "+=");
-            if (!name || !is_valid_variable_name(argv[1]))
-            {
-                ft_printf_fd(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n", argv[1]);
-                return 1;
-            }
-            value = strtok(NULL, "+=");
+int	process_equal(char *name, char **argv, struct s_symtab_entry *entry,
+		struct s_symtab *symtab)
+{
+	if (is_valid_variable_name(name))
+	{
+		string_to_symtab(argv[1]);
+		return (0);
+	}
+	else
+	{
+		ft_printf_fd(STDERR_FILENO,
+			"minishell: export: `%s': not a valid identifier\n",
+			name);
+		return (1);
+	}
+}
 
-            entry = do_lookup(name, symtab);
-            if (entry)
-                old_value = entry->val;
-            else
-                old_value = "";
+int	check_input_arguments(char **argv, struct s_symtab *symtab, char *name)
+{
+	struct s_symtab_entry	*entry;
 
-            // Append the value to the old value
-            char *new_value = malloc(strlen(old_value) + strlen(value) + 1);
-            strcpy(new_value, old_value);
-            strcat(new_value, value);
+	if (argv[1][0] == '-')
+		return (ft_printf_fd(STDERR_FILENO, EXPORT), 2);
+	name = get_varname(argv[1]);
+	if (!name)
+		name = argv[1];
+	if (strstr(argv[1], "+=") != NULL)
+	{
+		name = strtok(argv[1], "+=");
+		return (process_plus_equal(name, symtab, argv));
+	}
+	else if (strchr(argv[1], '=') != NULL)
+		return (process_equal(name, argv, entry, symtab));
+	else
+	{
+		entry = do_lookup(argv[1], symtab);
+		if (entry)
+			return (ft_printf_fd(STDERR_FILENO, "declare -x %s=%s\n", \
+            entry->name, entry->val), 0);
+		else if (!is_valid_variable_name(name))
+		    return (ft_printf_fd(STDERR_FILENO, \
+			"minishell: export: `%s': not a valid identifier\n", argv[1]), 1);
+		return (0);
+	}
+}
 
-            // Set the new value
-            setenv(name, new_value, 1);
-            free(new_value);
+int	ft_export(int argc, ...)
+{
+	struct s_symtab_entry	*entry;
+	struct s_symtab			*symtab;
+	char					**argv;
+	char					*name;
+	va_list					args;
 
-            return 0;
-        }
-        else if (strchr(argv[1], '=') != NULL)
-        {
-            if (is_valid_variable_name(name))
-            {
-                string_to_symtab(argv[1]);
-                return 0;
-            }
-            else
-            {
-                ft_printf_fd(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n", name);
-                return 1;
-            }
-        }
-        else
-        {
-            entry = do_lookup(argv[1], symtab);
-            if (entry)
-            {
-                ft_printf_fd(STDERR_FILENO, "declare -x %s=%s\n", entry->name, entry->val);
-                return 0;
-            }
-            else if (!is_valid_variable_name(name))
-            {
-                ft_printf_fd(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n", argv[1]);
-                return 1;
-            }
-            return 0;
-        }
-    }
-    return 0;
+	entry = NULL;
+	symtab = s_symtab_stack.local_symtab;
+	va_start(args, argc);
+	argv = va_arg(args, char **);
+	entry = symtab->first;
+	va_end(args);
+	if (argc == 1)
+	{
+		return (print_export(entry));
+	}
+	else
+	{
+		va_start(args, argc);
+		argv = va_arg(args, char **);
+		va_end(args);
+		return (check_input_arguments(argv, symtab, name));
+	}
+	return (0);
 }

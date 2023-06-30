@@ -6,16 +6,15 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:42:20 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/23 17:52:23 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/30 23:48:48 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
-int ft_dump(int argc, ...)
+int	ft_dump(int argc, ...)
 {
-    (void) argc;
-    dump_local_symtab();
-    return 0;
+	(void)argc;
+	dump_local_symtab();
+	return (0);
 }

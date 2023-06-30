@@ -6,22 +6,21 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:41:31 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/28 04:41:11 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/30 23:45:12 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-struct s_builtin builtins[] =
-	{
-		{"dump", ft_dump},
-		{"echo", ft_echo},
-		{"env", ft_env},
-		{"pwd", ft_pwd},
-		{"cd", ft_cd},
-		{"export", ft_export},
-		{"unset", ft_unset},
-		{"exit", ft_exit},
+struct s_builtin	builtins[] = {
+{"dump", ft_dump},
+{"echo", ft_echo},
+{"env", ft_env},
+{"pwd", ft_pwd},
+{"cd", ft_cd},
+{"export", ft_export},
+{"unset", ft_unset},
+{"exit", ft_exit},
 };
 
 t_builtin_info	*get_bt(void)
@@ -40,15 +39,20 @@ t_builtin_info	*get_bt(void)
 
 int	exec_builtin(int argc, char **argv)
 {
-	t_builtin_info	*bt = get_bt();
+	t_builtin_info	*bt;
+	int				i;
+
+	i = 0;
+	bt = get_bt();
 	if (argc < 1)
 		return (-1);
-	for (int i = 0; i < bt->count; i++)
+	while (i < bt->count)
 	{
 		if (strcmp(argv[0], bt->builtins[i].name) == 0)
 		{
 			return (bt->builtins[i].func(argc, argv));
 		}
+		i++;
 	}
 	return (-9);
 }
