@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/30 23:40:14 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/01 01:22:41 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void	main_loop(t_shell *shell, struct termios *mirror_termios)
 {
 	t_cli	cli;
 	char	*cmd;
-
+	int original_stdout = dup(STDOUT_FILENO);
+	int original_stderr = dup(STDERR_FILENO);
 	while (true)
 	{
 		if (isatty(fileno(stdin)))
@@ -63,6 +64,8 @@ void	main_loop(t_shell *shell, struct termios *mirror_termios)
 			add_history(cmd);
 		cli = init_cli(cmd);
 		shell->status = parse_and_execute(&cli);
+		dup2(original_stdout, STDOUT_FILENO);
+		dup2(original_stderr, STDERR_FILENO);
 	}
 }
 

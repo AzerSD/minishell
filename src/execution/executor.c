@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/30 09:14:28 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/01 01:10:45 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,20 @@ int	exec_cmd(int argc, char **argv)
 		execv(path, argv);
 		free(path);
 	}
-	/* set status here */
-    return (errno == ENOEXEC ? 126 : errno == ENOENT ? 127 : EXIT_FAILURE);
+	return (0);
 }
 
-pid_t fork_command(int argc, char **argv, t_node *node)
+pid_t	fork_command(int argc, char **argv, t_node *node)
 {
-    pid_t child_pid;
-    int builtin_status;
+	pid_t	child_pid;
+	int		builtin_status;
+
 
 	child_pid = fork();
 	if (child_pid == 0)
 	{
-			if (setup_redirections(node))
-				exit (1);
-			else
-			{
-			exec_cmd(argc, argv);
-			fprintf(stderr, "minishell: %s: command not found\n", argv[0]);
-			}
+		exec_cmd(argc, argv);
+		fprintf(stderr, "minishell: %s: command not found\n", argv[0]);
 		if (errno == ENOEXEC)
 			exit(126);
 		else if (errno == ENOENT)
@@ -56,10 +51,26 @@ pid_t fork_command(int argc, char **argv, t_node *node)
 	return (child_pid);
 }
 
+struct s_word	*get_node_content(t_node **child, char **str)
+{
+	struct s_word	*w;
+
+	if ((*child)->type == NODE_INPUT || (*child)->type == NODE_OUTPUT
+		|| (*child)->type == NODE_APPEND || (*child)->type == NODE_HEREDOC)
+	{
+		*child = (*child)->next_sibling;
+		return (NULL);
+	}
+	*str = (*child)->val.str;
+	w = expand(*str);
+	if (!w)
+		return (NULL);
+	return (w);
+}
+
 int	parse_ast(t_node *node, int *argc, int *targc, char ***argv)
 {
 	struct s_word	*w;
-	struct s_word	*w2;
 	t_node			*child;
 	char			*str;
 	char			*arg;
@@ -67,34 +78,22 @@ int	parse_ast(t_node *node, int *argc, int *targc, char ***argv)
 	child = node->first_child;
 	while (child)
 	{
-		if (child->type == NODE_INPUT || child->type == NODE_OUTPUT
-			|| child->type == NODE_APPEND || child->type == NODE_HEREDOC)
-			{
-				child = child->next_sibling;
-				continue ;
-			}
-		str = child->val.str;
-		w = expand(str);
+		w = get_node_content(&child, &str);
 		if (!w)
-		{
-			child = child->next_sibling;
 			continue ;
-		}
-		w2 = w;
-		while (w2)
+		while (w)
 		{
 			if (check_buffer_bounds(argc, targc, argv))
 			{
-				arg = my_malloc(&shell.memory, strlen(w2->data) + 1);
+				arg = my_malloc(&shell.memory, strlen(w->data) + 1);
 				if (arg)
 				{
-					strcpy(arg, w2->data);
+					strcpy(arg, w->data);
 					(*argv)[(*argc)++] = arg;
 				}
 			}
-			w2 = w2->next;
+			w = w->next;
 		}
-		free_all_words(w);
 		child = child->next_sibling;
 	}
 	if (check_buffer_bounds(argc, targc, argv))
@@ -129,15 +128,17 @@ int	execc(t_node *node)
 		shell.status = pipeline_status;
 		return (pipeline_status);
 	}
-		
+
 	if (parse_ast(node, &argc, &targc, &argv) != 0 || !node)
 		return (1);
 
+		if (setup_redirections(node))
+			return (1);
 	ret = exec_builtin(argc, argv);
 	if (ret >= 0)
 	{
 		shell.status = ret;
-		return ret;
+		return (ret);
 	}
 	child_pid = fork_command(argc, argv, node);
 	if (child_pid == -1)
@@ -150,5 +151,5 @@ int	execc(t_node *node)
 	waitpid(child_pid, &status, 0);
 	status = WEXITSTATUS(status);
 	shell.status = status;
-    return status;
+	return (status);
 }

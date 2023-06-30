@@ -11,3 +11,9 @@ old pwd emtpy
 < out cat >> out
 "$ls" -"la"
 $ls -"la"
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
