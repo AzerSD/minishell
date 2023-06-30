@@ -7,3 +7,7 @@ ech$var # var=o
 ls -l | 
 old pwd emtpy
 <<hallo
+
+< out cat >> out
+"$ls" -"la"
+$ls -"la"

@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:58:16 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/29 17:36:27 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/30 15:23:55 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,12 +144,41 @@ t_node *p_heredoc(t_token *tok, t_cli *cli, t_curr_tok *curr, t_node *ptr)
         else {
             close(pipe_fd[0]); // Close the read end of the pipe in the parent
 
+			struct s_word *w = NULL;
+			char * content;
+			int expanding = 1;
+			
+			if (getncount(tok->text, '\'') >= 2 || getncount(tok->text, '\"') >= 2)
+			{
+				w = make_word(tok->text);
+				expanding = 0;
+				remove_quotes(w);
+				tok->text = w->data;
+				free(w);
+				w = NULL;
+			}
+			
             line = get_next_line(fileno(stdin));
-            struct s_word *w = expand(line);
-            while (line && ft_strncmp(line, tok->text, ft_strlen(tok->text)) != 0) {
-                write(pipe_fd[1], w->data, strlen(w->data));
+			{
+				if (strchr(line, '$') && expanding)
+					w = expand(line);
+				if (w)
+					content = w->data;
+				else
+					content = line;
+			}
+            while (content && (ft_strncmp(content, tok->text, ft_strlen(content) - 1) != 0 ))
+			{
+                write(pipe_fd[1], content, strlen(content));
                 line = get_next_line(fileno(stdin));
-                w = expand(line);
+				if (strchr(line, '$') && expanding)
+					w = expand(line);
+				if (w)
+					content = w->data;
+				else
+					content = line;
+				w = NULL;
+				// printf("strlentok %zu\n", ft_strlen(content));
             }
             close(pipe_fd[1]); // Close the write end of the pipe after done writing
             wait(NULL);

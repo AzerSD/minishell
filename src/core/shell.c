@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/29 16:29:27 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/30 10:20:41 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,3 @@ void	print_ast(t_node *node, int indent)
 		child = child->next_sibling;
 	}
 }
-

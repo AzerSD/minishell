@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/29 12:09:14 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/30 09:14:28 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ pid_t fork_command(int argc, char **argv, t_node *node)
 	if (child_pid == 0)
 	{
 			if (setup_redirections(node))
-				return (1);
+				exit (1);
 			else
 			{
 			exec_cmd(argc, argv);
@@ -55,7 +55,6 @@ pid_t fork_command(int argc, char **argv, t_node *node)
 	}
 	return (child_pid);
 }
-
 
 int	parse_ast(t_node *node, int *argc, int *targc, char ***argv)
 {
