@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: ygolshan <ygolshan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:34:19 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 00:10:25 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/01 17:18:22 by ygolshan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	ft_env(int argc, ...)
 	char					**argv;
 	struct s_symtab			*symtab;
 	struct s_symtab_entry	*entry;
+
 
 	va_start(args, argc);
 	argv = va_arg(args, char **);

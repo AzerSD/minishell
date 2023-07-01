@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   symtab.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: ygolshan <ygolshan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 07:05:51 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 02:59:09 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/01 17:29:05 by ygolshan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SYMTAB_H
 # define SYMTAB_H
 
-struct s_symtab_stack		s_symtab_stack;
+// struct s_symtab_stack		s_symtab_stack;
 
 /**
  * @brief defines the type of a symbol table entry's value
@@ -26,16 +26,15 @@ enum						e_symbol_type
 	SYM_FUNC,
 };
 
-/**
- * @brief The symbol table entry structure
- * @param func_body	For shell functions. The AST of the function body
- * @param val_type  SYM_STR or SYM_FUNC
+//  * @brief The symbol table entry structure
+//  * @param func_body	For shell functions. The AST of the function body
+//  * @param val_type  SYM_STR or SYM_FUNC
 
-* @param flags		Different properties assigned to variables and functions like export and readonly flags
- * @param name		The name of the shell variable represented by the entry
- * @param next		Pointer to the next symbol table entry
- * @param val		String value (for shell variables only)
-*/
+// * @param flags		Different properties assigned to variables and functions like export and readonly flags
+//  * @param name		The name of the shell variable represented by the entry
+//  * @param next		Pointer to the next symbol table entry
+//  * @param val		String value (for shell variables only)
+// */
 struct						s_symtab_entry
 {
 	struct s_node			*func_body;
@@ -64,8 +63,7 @@ struct						s_symtab
 
 /**
  * @brief the symbol table stack structure
-
-	* @param symtab_count The number of the global symbol table currently in the stack.
+ * @param symtab_count The number of the global symbol table currently in the stack.
  * @param symtab_list   An array of pointers to the stack's symbol table
  * @param global_symtab Pointers to the global symbol tables.
  * @param local_symtab Pointers to the local symbol tables.
@@ -78,9 +76,8 @@ struct						s_symtab_stack
 	struct s_symtab			*local_symtab;
 };
 
-void	update_entry(struct s_symtab_entry *entry,
-					char *new_val,
-					char *name);
+void						update_entry(struct s_symtab_entry *entry,
+								char *new_val, char *name);
 
 /**
  * @brief Opposite of symbtab_entry_s
@@ -89,8 +86,8 @@ void	update_entry(struct s_symtab_entry *entry,
 	* and frees the memory used by the entry and adjusts the linked list pointers to
  * remove the entry from the symbol table
 */
-int	rem_from_symtab(struct s_symtab_entry *entry,
-					struct s_symtab *symtab);
+int							rem_from_symtab(struct s_symtab_entry *entry,
+								struct s_symtab *symtab);
 
 /**
  * @brief This function searches the given symbol table,
@@ -100,8 +97,8 @@ int	rem_from_symtab(struct s_symtab_entry *entry,
  * list pointers to look at each entry, in turn, until we find an entry whose
  * key matches our desired name. If no match is found, we return NULL.
 */
-struct s_symtab_entry	*do_lookup(const char *str,
-									struct s_symtab *symtable);
+struct s_symtab_entry		*do_lookup(const char *str,
+								struct s_symtab *symtable);
 
 /**
  * @brief This function adds a new entry to the local symbol table.
@@ -163,8 +160,8 @@ struct s_symtab				*new_symtab(void);
  * (if one exists). It then creates a copy of the new value and stores
  * it in the symbol table entry.
 */
-void	symtab_entry_setval(struct s_symtab_entry *entry,
-							char *val);
+void						symtab_entry_setval(struct s_symtab_entry *entry,
+								char *val);
 
 /**
  * @brief Free the symbol table

@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   symtab.c                                           :+:      :+:    :+:   */
+/*   symtab1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: ygolshan <ygolshan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 07:28:23 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 02:59:14 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/01 17:24:43 by ygolshan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+struct s_symtab_stack	s_symtab_stack = {0};
 
 void	dump_local_symtab(void)
 {
@@ -23,27 +25,27 @@ void	dump_local_symtab(void)
 	i = 0;
 	indent = symtab->level * 4;
 	fprintf(stderr, "%*sSymbol table [Level %d]:\r\n", indent, " ",
-			symtab->level);
+		symtab->level);
 	fprintf(stderr, "%*s===========================\r\n", indent, " ");
 	fprintf(stderr, "%*s  No               Symbol                    Val\r\n",
-			indent, " ");
+		indent, " ");
 	fprintf(stderr,
-			"%*s------ -------------------------------- ------------\r\n",
-			indent, " ");
+		"%*s------ -------------------------------- ------------\r\n",
+		indent, " ");
 	entry = symtab->first;
 	while (entry)
 	{
 		if (entry->val)
 			fprintf(stderr, "%*s[%04d] %-32s '%s'\r\n", indent, " ", i++,
-					entry->name, entry->val);
+				entry->name, entry->val);
 		else
 			fprintf(stderr, "%*s[%04d] %-32s \r\n", indent, " ", i++,
-					entry->name);
+				entry->name);
 		entry = entry->next;
 	}
 	fprintf(stderr,
-			"%*s------ -------------------------------- ------------\r\n",
-			indent, " ");
+		"%*s------ -------------------------------- ------------\r\n",
+		indent, " ");
 }
 
 void	dump_export_local_symtab(void)
@@ -73,9 +75,10 @@ struct s_symtab_entry	*add_to_symtab(const char *symbol)
 
 	if (!symbol || symbol[0] == '\0')
 		return (NULL);
+
 	st = s_symtab_stack.local_symtab;
 	entry = NULL;
-	if ((entry = do_lookup(symbol, st)))
+	if (entry == do_lookup(symbol, st))
 		return (entry);
 	entry = my_malloc(&shell.memory, sizeof(struct s_symtab_entry));
 	if (!entry)
@@ -104,42 +107,64 @@ struct s_symtab_entry	*add_to_symtab(const char *symbol)
 	return (entry);
 }
 
+// int	rem_from_symtab(struct s_symtab_entry *entry, struct s_symtab *symtab)
+// {
+// 	int						res;
+// 	struct s_symtab_entry	*e;
+// 	struct s_symtab_entry	*p;
+
+// 	res = 0;
+// 	if (entry->val)
+// 		free(entry->val);
+// 	if (entry->func_body)
+// 		free_node_tree(entry->func_body);
+// 	free(entry->name);
+// 	if (symtab->first == entry)
+// 	{
+// 		symtab->first = symtab->first->next;
+// 		if (symtab->last == entry)
+// 			symtab->last = NULL;
+// 		res = 1;
+// 	}
+// 	else
+// 	{
+// 		e = symtab->first;
+// 		p = NULL;
+// 		while (e && e != entry)
+// 		{
+// 			p = e;
+// 			e = e->next;
+// 		}
+// 		if (e == entry)
+// 		{
+// 			p->next = entry->next;
+// 			res = 1;
+// 		}
+// 	}
+// 	free (entry);
+// 	return (res);
+// }
+
 int	rem_from_symtab(struct s_symtab_entry *entry, struct s_symtab *symtab)
 {
-	int						res;
-	struct s_symtab_entry	*e;
-	struct s_symtab_entry	*p;
+	struct s_symtab_entry	**entry_ptr;
 
-	res = 0;
-	if (entry->val)
-		free(entry->val);
-	if (entry->func_body)
-		free_node_tree(entry->func_body);
-	free(entry->name);
-	if (symtab->first == entry)
+	entry_ptr = &symtab->first;
+
+	while (*entry_ptr && *entry_ptr != entry)
+		entry_ptr = &(*entry_ptr)->next;
+	if (*entry_ptr == entry)
 	{
-		symtab->first = symtab->first->next;
+		*entry_ptr = entry->next;
 		if (symtab->last == entry)
 			symtab->last = NULL;
-		res = 1;
+		free(entry->val);
+		free_node_tree(entry->func_body);
+		free(entry->name);
+		free(entry);
+		return (1);
 	}
-	else
-	{
-		e = symtab->first;
-		p = NULL;
-		while (e && e != entry)
-		{
-			p = e;
-			e = e->next;
-		}
-		if (e == entry)
-		{
-			p->next = entry->next;
-			res = 1;
-		}
-	}
-	free(entry);
-	return (res);
+	return (0);
 }
 
 struct s_symtab_entry	*do_lookup(const char *str, struct s_symtab *symtable)
@@ -158,59 +183,58 @@ struct s_symtab_entry	*do_lookup(const char *str, struct s_symtab *symtable)
 	return (NULL);
 }
 
-struct s_symtab_entry	*get_symtab_entry(const char *str)
-{
-	int						i;
-	struct s_symtab			*symtab;
-	struct s_symtab_entry	*entry;
+// struct s_symtab_entry *get_symtab_entry(const char *str)
+// {
+// 	int						i;
+// 	struct s_symtab			*symtab;
+// 	struct s_symtab_entry	*entry;
 
-	i = s_symtab_stack.symtab_count - 1;
-	do
-	{
-		symtab = s_symtab_stack.symtab_list[i];
-		entry = do_lookup(str, symtab);
-		if (entry)
-		{
-			return (entry);
-		}
-	} while (--i >= 0);
-	return (NULL);
-}
+// 	i = s_symtab_stack.symtab_count - 1;
+// 	entry = NULL;
+// 	while (i >= 0 && !entry)
+// 	{
+// 		symtab = s_symtab_stack.symtab_list[i];
+// 		entry = do_lookup(str, symtab);
+// 		i--;
+// 	}
+// 	return (entry);
+// }
 
-void	symtab_entry_setval(struct s_symtab_entry *entry, char *val)
-{
-	char	*val2;
+// void	symtab_entry_setval(struct s_symtab_entry *entry, char *val)
+// {
+// 	char	*val2;
 
-	if (entry->val)
-	{
-		free(entry->val);
-	}
-	if (!val)
-	{
-		entry->val = NULL;
-	}
-	else
-	{
-		val2 = my_malloc(&shell.memory, strlen(val) + 1);
-		if (val2)
-		{
-			strcpy(val2, val);
-		}
-		else
-		{
-			fprintf(stderr,
-					"error: no memory for symbol table entry's value\n");
-		}
-		entry->val = val2;
-	}
-}
+// 	if (entry->val)
+// 	{
+// 		free(entry->val);
+// 	}
+// 	if (!val)
+// 	{
+// 		entry->val = NULL;
+// 	}
+// 	else
+// 	{
+// 		val2 = my_malloc(&shell.memory, strlen(val) + 1);
+// 		if (val2)
+// 		{
+// 			strcpy(val2, val);
+// 		}
+// 		else
+// 		{
+// 			fprintf(stderr,
+// 				"error: no memory for symbol table entry's value\n");
+// 		}
+// 		entry->val = val2;
+// 	}
+// }
 
-void	update_entry(struct s_symtab_entry *entry, char *new_val, char *name)
-{
-	entry = do_lookup(name, s_symtab_stack.local_symtab);
-	if (!entry)
-	{
-		entry = add_to_symtab(name);
-	}
-	symtab_entry_setval(entry, new_val);
-}
+// void	update_entry(struct s_symtab_entry *entry,
+// 	char *new_val, char *name)
+// {
+// 	entry = do_lookup(name, s_symtab_stack.local_symtab);
+// 	if (!entry)
+// 	{
+// 		entry = add_to_symtab(name);
+// 	}
+// 	symtab_entry_setval(entry, new_val);
+// }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_symtab.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: ygolshan <ygolshan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:28:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 02:59:22 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/01 16:54:35 by ygolshan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 char	*get_varname(const char *str)
 {
-	char	*equalsSignPosition;
+	char	*equalssignposition;
 	int		len;
-	char	*varName;
+	char	*varname;
 
-	equalsSignPosition = strchr(str, '=');
-	if (equalsSignPosition)
+	equalssignposition = strchr(str, '=');
+	if (equalssignposition)
 	{
-		len = equalsSignPosition - str;
-		varName = my_malloc(&shell.memory, len + 1);
-		strncpy(varName, str, len);
-		varName[len] = '\0';
-		return (varName);
+		len = equalssignposition - str;
+		varname = my_malloc(&shell.memory, len + 1);
+		strncpy(varname, str, len);
+		varname[len] = '\0';
+		return (varname);
 	}
 	else
 		return (NULL);
@@ -56,6 +56,7 @@ void	string_to_symtab(const char *env_var)
 void	init_symtab(char **env)
 {
 	struct s_symtab_entry	*entry;
+	struct s_symtab_stack	s_symtab_stack;
 	char					**p2;
 
 	init_symtab_stack();
@@ -72,7 +73,8 @@ void	init_symtab(char **env)
 
 void	init_symtab_stack(void)
 {
-	struct s_symtab	*global_symtab;
+	struct s_symtab			*global_symtab;
+	struct s_symtab_stack	s_symtab_stack;
 
 	global_symtab = my_malloc(&shell.memory, sizeof(struct s_symtab));
 	s_symtab_stack.symtab_count = 1;

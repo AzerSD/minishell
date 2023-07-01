@@ -18,9 +18,14 @@
 
 void	free_symtab(struct s_symtab *symtab)
 {
+	struct s_symtab_entry	*entry;
+	struct s_symtab_entry	*next;
+
+	next = entry->next;
+	entry = symtab->first;
 	if (symtab == NULL)
 		return ;
-	struct s_symtab_entry *entry = symtab->first;
+
 	while (entry)
 	{
 		if (entry->name)
@@ -29,7 +34,7 @@ void	free_symtab(struct s_symtab *symtab)
 			free(entry->val);
 		if (entry->func_body)
 			free_node_tree(entry->func_body);
-		struct s_symtab_entry *next = entry->next;
+
 		free(entry);
 		entry = next;
 	}

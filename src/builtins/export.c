@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: ygolshan <ygolshan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:58 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 00:42:53 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/01 17:18:31 by ygolshan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	print_export(struct s_symtab_entry *entry)
 	while (entry)
 	{
 		ft_printf_fd(STDERR_FILENO, "declare -x %s=%s\n", \
-        entry->name, entry->val);
+    	entry->name, entry->val);
 		entry = entry->next;
 	}
 	return (0);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+         #
+#    By: ygolshan <ygolshan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/25 10:59:44 by asioud            #+#    #+#              #
-#    Updated: 2023/07/01 13:11:03 by asioud           ###   ########.fr        #
+#    Updated: 2023/07/01 16:29:23 by ygolshan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,8 +31,10 @@ READLINE		= /Users/$(USER)/.brew/opt/readline/include/readline
 
 SRC	=	core/shell \
 		\
-		symbol_table/symtab_stack \
-		symbol_table/symtab \
+		symbol_table/symtab_stack1 \
+		symbol_table/symtab_stack2 \
+		symbol_table/symtab1 \
+		symbol_table/symtab2 \
 		symbol_table/init_symtab \
 		symbol_table/free_symtab \
 		\
@@ -72,7 +74,8 @@ SRC	=	core/shell \
 		expansion/variable \
 		expansion/pattern \
 		\
-		signals/signals \
+		signals/signals1 \
+		signals/signals2 
 
 
 SRC_DIR		=	src/
