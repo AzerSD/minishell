@@ -12,41 +12,24 @@
 
 #include "minishell.h"
 
-/**
- * Allocates and returns a new string which is a copy of the original string 
- * (orig_cmd), skipping the first character if it's a backquote, or the first 
- * two characters otherwise.
- * @param orig_cmd The original command string.
- * @param backquoted A flag to indicate if the original string starts with a backquote.
- * @return A newly allocated string, or NULL if memory allocation failed.
-*/
 char *fix_cmd(char *orig_cmd, int backquoted) {
     char *cmd = my_malloc(&shell.memory, strlen(orig_cmd + 1));
     if (!cmd) {
-        fprintf(stderr,
-                "error: insufficient memory to perform command substitution\n");
+        fprintf(stderr, "error: insufficient memory to perform command substitution\n");
         return NULL;
     }
     strcpy(cmd, orig_cmd + (backquoted ? 1 : 2));
     return cmd;
 }
 
-/**
- * Modifies the input string 'cmd' by removing the last backquote character, 
- * and fixes the backslash-escaped characters.
- * @param cmd The input command string.
- * @param cmdlen The length of the input command string.
-*/
 void fix_backquoted_cmd(char *cmd, size_t cmdlen) {
     char *p1;
     char *p2;
     char *p3;
 
-    /* remove the last back quote */
     if (cmd[cmdlen - 1] == '`')
         cmd[cmdlen - 1] = '\0';
 
-    /* fix the backslash-escaped chars */
     p1 = cmd;
     do {
         if (*p1 == '\\' && (p1[1] == '$' || p1[1] == '`' || p1[1] == '\\')) {
@@ -57,24 +40,12 @@ void fix_backquoted_cmd(char *cmd, size_t cmdlen) {
     } while (*(++p1));
 }
 
-/**
- * Modifies the input string 'cmd' by removing the last closing brace character.
- * @param cmd The input command string.
- * @param cmdlen The length of the input command string.
-*/
 void remove_closing_brace(char *cmd, size_t cmdlen) {
     /* remove the last closing brace */
     if (cmd[cmdlen - 1] == ')')
         cmd[cmdlen - 1] = '\0';
 }
 
-/**
- * Reallocates and extends the buffer by a given amount of bytes.
- * @param buf The original buffer.
- * @param bufsz The size of the original buffer.
- * @param i The number of bytes to extend the buffer by.
- * @return The reallocated buffer, or NULL if memory allocation failed.
-*/
 char *extend_buffer(char *buf, size_t bufsz, int i) {
     char *buf2;
 
@@ -88,11 +59,6 @@ char *extend_buffer(char *buf, size_t bufsz, int i) {
     return buf;
 }
 
-/**
- * Removes trailing newline and carriage return characters from the input buffer.
- * @param buf The input buffer.
- * @param bufsz The size of the input buffer.
-*/
 void remove_trailing_newlines(char *buf, size_t bufsz) {
     int i = bufsz - 1;
     while (buf[i] == '\n' || buf[i] == '\r') {
@@ -101,13 +67,6 @@ void remove_trailing_newlines(char *buf, size_t bufsz) {
     }
 }
 
-/**
- * Substitutes a command in a shell-like manner, expanding backquotes and variable 
- * expressions. The original command is expected to be in a POSIX-style format 
- * (`$(command)`), but the older-style backquoted format (`command`) is also supported.
- * @param orig_cmd The original command string.
- * @return The substituted command string, or NULL if memory allocation failed.
-*/
 char *command_substitute(char *orig_cmd) {
     char b[1024];
     size_t bufsz = 0;
