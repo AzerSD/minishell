@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:05:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/27 17:54:00 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/01 19:06:03 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ struct s_word	*expand(char *orig_word)
 
 	in_double_quotes = 0;
 	in_single_quotes = 0;
-	char			*(*func)(char *);
+
 	if (!orig_word)
 		return (NULL);
 	if (!*orig_word)

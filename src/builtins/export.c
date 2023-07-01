@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:58 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 17:01:28 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/01 19:03:51 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ int	process_plus_equal(char *name, struct s_symtab *symtab, char **argv)
 	return (0);
 }
 
-int	process_equal(char *name, char **argv, struct s_symtab_entry *entry,
-		struct s_symtab *symtab)
+int	process_equal(char *name, char **argv)
 {
 	if (is_valid_variable_name(name))
 	{
@@ -81,7 +80,7 @@ int	check_input_arguments(char **argv, struct s_symtab *symtab, char *name)
 		return (process_plus_equal(name, symtab, argv));
 	}
 	else if (strchr(argv[1], '=') != NULL)
-		return (process_equal(name, argv, entry, symtab));
+		return (process_equal(name, argv));
 	else
 	{
 		entry = do_lookup(argv[1], symtab);
@@ -104,6 +103,7 @@ int	ft_export(int argc, ...)
 	va_list					args;
 
 	entry = NULL;
+	name = NULL;
 	symtab = s_symtab_stack.local_symtab;
 	va_start(args, argc);
 	argv = va_arg(args, char **);

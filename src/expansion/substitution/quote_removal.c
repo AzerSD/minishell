@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	handle_char(char **p, int *in_double_quotes)
+void	handle_quote_chars(char **p, int *in_double_quotes)
 {
 	if (**p == '"')
 	{
@@ -34,8 +34,11 @@ void	handle_char(char **p, int *in_double_quotes)
 	}
 	else if (**p == '`')
 		delete_char_at(*p, 0);
-	else if (**p == '\v' || **p == '\f' || **p == '\t' || **p == '\r'
-			|| **p == '\n')
+}
+
+void	handle_other_chars(char **p, int *in_double_quotes)
+{
+	if (**p == '\v' || **p == '\f' || **p == '\t' || **p == '\r' || **p == '\n')
 		(*p)++;
 	else if (**p == '\\')
 	{
@@ -50,7 +53,16 @@ void	handle_char(char **p, int *in_double_quotes)
 		(*p)++;
 }
 
-void process_word(struct s_word *word, int *in_double_quotes) {
+void	handle_char(char **p, int *in_double_quotes)
+{
+	if (**p == '"' || **p == '\'' || **p == '`')
+		handle_quote_chars(p, in_double_quotes);
+	else
+		handle_other_chars(p, in_double_quotes);
+}
+
+void	process_word(struct s_word *word, int *in_double_quotes)
+{
 	char	*p;
 
 	p = word->data;

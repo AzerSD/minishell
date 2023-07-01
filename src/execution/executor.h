@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:59 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 17:53:30 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/01 19:05:34 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*search_path(char *file);
 */
 void	free_argv(int argc, char **argv);
 
-int		execute_pipeline(int argc, char **argv, t_node *node);
+int		execute_pipeline(t_node *node);
 
 /**
  * @brief Executes a command represented by a node tree.
@@ -88,7 +88,7 @@ int		exec_cmd(int argc, char **argv);
  * @return The process ID of the child process on success,
  * 		or -1 if an error occurs.
 */
-pid_t	fork_command(int argc, char **argv, t_node *node);
+pid_t	fork_command(int argc, char **argv);
 
 ////////////////////////////////////////////////////////////////////
 //                          Redirections                          //

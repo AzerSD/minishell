@@ -20,9 +20,10 @@ FILE	*pipe_command(char *cmd)
 	return (fp);
 }
 
-char	*read_from_pipe(FILE *fp, char *buf, char *b, size_t *bufsz, char **p)
+char	*read_from_pipe(FILE *fp, char *b, size_t *bufsz, char **p)
 {
-	int	i;
+	int		i;
+	char	*buf;
 
 	i = fread(b, 1, 1024, fp);
 	while (i)
@@ -37,8 +38,6 @@ char	*read_from_pipe(FILE *fp, char *buf, char *b, size_t *bufsz, char **p)
 		else
 		{
 			buf = extend_buffer(buf, *bufsz, i);
-			if (!buf)
-				return (buf);
 			*p = buf + *bufsz;
 		}
 		*bufsz += i;
@@ -76,14 +75,14 @@ char	*read_and_cleanup_pipe(FILE *fp, char *cmd)
 	char	*buf;
 	char	*p;
 
+	buf = NULL;
 	if (!fp)
 	{
-		free(cmd);
 		fprintf(stderr, "error: %s: %s\n", "failed to open pipe",
 			strerror(errno));
 		return (NULL);
 	}
-	buf = read_from_pipe(fp, buf, b, &bufsz, &p);
+	buf = read_from_pipe(fp, b, &bufsz, &p);
 	if (!bufsz)
 	{
 		free(cmd);

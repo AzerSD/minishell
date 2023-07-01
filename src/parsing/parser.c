@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:58:16 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 03:02:23 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/01 19:05:52 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,6 @@ t_node *parse_cmd(t_token *tok, t_curr_tok *curr) {
     t_node *ptr;
     t_node *parent;
     t_cli *cli;
-    t_node *word;
     enum e_node_type type;
     int first_pipe = 0;
 

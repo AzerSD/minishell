@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 02:34:11 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 18:08:51 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/01 19:05:20 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ pid_t	create_second_child_process(int *pipefd, t_node *node)
 	return (child_pid2);
 }
 
-int	execute_pipeline(int argc, char **argv, t_node *node)
+int	execute_pipeline(t_node *node)
 {
 	int		pipefd[2];
 	int		status1;

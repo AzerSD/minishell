@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 17:53:14 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/01 19:05:44 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,9 @@ int	exec_cmd(int argc, char **argv)
 	return (0);
 }
 
-pid_t	fork_command(int argc, char **argv, t_node *node)
+pid_t	fork_command(int argc, char **argv)
 {
 	pid_t	child_pid;
-	int		builtin_status;
 
 	child_pid = fork();
 	if (child_pid == 0)
@@ -50,13 +49,13 @@ pid_t	fork_command(int argc, char **argv, t_node *node)
 	return (child_pid);
 }
 
-int	exec_child_process(int argc, char **argv, t_node *node)
+int	exec_child_process(int argc, char **argv)
 {
 	int		status;
 	pid_t	child_pid;
 
 	status = 0;
-	child_pid = fork_command(argc, argv, node);
+	child_pid = fork_command(argc, argv);
 	if (child_pid == -1)
 	{
 		fprintf(stderr, "error: failed to fork command: %s\n", strerror(errno));
@@ -90,7 +89,7 @@ int	execc(t_node *node)
 		return (string_to_symtab(node->first_child->val.str), 0);
 	if (node->type == NODE_PIPE)
 	{
-		pipeline_status = execute_pipeline(argc, argv, node);
+		pipeline_status = execute_pipeline(node);
 		shell.status = pipeline_status;
 		return (pipeline_status);
 	}
@@ -103,5 +102,5 @@ int	execc(t_node *node)
 		shell.status = ret;
 		return (ret);
 	}
-	return (exec_child_process(argc, argv, node));
+	return (exec_child_process(argc, argv));
 }
