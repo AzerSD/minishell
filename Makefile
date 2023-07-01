@@ -6,7 +6,7 @@
 #    By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/25 10:59:44 by asioud            #+#    #+#              #
-#    Updated: 2023/07/01 19:07:10 by asioud           ###   ########.fr        #
+#    Updated: 2023/07/02 00:45:40 by asioud           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,7 @@ SRC	=	core/shell \
 		expansion/substitution/quote_removal \
 		expansion/filename \
 		expansion/helper_functions \
+		expansion/expansion_check \
 		expansion/strings \
 		expansion/tilde \
 		expansion/variable \

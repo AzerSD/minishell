@@ -28,6 +28,15 @@ struct s_word
 	struct s_word	*next;
 };
 
+typedef struct s_marker
+{
+	char			*pstart;
+	char			*p;
+	int				in_dquotes;
+	int				in_squotes;
+	int				escaped;
+}	t_m;
+
 /**
  * @brief perform word expansion on a single word, pointed to by orig_word.
 
@@ -84,8 +93,9 @@ char			*wordlist_to_str(struct s_word *word);
 void			delete_char_at(char *str, size_t index);
 
 /**
- * @brief check if the given str is a valid name.. POSIX says a names can consist of
- * alphanumeric chars and underscores,and start with an alphabetic char or underscore.
+ * @brief check if the given str is a valid name.. POSIX says a
+ * names can consist of alphanumeric chars and underscores,and 
+ * start with an alphabetic char or underscore.
  * @returns 1 if str is a valid name, 0 otherwise.
  */
 int				is_name(char *str);
@@ -123,5 +133,18 @@ void			fix_backquoted_cmd(char *cmd, size_t cmdlen);
 void			remove_closing_brace(char *cmd, size_t cmdlen);
 char			*extend_buffer(char *buf, size_t bufsz, int i);
 void			remove_trailing_newlines(char *buf, size_t bufsz);
-
+void			handle_quote_chars(char **p, int *in_double_quotes);
+void			handle_other_chars(char **p, int *in_double_quotes);
+void			handle_char(char **p, int *in_double_quotes);
+void			remove_quotes(struct s_word *wordlist);
+size_t			find_closing_quote(char *data);
+void			process_word(struct s_word *word, int *in_double_quotes);
+void			check_single_quotes(char **p, int *in_double_quotes, \
+		int *in_single_quotes);
+void			check_double_quotes(char **p, int *in_double_quotes, \
+		int in_single_quotes);
+void			check_backslash(char **p, int *escaped);
+void			check_backtick(char **pstart, char **p);
+void			check_dollar_sign(char **pstart, char **p, \
+	int in_single_quotes, int *escaped);
 #endif

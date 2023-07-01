@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 14:48:37 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 16:17:45 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/01 22:30:11 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*fix_cmd(char *orig_cmd, int backquoted)
 	if (!cmd)
 	{
 		fprintf(stderr,
-				"error: insufficient memory to perform command substitution\n");
+			"error: insufficient memory to perform command substitution\n");
 		return (NULL);
 	}
 	if (backquoted)

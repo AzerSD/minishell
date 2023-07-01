@@ -12,86 +12,95 @@
 
 #include "minishell.h"
 
-void	save_matches(struct s_word **head, struct s_word **tail, glob_t *glob,
-			char **matches);
-void	link_to_existing_list(struct s_word **words, struct s_word **pw,
-			struct s_word **head, struct s_word **tail, struct s_word **w);
+struct s_glob_info
+{
+	struct s_word	*words;
+	struct s_word	*pw;
+	struct s_word	*w;
+	struct s_word	*head;
+	struct s_word	*tail;
+	char			**matches;
+	glob_t			glob;
+};
+
+void	save_matches(struct s_glob_info *glob_info)
+{
+	size_t	j;
+
+	j = 0;
+	while (j < glob_info->glob.gl_pathc)
+	{
+		if (glob_info->matches[j][0] != '.' || (glob_info->matches[j][1] != '.'
+				&& glob_info->matches[j][1] != '\0'
+				&& glob_info->matches[j][1] != '/'))
+		{
+			if (!glob_info->head)
+			{
+				glob_info->head = make_word(glob_info->matches[j]);
+				glob_info->tail = glob_info->head;
+			}
+			else
+			{
+				glob_info->tail->next = make_word(glob_info->matches[j]);
+				if (glob_info->tail->next)
+				{
+					glob_info->tail = glob_info->tail->next;
+				}
+			}
+		}
+		j++;
+	}
+}
+
+void	link_to_existing_list(struct s_glob_info *glob_info)
+{
+	if (glob_info->w == glob_info->words)
+	{
+		glob_info->words = glob_info->head;
+	}
+	else if (glob_info->pw)
+	{
+		glob_info->pw->next = glob_info->head;
+	}
+	glob_info->pw = glob_info->tail;
+	glob_info->tail->next = glob_info->w->next;
+	glob_info->w->next = NULL;
+}
+
+struct s_glob_info	init_glob_info(struct s_word *words)
+{
+	struct s_glob_info	glob_info;
+
+	glob_info.words = words;
+	glob_info.pw = NULL;
+	glob_info.w = words;
+	return (glob_info);
+}
 
 struct s_word	*pathnames_expand(struct s_word *words)
 {
-	struct s_word *w;
-	struct s_word *pw;
-	char *p;
-	glob_t glob;
-	char **matches;
-	struct s_word *head;
-	struct s_word *tail;
+	struct s_glob_info	glob_info;
 
-	w = words;
-	pw = NULL;
-	while (w)
+	glob_info = init_glob_info(words);
+	while (glob_info.w)
 	{
-		p = w->data;
-		if (!has_glob_chars(p, strlen(p)))
+		if (has_glob_chars(glob_info.w->data, strlen(glob_info.w->data)))
 		{
-			pw = w;
-			w = w->next;
-			continue ;
+			glob_info.matches = get_filename_matches(glob_info.w->data, \
+				&glob_info.glob);
+			if (glob_info.matches && glob_info.matches[0])
+			{
+				glob_info.head = NULL;
+				glob_info.tail = NULL;
+				save_matches(&glob_info);
+				link_to_existing_list(&glob_info);
+				free_all_words(glob_info.w);
+				glob_info.w = glob_info.tail;
+				globfree(&glob_info.glob);
+			}
 		}
-		matches = get_filename_matches(p, &glob);
-		if (!matches || !matches[0])
-		{
-			globfree(&glob);
-		}
-		else
-		{
-			head = NULL;
-			tail = NULL;
-			save_matches(&head, &tail, &glob, matches);
-			link_to_existing_list(&words, &pw, &head, &tail, &w);
-			free_all_words(w);
-			w = tail;
-			globfree(&glob);
-		}
-		pw = w;
-		w = w->next;
+		glob_info.pw = glob_info.w;
+		glob_info.w = glob_info.w->next;
 	}
-	return (words);
-}
-
-void	save_matches(struct s_word **head, struct s_word **tail, glob_t *glob,
-		char **matches)
-{
-	for (size_t j = 0; j < glob->gl_pathc; j++)
-	{
-		if (matches[j][0] == '.' &&
-			(matches[j][1] == '.' || matches[j][1] == '\0'
-					|| matches[j][1] == '/'))
-		{
-			continue ;
-		}
-		if (!*head)
-		{
-			*head = make_word(matches[j]);
-			*tail = *head;
-		}
-		else
-		{
-			(*tail)->next = make_word(matches[j]);
-			if ((*tail)->next)
-				*tail = (*tail)->next;
-		}
-	}
-}
-
-void	link_to_existing_list(struct s_word **words, struct s_word **pw,
-		struct s_word **head, struct s_word **tail, struct s_word **w)
-{
-	if (*w == *words)
-		*words = *head;
-	else if (*pw)
-		(*pw)->next = *head;
-	*pw = *tail;
-	(*tail)->next = (*w)->next;
-	(*w)->next = NULL;
+	return (glob_info.words);
 }

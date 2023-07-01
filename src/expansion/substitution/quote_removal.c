@@ -61,18 +61,6 @@ void	handle_char(char **p, int *in_double_quotes)
 		handle_other_chars(p, in_double_quotes);
 }
 
-void	process_word(struct s_word *word, int *in_double_quotes)
-{
-	char	*p;
-
-	p = word->data;
-	while (*p)
-	{
-		handle_char(&p, in_double_quotes);
-	}
-	word->len = strlen(word->data);
-}
-
 void	remove_quotes(struct s_word *wordlist)
 {
 	int				in_double_quotes;
@@ -111,56 +99,4 @@ size_t	find_closing_quote(char *data)
 		}
 	}
 	return (0);
-}
-
-size_t	find_closing_brace(char *data)
-{
-	char		opening_brace;
-	char		closing_brace;
-	size_t		ob_count;
-	size_t		cb_count;
-	size_t		i;
-	size_t		len;
-	char		quote;
-
-	opening_brace = data[0];
-	if (opening_brace != '{' && opening_brace != '(')
-		return (0);
-	if (opening_brace == '{')
-		closing_brace = '}';
-	else
-		closing_brace = ')';
-	ob_count = 1;
-	cb_count = 0;
-	i = 0;
-	len = strlen(data);
-	while (++i < len)
-	{
-		if ((data[i] == '"') || (data[i] == '\'') || (data[i] == '`'))
-		{
-			if (data[i - 1] == '\\')
-				continue ;
-			quote = data[i];
-			while (++i < len)
-			{
-				if (data[i] == quote && data[i - 1] != '\\')
-					break ;
-			}
-			if (i == len)
-				return (0);
-			continue ;
-		}
-		if (data[i - 1] != '\\')
-		{
-			if (data[i] == opening_brace)
-				ob_count++;
-			else if (data[i] == closing_brace)
-				cb_count++;
-		}
-		if (ob_count == cb_count)
-			break ;
-	}
-	if (ob_count != cb_count)
-		return (0);
-	return (i);
 }

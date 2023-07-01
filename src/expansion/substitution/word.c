@@ -6,43 +6,57 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 15:09:50 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 15:55:13 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/01 22:52:14 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	substitute_word(char **pstart, char **p, size_t len, char *(func)(char *),
-		int add_quotes)
+void	process_word(struct s_word *word, int *in_double_quotes)
 {
-	char *tmp;
-	char *tmp2;
-	size_t i;
+	char	*p;
 
-	tmp = my_malloc(&shell.memory, len + 1);
-	if (!tmp)
+	p = word->data;
+	while (*p)
 	{
-		(*p) += len;
-		return (0);
+		handle_char(&p, in_double_quotes);
 	}
-	strncpy(tmp, *p, len);
-	tmp[len--] = '\0';
+	word->len = strlen(word->data);
+}
+
+void	substitute_norm(char **tmp, char **tmp2, char *(func)(char *), \
+	size_t *len, char **p)
+{
+	*tmp = my_malloc(&shell.memory, *len + 1);
+	if (!*tmp)
+	{
+		(*p) += *len;
+		return ;
+	}
+	strncpy(*tmp, *p, *len);
+	(*tmp)[(*len)--] = '\0';
 	if (func)
 	{
-		tmp2 = func(tmp);
-		if (tmp2 == INVALID_VAR)
-			tmp2 = NULL;
-		if (tmp2)
-			free(tmp);
+		*tmp2 = func(*tmp);
+		if (*tmp2 == INVALID_VAR)
+			*tmp2 = NULL;
+		if (*tmp2)
+			free(*tmp);
 	}
 	else
-		tmp2 = tmp;
+		*tmp2 = *tmp;
+}
+
+int	substitute_word(char **pstart, char **p, size_t len, \
+	char *(func)(char *), int add_quotes)
+{
+	char	*tmp;
+	char	*tmp2;
+	size_t	i;
+
+	substitute_norm(&tmp, &tmp2, func, &len, p);
 	if (!tmp2)
-	{
-		(*p) += len;
-		free(tmp);
 		return (0);
-	}
 	i = (*p) - (*pstart);
 	tmp = quote_val(tmp2, add_quotes);
 	free(tmp2);
@@ -54,8 +68,43 @@ int	substitute_word(char **pstart, char **p, size_t len, char *(func)(char *),
 			(*pstart) = tmp2;
 			len = strlen(tmp);
 		}
-		free(tmp);
 	}
 	(*p) = (*pstart) + i + len - 1;
 	return (1);
+}
+
+char	*word_expand_to_str(char *word)
+{
+	struct s_word	*w;
+	char			*res;
+
+	w = expand(word);
+	if (!w)
+		return (NULL);
+	res = wordlist_to_str(w);
+	free_all_words(w);
+	return (res);
+}
+
+struct s_word	*make_word(char *str)
+{
+	struct s_word	*word;
+	size_t			len;
+	char			*data;
+
+	word = my_malloc(&shell.memory, sizeof(struct s_word));
+	if (!word)
+		return (NULL);
+	len = strlen(str);
+	data = my_malloc(&shell.memory, len + 1);
+	if (!data)
+	{
+		free(word);
+		return (NULL);
+	}
+	strcpy(data, str);
+	word->data = data;
+	word->len = len;
+	word->next = NULL;
+	return (word);
 }
