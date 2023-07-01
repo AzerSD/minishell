@@ -36,26 +36,26 @@ references:<br>
   - [ ] Multiline line editing
   
 
-- [ ] Builtins with their POSIX options (For more info type `help` once in the shell)
-  - [ ] `cd` | `chdir`
-  - [ ] `echo`
-  - [ ] `exit`
-  - [ ] `env`
+- [x] Builtins with their POSIX options (For more info type `help` once in the shell)
+  - [x] `cd` | `chdir`
+  - [x] `echo`
+  - [x] `exit`
+  - [x] `env`
   - [ ] `setenv`
   - [ ] `unsetenv`
-  - [ ] `unset`
-  - [ ] `export`
+  - [x] `unset`
+  - [x] `export`
   - [ ] `history`
-  - [ ] `pwd`
+  - [x] `pwd`
 
 - [ ] Exec
-  - [ ] Executing commands stored in path with their parameters
-  - [ ] Error handling and return value handling
-  - [ ] Redirections handled : `>`, `<`, `<<` and `>>`
-  - [ ] Pipes `|`
+  - [x] Executing commands stored in path with their parameters
+  - [x] Error handling and return value handling
+  - [x] Redirections handled : `>`, `<`, `<<` and `>>`
+  - [x] Pipes `|`
   - [ ] Logical operators `&&` and `||`
-  - [ ] Backquotes "‘" (TODO)
-  - [ ] Ihibitors """ (double quote), "’" (simple quote) et "\" (backslash).
+  - [x] Backquotes "‘" (TODO)
+  - [x] Ihibitors """ (double quote), "’" (simple quote) et "\" (backslash).
   - [ ] `;`
   - [ ] `\n` handling where `\n` can be used as a `;`. Example: `ls \n ls` == `ls ; ls`
 
