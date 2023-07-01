@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:58 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 00:42:53 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/01 17:01:28 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	print_export(struct s_symtab_entry *entry)
 	while (entry)
 	{
 		ft_printf_fd(STDERR_FILENO, "declare -x %s=%s\n", \
-        entry->name, entry->val);
+		entry->name, entry->val);
 		entry = entry->next;
 	}
 	return (0);
@@ -87,9 +87,9 @@ int	check_input_arguments(char **argv, struct s_symtab *symtab, char *name)
 		entry = do_lookup(argv[1], symtab);
 		if (entry)
 			return (ft_printf_fd(STDERR_FILENO, "declare -x %s=%s\n", \
-            entry->name, entry->val), 0);
+			entry->name, entry->val), 0);
 		else if (!is_valid_variable_name(name))
-		    return (ft_printf_fd(STDERR_FILENO, \
+			return (ft_printf_fd(STDERR_FILENO, \
 			"minishell: export: `%s': not a valid identifier\n", argv[1]), 1);
 		return (0);
 	}

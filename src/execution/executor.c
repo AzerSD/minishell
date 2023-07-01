@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 02:58:38 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/01 17:53:14 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,85 +50,51 @@ pid_t	fork_command(int argc, char **argv, t_node *node)
 	return (child_pid);
 }
 
-struct s_word	*get_node_content(t_node **child)
+int	exec_child_process(int argc, char **argv, t_node *node)
 {
-	struct s_word	*w;
-	char			*str;
+	int		status;
+	pid_t	child_pid;
 
-	if ((*child)->type == NODE_INPUT || (*child)->type == NODE_OUTPUT
-		|| (*child)->type == NODE_APPEND || (*child)->type == NODE_HEREDOC)
+	status = 0;
+	child_pid = fork_command(argc, argv, node);
+	if (child_pid == -1)
 	{
-		*child = (*child)->next_sibling;
-		return (NULL);
+		fprintf(stderr, "error: failed to fork command: %s\n", strerror(errno));
+		free_argv(argc, argv);
+		return (1);
 	}
-	str = (*child)->val.str;
-	w = expand(str);
-	if (!w)
-		return (NULL);
-	return (w);
+	waitpid(child_pid, &status, 0);
+	status = WEXITSTATUS(status);
+	shell.status = status;
+	return (status);
 }
 
-void	parse_ast(t_node *node, int *argc, int *targc, char ***argv)
+void	init_vars(int *argc, int *targc, char ***argv, int *ret)
 {
-	struct s_word	*w;
-	t_node			*child;
-	char			*arg;
-
-	child = node->first_child;
-	while (child)
-	{
-		w = get_node_content(&child);
-		if (!w)
-			continue ;
-		while (w)
-		{
-			if (check_buffer_bounds(argc, targc, argv))
-			{
-				arg = my_malloc(&shell.memory, strlen(w->data) + 1);
-				if (arg)
-				{
-					strcpy(arg, w->data);
-					(*argv)[(*argc)++] = arg;
-				}
-			}
-			w = w->next;
-		}
-		child = child->next_sibling;
-	}
-	if (check_buffer_bounds(argc, targc, argv))
-		(*argv)[(*argc)] = NULL;
+	*argc = 0;
+	*targc = 0;
+	*argv = NULL;
+	*ret = 0;
 }
 
 int	execc(t_node *node)
 {
-	char	**argv = NULL;
-	int		argc = 0;
-	int		targc = 0;
-	pid_t	child_pid;
-	int		status = 0;
-	int		ret = 0;
+	char	**argv;
+	int		argc;
+	int		targc;
+	int		ret;
+	int		pipeline_status;
 
-	if (!node)
-		return (1);
-
+	init_vars(&argc, &targc, &argv, &ret);
 	if (node->type == NODE_ASSIGNMENT)
-	{
-		string_to_symtab(node->first_child->val.str);
-		return (0);
-	}
-
+		return (string_to_symtab(node->first_child->val.str), 0);
 	if (node->type == NODE_PIPE)
 	{
-		int original_stdin = dup(STDIN_FILENO);
-		int pipeline_status = execute_pipeline(argc, argv, node);
-		dup2(original_stdin, STDIN_FILENO);
-		close(original_stdin);
+		pipeline_status = execute_pipeline(argc, argv, node);
 		shell.status = pipeline_status;
 		return (pipeline_status);
 	}
-
 	parse_ast(node, &argc, &targc, &argv);
-
 	if (setup_redirections(node))
 		return (1);
 	ret = exec_builtin(argc, argv);
@@ -137,16 +103,5 @@ int	execc(t_node *node)
 		shell.status = ret;
 		return (ret);
 	}
-	child_pid = fork_command(argc, argv, node);
-	if (child_pid == -1)
-	{
-		fprintf(stderr, "error: failed to fork command: %s\n", strerror(errno));
-		free_argv(argc, argv);
-		return (1);
-	}
-
-	waitpid(child_pid, &status, 0);
-	status = WEXITSTATUS(status);
-	shell.status = status;
-	return (status);
+	return (exec_child_process(argc, argv, node));
 }

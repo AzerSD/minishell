@@ -6,13 +6,12 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:59 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 02:53:02 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/01 17:53:30 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
-
 
 /**
  * @brief Searches for a file in the system's `PATH` environment variable.
@@ -70,7 +69,7 @@ int		execc(t_node *node);
  * @param argv A null-terminated strings that will store the arguments.
  * @return 0 on success, or a non-zero value if an error occurs.
 */
-void		parse_ast(t_node *node, int *argc, int *targc, char ***argv);
+void	parse_ast(t_node *node, int *argc, int *targc, char ***argv);
 
 /**
  * @brief Executes a command with the given arguments.
@@ -90,8 +89,6 @@ int		exec_cmd(int argc, char **argv);
  * 		or -1 if an error occurs.
 */
 pid_t	fork_command(int argc, char **argv, t_node *node);
-
-
 
 ////////////////////////////////////////////////////////////////////
 //                          Redirections                          //
