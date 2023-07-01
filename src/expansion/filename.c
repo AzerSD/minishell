@@ -112,7 +112,8 @@ void	save_matches(struct s_word **head, struct s_word **tail, glob_t *glob,
  * @brief Link the new list of matches to the existing list of words.
  * @param words Pointer to the head of the original list of words.
 
- * @param pw Pointer to the word previous to the one being globbed in the original list.
+
+	* @param pw Pointer to the word previous to the one being globbed in the original list.
  * @param head Pointer to the head of the new linked list.
  * @param tail Pointer to the tail of the new linked list.
  * @param w Pointer to the word being globbed in the original list.

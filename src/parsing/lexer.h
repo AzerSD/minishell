@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:58:43 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/23 04:20:07 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/01 03:00:11 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_cli
 	char		*buffer;
 	long int	buff_size;
 	long int	cur_pos;
-}	t_cli;
+}				t_cli;
 
 char			get_next_char(t_cli *cli);
 

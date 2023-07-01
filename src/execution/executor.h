@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:59 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/23 04:19:47 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/01 02:53:02 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int		execc(t_node *node);
  * @param argv A null-terminated strings that will store the arguments.
  * @return 0 on success, or a non-zero value if an error occurs.
 */
-int		parse_ast(t_node *node, int *argc, int *targc, char ***argv);
+void		parse_ast(t_node *node, int *argc, int *targc, char ***argv);
 
 /**
  * @brief Executes a command with the given arguments.

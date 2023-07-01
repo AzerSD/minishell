@@ -6,15 +6,12 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:58:21 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/23 04:20:16 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/01 02:59:53 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #ifndef PARSER_H
-#define PARSER_H
-
+# define PARSER_H
 
 /**
  * @brief Parses a command from a sequence of tokens.
@@ -28,6 +25,6 @@
  * If an error occurs during parsing, the function returns NULL and frees any
  * allocated resources.
  */
-t_node *parse_cmd(struct s_token *tok, t_curr_tok *curr);
-t_node *parse_pipeline(t_token *tok, t_curr_tok *curr);
+t_node	*parse_cmd(struct s_token *tok, t_curr_tok *curr);
+t_node	*parse_pipeline(t_token *tok, t_curr_tok *curr);
 #endif

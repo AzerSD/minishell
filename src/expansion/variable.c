@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   variable_expansion.c                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2023/03/30 17:12:08 by asioud            #+#    #+#             */
 /*   Updated: 2023/03/30 17:12:08 by asioud           ###   ########.fr       */
 /*                                                                            */
@@ -12,33 +15,35 @@
 
 #include "minishell.h"
 
-char* exit_code_to_str(unsigned char status)
+
+char	*exit_code_to_str(unsigned char status)
 {
-    static char str[4];  // 3 digits and a null terminator should be enough for any exit code
-    snprintf(str, sizeof(str), "%d", status);
-    return str;
+	static char str[4];
+		// 3 digits and a null terminator should be enough for any exit code
+	snprintf(str, sizeof(str), "%d", status);
+	return (str);
 }
 
 char	*var_expand(char *orig_var_name)
 {
-	size_t					len;
-	int						get_length;
-	char					*sub;
+	size_t len;
+	int get_length;
+	char *sub;
 	len = strlen(orig_var_name);
-	char					var_name[len + 1];
-	char					*empty_val;
-	char					*tmp;
-	char					setme;
-	struct s_symtab_entry	*entry;
-	char					*p;
-	int						longest;
-	char					*p2;
-	int						expanded;
-	char					buf[32];
+	char var_name[len + 1];
+	char *empty_val;
+	char *tmp;
+	char setme;
+	struct s_symtab_entry *entry;
+	char *p;
+	int longest;
+	char *p2;
+	int expanded;
+	char buf[32];
 
 	/* sanity check */
 	if (!orig_var_name)
-		return NULL;
+		return (NULL);
 	/*
 		*  if the var substitution is in the $var format, remove the $.
 		*  if it's in the ${var} format, remove the ${}.
@@ -54,7 +59,7 @@ char	*var_expand(char *orig_var_name)
 	}
 	/* check we don't have an empty varname */
 	if (!*orig_var_name)
-		return NULL;
+		return (NULL);
 	get_length = 0;
 	/* if varname starts with #, we need to get the string length */
 	if (*orig_var_name == '#')
@@ -64,24 +69,25 @@ char	*var_expand(char *orig_var_name)
 		{
 			fprintf(stderr, "error: invalid variable substitution: %s\n",
 					orig_var_name);
-			return INVALID_VAR;
+			return (INVALID_VAR);
 		}
 		get_length = 1;
 		orig_var_name++;
 	}
 	/* check we don't have an empty varname */
 	if (!*orig_var_name)
-		return NULL;
+		return (NULL);
 	if (strcmp(orig_var_name, "?") == 0)
 	{
-    	char* exit_code_str = exit_code_to_str(shell.status);
-    	char* exit_code_copy = strdup(exit_code_str);
-		if (exit_code_copy == NULL) 
+		char *exit_code_str = exit_code_to_str(shell.status);
+		char *exit_code_copy = strdup(exit_code_str);
+		if (exit_code_copy == NULL)
 		{
-			fprintf(stderr, "error: failed to allocate memory for exit code\n");
-			return INVALID_VAR;
+			fprintf(stderr,
+					"error: failed to allocate memory for exit code\n");
+			return (INVALID_VAR);
 		}
-		return exit_code_copy;
+		return (exit_code_copy);
 	}
 	/*
 		* search for a colon,
@@ -104,7 +110,6 @@ char	*var_expand(char *orig_var_name)
 	/* copy the varname to a buffer */
 	strncpy(var_name, orig_var_name, len);
 	var_name[len] = '\0';
-
 
 	/*
 		* commence variable substitution.
@@ -143,13 +148,14 @@ char	*var_expand(char *orig_var_name)
 				break ;
 			case '?': /* print error msg if variable is null/unset */
 				if (sub[1] == '\0')
-					fprintf(stderr, "error: %s: parameter not set\n", var_name);
+					fprintf(stderr, "error: %s: parameter not set\n",
+							var_name);
 				else
 					fprintf(stderr, "error: %s: %s\n", var_name, sub + 1);
-				return INVALID_VAR;
+				return (INVALID_VAR);
 			/* use alternative value (we don't have alt. value here) */
 			case '+':
-				return NULL;
+				return (NULL);
 			/*
 				* pattern matching notation. can't match anything
 				* if the variable is not defined, now can we?
@@ -158,7 +164,7 @@ char	*var_expand(char *orig_var_name)
 			case '%':
 				break ;
 			default: /* unknown operator */
-				return INVALID_VAR;
+				return (INVALID_VAR);
 			}
 		}
 		/* no substitution clause. return NULL as the variable is unset/null */
@@ -195,14 +201,14 @@ char	*var_expand(char *orig_var_name)
 				p = word_expand_to_str(tmp);
 				/* word expansion failed */
 				if (!p)
-					return INVALID_VAR;
+					return (INVALID_VAR);
 				longest = 0;
 				/* match the longest or shortest suffix */
 				if (*sub == '%')
 					longest = 1, sub++;
 				/* perform the match */
 				if ((len = match_suffix(sub, p, longest)) == 0)
-					return p;
+					return (p);
 				/* return the match */
 				p2 = my_malloc(&shell.memory, len + 1);
 				if (p2)
@@ -211,27 +217,27 @@ char	*var_expand(char *orig_var_name)
 					p2[len] = '\0';
 				}
 				free(p);
-				return p2;
+				return (p2);
 			case '#': /* match prefix */
 				sub++;
 				/* perform word expansion on the value */
 				p = word_expand_to_str(tmp);
 				/* word expansion failed */
 				if (!p)
-					return INVALID_VAR;
+					return (INVALID_VAR);
 				longest = 0;
 				/* match the longest or shortest suffix */
 				if (*sub == '#')
 					longest = 1, sub++;
 				/* perform the match */
 				if ((len = match_prefix(sub, p, longest)) == 0)
-					return p;
+					return (p);
 				/* return the match */
 				p2 = my_malloc(&shell.memory, strlen(p) - len + 1);
 				if (p2)
 					strcpy(p2, p + len);
 				free(p);
-				return p2;
+				return (p2);
 			default: /* unknown operator */
 				return INVALID_VAR;
 			}
@@ -280,5 +286,5 @@ char	*var_expand(char *orig_var_name)
 	if (expanded)
 		free(tmp);
 	/* return the result */
-	return p ? : INVALID_VAR;
+	return p ?: INVALID_VAR;
 }

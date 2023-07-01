@@ -2,26 +2,31 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   helper_functions.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2023/03/30 19:01:00 by asioud            #+#    #+#             */
 /*   Updated: 2023/03/30 19:01:00 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 /**
- * @brief convert a tree of tokens into a command string (i.e. re-create the original
+
+	* @brief convert a tree of tokens into a command string (i.e. re-create the original
  * command line from the token tree.
  * @returns the malloc'd command string, or NULL if there is an error.
 */
 char	*wordlist_to_str(struct s_word *word)
 {
-	size_t			len;
-	struct s_word	*w;
-	char			*str;
-	char			*str2;
+	size_t len;
+	struct s_word *w;
+	char *str;
+	char *str2;
 
 	if (!word)
 		return (NULL);
@@ -55,8 +60,8 @@ char	*wordlist_to_str(struct s_word *word)
  */
 void	delete_char_at(char *str, size_t index)
 {
-	char	*p1;
-	char	*p2;
+	char *p1;
+	char *p2;
 
 	p1 = str + index;
 	p2 = p1 + 1;
@@ -65,8 +70,10 @@ void	delete_char_at(char *str, size_t index)
 }
 
 /**
- * @brief check if the given str is a valid name.. POSIX says a names can consist of
- * alphanumeric chars and underscores,and start with an alphabetic char or underscore.
+
+	* @brief check if the given str is a valid name.. POSIX says a names can consist of
+
+	* alphanumeric chars and underscores,and start with an alphabetic char or underscore.
  * @returns 1 if str is a valid name, 0 otherwise.
  */
 int	is_name(char *str)
@@ -80,7 +87,8 @@ int	is_name(char *str)
 }
 
 /**
- * @brief substitute the substring of s1, from character start to character end,
+ * @brief substitute the substring of s1,
+	from character start to character end,
  * with the s2 string.
  * start should point to the first char to be deleted from s1.
  * end should point to the last char to be deleted from s, NOT the
@@ -89,12 +97,12 @@ int	is_name(char *str)
 */
 char	*substitute_str(char *s1, char *s2, size_t start, size_t end)
 {
-	char	before[start + 1];
-	size_t	afterlen;
+	char before[start + 1];
+	size_t afterlen;
 	afterlen = strlen(s1) - end + 1;
-	char	after[afterlen];
-	size_t	totallen;
-	char	*final;
+	char after[afterlen];
+	size_t totallen;
+	char *final;
 
 	strncpy(before, s1, start);
 	before[start] = '\0';
@@ -105,9 +113,9 @@ char	*substitute_str(char *s1, char *s2, size_t start, size_t end)
 	{
 		fprintf(stderr,
 				"error: insufficient memory to perform variable substitution\n");
-		return NULL;
+		return (NULL);
 	}
-	if (!totallen) 
+	if (!totallen)
 		final[0] = '\0';
 	else
 	{
@@ -116,7 +124,7 @@ char	*substitute_str(char *s1, char *s2, size_t start, size_t end)
 		strcat(final, after);
 	}
 	/* return the new string */
-	return final;
+	return (final);
 }
 
 /**
@@ -132,19 +140,19 @@ char	*substitute_str(char *s1, char *s2, size_t start, size_t end)
 int	substitute_word(char **pstart, char **p, size_t len, char *(func)(char *),
 		int add_quotes)
 {
-	char	*tmp;
-	char	*tmp2;
-	size_t	i;
+	char *tmp;
+	char *tmp2;
+	size_t i;
 
 	tmp = my_malloc(&shell.memory, len + 1);
 	if (!tmp)
 	{
 		(*p) += len;
-		return 0;
+		return (0);
 	}
 	strncpy(tmp, *p, len);
 	tmp[len--] = '\0';
-	
+
 	if (func)
 	{
 		tmp2 = func(tmp);
@@ -159,7 +167,7 @@ int	substitute_word(char **pstart, char **p, size_t len, char *(func)(char *),
 	{
 		(*p) += len;
 		free(tmp);
-		return 0;
+		return (0);
 	}
 	i = (*p) - (*pstart);
 	tmp = quote_val(tmp2, add_quotes);
@@ -175,5 +183,5 @@ int	substitute_word(char **pstart, char **p, size_t len, char *(func)(char *),
 	}
 
 	(*p) = (*pstart) + i + len - 1;
-	return 1;
+	return (1);
 }

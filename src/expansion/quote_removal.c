@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   qutation.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2023/03/30 17:19:36 by asioud            #+#    #+#             */
 /*   Updated: 2023/03/30 17:19:36 by asioud           ###   ########.fr       */
 /*                                                                            */
@@ -12,14 +15,15 @@
 
 #include "minishell.h"
 
+
 /**
  * @brief perform quote removal.
 */
 void	remove_quotes(struct s_word *wordlist)
 {
-	int				in_double_quotes;
-	struct s_word	*word;
-	char			*p;
+	int in_double_quotes;
+	struct s_word *word;
+	char *p;
 
 	if (!wordlist)
 		return ;
@@ -116,9 +120,9 @@ void	remove_quotes(struct s_word *wordlist)
 */
 size_t	find_closing_quote(char *data)
 {
-	char	quote;
-	size_t	i;
-	size_t	len;
+	char quote;
+	size_t i;
+	size_t len;
 
 	quote = data[0];
 	if (quote != '\'' && quote != '"' && quote != '`')
@@ -138,20 +142,21 @@ size_t	find_closing_quote(char *data)
 }
 
 /**
- * @brief find the closing brace that matches the opening brace, which is the first
+ * @brief find the closing brace that matches the opening brace,
+	which is the first
  * char of the data string.
  * @returns the zero-based index of the closing brace.. a return value of 0
  * means we didn't find the closing brace.
 */
 size_t	find_closing_brace(char *data)
 {
-	char	opening_brace;
-	char	closing_brace;
-	size_t	ob_count;
-	size_t	cb_count;
-	size_t	i;
-	size_t	len;
-	char	quote;
+	char opening_brace;
+	char closing_brace;
+	size_t ob_count;
+	size_t cb_count;
+	size_t i;
+	size_t len;
+	char quote;
 
 	/* check the type of opening brace we have */
 	opening_brace = data[0];
@@ -199,4 +204,3 @@ size_t	find_closing_brace(char *data)
 		return (0);
 	return (i);
 }
-

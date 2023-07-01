@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   tilde_expansion.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2023/03/30 17:15:34 by asioud            #+#    #+#             */
 /*   Updated: 2023/03/30 17:15:34 by asioud           ###   ########.fr       */
 /*                                                                            */
@@ -12,17 +15,19 @@
 
 #include "minishell.h"
 
+
 /**
  * @brief perform tilde expansion.
- * @returns the malloc'd expansion of the tilde prefix, NULL if expansion failed.
+ * @returns the malloc'd expansion of the tilde prefix,
+	NULL if expansion failed.
 */
 char	*tilde_expansion(char *s)
 {
-	char					*home;
-	size_t					len;
-	char					*s2;
-	struct s_symtab_entry	*entry;
-	struct passwd			*pass;
+	char *home;
+	size_t len;
+	char *s2;
+	struct s_symtab_entry *entry;
+	struct passwd *pass;
 
 	home = NULL;
 	len = strlen(s);
@@ -48,10 +53,10 @@ char	*tilde_expansion(char *s)
 			home = pass->pw_dir;
 	}
 	if (!home)
-		return NULL;
+		return (NULL);
 	s2 = my_malloc(&shell.memory, strlen(home) + 1);
 	if (!s2)
-		return NULL;
+		return (NULL);
 	strcpy(s2, home);
-	return s2;
+	return (s2);
 }

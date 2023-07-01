@@ -6,13 +6,11 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 22:28:21 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/19 17:38:46 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/01 02:59:29 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
-
 
 // This function is designed to handle terminal settings and is part of handling SIGINT signal
 void	save_settings_and_remove_c(struct termios *mirror_termios)
@@ -24,11 +22,11 @@ void	save_settings_and_remove_c(struct termios *mirror_termios)
 	//  we save the current terminal settings into the `mirror_termios`.
 	tcgetattr(STDIN_FILENO, mirror_termios);
 	//  this time we save  current settings of the terminal,
-		// into `termios_settings`.
+	// into `termios_settings`.
 	tcgetattr(STDIN_FILENO, &termios_settings);
 	// We modify `termios_settings` to disable echoing of control characters.
 	// `ECHOCTL` is a flag that, when set, enables the echoing,
-		// and "~ECHOCTL" creates a bitmask to turn it off.
+	// and "~ECHOCTL" creates a bitmask to turn it off.
 	// &= operator applies this bitmask to the `c_lflag` field of
 	// `termios_settings`, effectively turning off the `ECHOCTL` flag.
 	termios_settings.c_lflag &= ~ECHOCTL;
@@ -36,10 +34,9 @@ void	save_settings_and_remove_c(struct termios *mirror_termios)
 	// `TCSAFLUSH` option makes the change occur after all output written to the file descriptor has been transmitted,
 	// and all input that has been received but not read will be discarded before the change is made.
 	// The modified `termios_settings` is applied to the terminal,
-		// effectively disabling control character echoing.
+	// effectively disabling control character echoing.
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &termios_settings);
 }
-
 
 void	handle_sigint(int sig_num)
 {
@@ -99,10 +96,10 @@ void	signals(struct termios *mirror_termios)
 // 1. `sigaction` as a function:
 // This is a function used to change the action taken by a process on receipt of a specific signal.
 //  int sigaction(int signum, const struct sigaction *act,
-		// struct sigaction *oldact);
+// struct sigaction *oldact);
 
 //`signum` is the signal number,
-	// `act` is the new action to be set (NULL if no change is requested),
+// `act` is the new action to be set (NULL if no change is requested),
 // and `oldact` is used to save the old action (NULL if not needed).
 
 // 2. `sigaction` as a structure:
@@ -113,7 +110,7 @@ void	signals(struct termios *mirror_termios)
 //     void     (*sa_handler)(int);// a pointer to the signal-handling function,
 //     void     (*sa_sigaction)(int, siginfo_t *, void *);
 //     sigset_t   sa_mask;
-	//the set of signals that should be blocked during execution of the signal handling function,
+//the set of signals that should be blocked during execution of the signal handling function,
 //     int        sa_flags; //options for signal handling
 //     void     (*sa_restorer)(void);// obsolete and should not be used in new code.
 // };

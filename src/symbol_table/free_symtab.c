@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   free_symtab.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2023/04/12 19:24:17 by asioud            #+#    #+#             */
 /*   Updated: 2023/04/12 19:24:17 by asioud           ###   ########.fr       */
 /*                                                                            */
@@ -12,10 +15,11 @@
 
 #include "minishell.h"
 
-void free_symtab(struct s_symtab *symtab)
+
+void	free_symtab(struct s_symtab *symtab)
 {
 	if (symtab == NULL)
-		return;
+		return ;
 	struct s_symtab_entry *entry = symtab->first;
 	while (entry)
 	{

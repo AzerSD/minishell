@@ -6,32 +6,36 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:28:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/28 08:12:06 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/01 02:59:22 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char* get_varname(const char *str)
+char	*get_varname(const char *str)
 {
-    char* equalsSignPosition = strchr(str, '=');
-    if (equalsSignPosition)
+	char	*equalsSignPosition;
+	int		len;
+	char	*varName;
+
+	equalsSignPosition = strchr(str, '=');
+	if (equalsSignPosition)
 	{
-        int len = equalsSignPosition - str;
-        char *varName = my_malloc(&shell.memory, len + 1);
-        strncpy(varName, str, len);
-        varName[len] = '\0';
-        return varName;
-    }
+		len = equalsSignPosition - str;
+		varName = my_malloc(&shell.memory, len + 1);
+		strncpy(varName, str, len);
+		varName[len] = '\0';
+		return (varName);
+	}
 	else
-        return NULL;
+		return (NULL);
 }
 
 void	string_to_symtab(const char *env_var)
 {
 	struct s_symtab_entry	*entry;
 	char					*eq;
-	char *name;
+	char					*name;
 
 	eq = strchr(env_var, '=');
 	if (eq)
@@ -52,9 +56,10 @@ void	string_to_symtab(const char *env_var)
 void	init_symtab(char **env)
 {
 	struct s_symtab_entry	*entry;
+	char					**p2;
 
 	init_symtab_stack();
-	char **p2 = env;
+	p2 = env;
 	while (*p2)
 	{
 		string_to_symtab(*p2);
@@ -82,7 +87,7 @@ void	init_symtab_stack(void)
 	s_symtab_stack.symtab_list[0] = global_symtab;
 }
 
-struct s_symtab	*new_symtab()
+struct s_symtab	*new_symtab(void)
 {
 	struct s_symtab	*symtab;
 
