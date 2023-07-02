@@ -14,10 +14,10 @@
 
 char	*wordlist_to_str(struct s_word *word)
 {
-	size_t len;
-	struct s_word *w;
-	char *str;
-	char *str2;
+	size_t			len;
+	struct s_word	*w;
+	char			*str;
+	char			*str2;
 
 	if (!word)
 		return (NULL);
@@ -29,10 +29,6 @@ char	*wordlist_to_str(struct s_word *word)
 		w = w->next;
 	}
 	str = my_malloc(&shell.memory, len + 1);
-	if (!str)
-	{
-		return (NULL);
-	}
 	str2 = str;
 	w = word;
 	while (w)
@@ -66,33 +62,37 @@ int	is_name(char *str)
 	return (1);
 }
 
+
+char	*create_final_string(char *before, char *s2, char *after, char *final)
+{
+	strcpy(final, before);
+	strcat(final, s2);
+	strcat(final, after);
+	return (final);
+}
+
 char	*substitute_str(char *s1, char *s2, size_t start, size_t end)
 {
-	char before[start + 1];
-	size_t afterlen;
-	afterlen = strlen(s1) - end + 1;
-	char after[afterlen];
-	size_t totallen;
-	char *final;
+	char	before[start];
+	size_t	afterlen;
+	size_t	totallen;
+	char	*after;
+	char	*final;
 
 	strncpy(before, s1, start);
 	before[start] = '\0';
+	afterlen = strlen(s1) - end + 1;
+	after = (char *)malloc(afterlen * sizeof(char));
+	if (!after)
+		return (NULL);
 	strcpy(after, s1 + end + 1);
 	totallen = start + afterlen + strlen(s2);
 	final = my_malloc(&shell.memory, totallen + 1);
 	if (!final)
-	{
-		fprintf(stderr,
-			"error: insufficient memory to perform variable substitution\n");
-		return (NULL);
-	}
+		return (my_free(&shell.memory, final), NULL);
 	if (!totallen)
 		final[0] = '\0';
 	else
-	{
-		strcpy(final, before);
-		strcat(final, s2);
-		strcat(final, after);
-	}
-	return (final);
+		final = create_final_string(before, s2, after, final);
+	return (my_free(&shell.memory, after), final);
 }

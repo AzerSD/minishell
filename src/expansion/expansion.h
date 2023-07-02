@@ -37,6 +37,13 @@ typedef struct s_marker
 	int				escaped;
 }	t_m;
 
+typedef struct s_match
+{
+	char	*smatch;
+	char	*lmatch;
+	char	*str;
+}	t_match;
+
 /**
  * @brief perform word expansion on a single word, pointed to by orig_word.
 
@@ -67,9 +74,38 @@ struct s_word	*make_word(char *str);
 */
 void			free_all_words(struct s_word *first);
 
+/**
+ * @brief perform pathname (or filename) expansion,
+	matching files in the given *dir to the
+ * given *path,
+	which is treated as a regex pattern that specifies which filename(s)
+ * we should match.
+ * @returns a char ** pointer to the list of matched filenames,
+	or NULL if nothing matched.
+*/
 char			**get_filename_matches(char *pattern, glob_t *matches);
+
+/**
+ * @brief check if the string *p has any regular expression (regex) characters,
+ * which are *, ?, [ and ].
+*/
 int				has_glob_chars(char *p, size_t len);
+
+/**
+ * @brief find the shortest or longest prefix of str that matches
+ * pattern, depending on the value of longest.
+ * @return value is the index of 1 after the last character
+ * in the prefix, i.e. where you should put a '\0' to get 
+ * the prefix.
+*/
 int				match_prefix(char *pattern, char *str, int longest);
+
+/**
+ * @brief find the shortest or longest suffix of str that matches
+ * pattern, depending on the value of longest.
+ * @return value is the index of the first character in the
+ * matched suffix.
+*/
 int				match_suffix(char *pattern, char *str, int longest);
 
 char			*command_substitute(char *orig_cmd);
@@ -147,4 +183,9 @@ void			check_backslash(char **p, int *escaped);
 void			check_backtick(char **pstart, char **p);
 void			check_dollar_sign(char **pstart, char **p, \
 	int in_single_quotes, int *escaped);
+
+void			init_match(t_match *match);
+int				is_match_found(char *pattern, int longest, t_match *m);
+void			check_pattern(char *pattern, int longest, t_match *m, char **s);
+
 #endif

@@ -23,12 +23,15 @@
 */
 char	*strchr_any(char *string, char *chars)
 {
+	char	*s;
+	char 	*c;
+
 	if (!string || !chars)
 		return (NULL);
-	char *s = string;
+	s = string;
 	while (*s)
 	{
-		char *c = chars;
+		c = chars;
 		while (*c)
 		{
 			if (*s == *c)
@@ -58,7 +61,6 @@ char	*quote_val(char *val, int add_quotes)
 		strcpy(res, add_quotes ? "\"\"" : "");
 		return (res);
 	}
-	/* count the number of quotes needed */
 	len = 0;
 	char *v = val, *p;
 	while (*v)
@@ -75,18 +77,14 @@ char	*quote_val(char *val, int add_quotes)
 		v++;
 	}
 	len += strlen(val);
-	/* add two for the opening and closing quotes (optional) */
 	if (add_quotes)
 		len += 2;
-	/* alloc memory for quoted string */
 	res = my_malloc(&shell.memory, len + 1);
 	if (!res)
 		return (NULL);
 	p = res;
-	/* add opening quote (optional) */
 	if (add_quotes)
 		*p++ = '"';
-	/* copy quoted val */
 	v = val;
 	while (*v)
 	{
@@ -96,19 +94,15 @@ char	*quote_val(char *val, int add_quotes)
 		case '`':
 		case '$':
 		case '"':
-			/* add '\' for quoting */
 			*p++ = '\\';
-			/* copy char */
 			*p++ = *v++;
 			break ;
 
 		default:
-			/* copy next char */
 			*p++ = *v++;
 			break ;
 		}
 	}
-	/* add closing quote (optional) */
 	if (add_quotes)
 	{
 		*p++ = '"';

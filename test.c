@@ -1,8 +1,12 @@
-#include <stdio.h>
 #include <fcntl.h>
+#include <stdio.h>
 
-int main()
+int	main(void)
 {
-    int fd = open("test.c", O_RDONLY);
-    printf("%d\n", fd);
+	int	fd;
+
+	fd = open("test.c", O_RDONLY);
+	printf("%d\n", fd);
 }
+
+
