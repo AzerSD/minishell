@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 21:51:37 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/02 23:47:41 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/02 23:50:38 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,12 @@ char	*var_expand(char *orig_var_name)
 		var.result = var_is_set(&var);
 	if (var.result != NULL)
 		return (var.result);
+	if (var.tmp)
+	{
+		var.tmp = word_expand_to_str(var.tmp);
+		if (var.tmp)
+			var.expanded = 1;
+	}
 	check_result(&var);
-	if (var.expanded)
-		free(var.tmp);
 	return (var.p);
 }

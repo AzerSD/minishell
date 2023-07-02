@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 23:27:27 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/02 23:47:48 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/02 23:51:32 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,6 @@ void	init_svar_expand(struct s_var_expand *v)
 
 void	check_result(struct s_var_expand *var)
 {
-	if (var->tmp)
-	{
-		if ((var->tmp = word_expand_to_str(var->tmp)))
-			var->expanded = 1;
-	}
 	if (var->setme)
 	{
 		if (!var->entry)
@@ -80,7 +75,7 @@ char	*setup_var(char *orig_var_name, struct s_var_expand *var)
 		if (strchr(orig_var_name, ':'))
 		{
 			fprintf(stderr, "error: invalid variable substitution: %s\n",
-					orig_var_name);
+				orig_var_name);
 			return (INVALID_VAR);
 		}
 		var->get_length = 1;
@@ -107,7 +102,7 @@ char	*exit_code_expansion(char *orig_var_name)
 	if (exit_code_copy == NULL)
 	{
 		fprintf(stderr,
-				"error: failed to allocate memory for exit code\n");
+			"error: failed to allocate memory for exit code\n");
 		return (INVALID_VAR);
 	}
 	return (exit_code_copy);

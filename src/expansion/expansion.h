@@ -238,5 +238,4 @@ void			init_svar_expand(struct s_var_expand *v);
 char			*exit_code_to_str(unsigned char status);
 void			search_colon(char *orig_var_name, struct s_var_expand *var);
 
-
 #endif
