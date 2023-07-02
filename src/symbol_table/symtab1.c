@@ -6,7 +6,7 @@
 /*   By: ygolshan <ygolshan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 07:28:23 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/02 13:55:26 by ygolshan         ###   ########.fr       */
+/*   Updated: 2023/07/02 14:03:59 by ygolshan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,9 +129,7 @@ void	dump_local_symtab(void)
 	indent = symtab->level * 4;
 
 	print_symtab_header(symtab, indent);
-	// print_symtab_entries(symtab, indent);
 }
-
 
 void	dump_export_local_symtab(void)
 {
