@@ -160,8 +160,28 @@ char			*substitute_str(char *s1, char *s2, size_t start, size_t end);
 int				substitute_word(char **pstart, char **p, size_t len, \
 				char *(func)(char *), int add_quotes);
 
+/**
+ * @brief alloc memory for,
+	or extend the host (or user) names buffer if needed..
+ * in the first call, the buffer is initialized to 32 entries.. subsequent
+ * calls result in the buffer size doubling, so that it becomes 64, 128, ...
+ * count is the number of used entries in the buffer, while len is the number
+ * of alloc'd entries (size of buffer divided by sizeof(char **)).
+ * @returns 1 if the buffer is alloc'd/extended, 0 otherwise.
+*/
 int				check_buffer_bounds(int *count, int *len, char ***buf);
+
+/**
+ * @brief search string for any one of the passed characters.
+ * @returns a char pointer to the first occurence of any of the characters,
+ * NULL if none found.
+*/
 char			*strchr_any(char *string, char *chars);
+
+/**
+ * @return the passed string value, quoted in a format that can
+ * be used for reinput to the shell.
+*/
 char			*quote_val(char *val, int add_quotes);
 void			free_buffer(int len, char **buf);
 char			*fix_cmd(char *orig_cmd, int backquoted);

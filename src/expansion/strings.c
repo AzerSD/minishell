@@ -15,16 +15,10 @@
 
 #include "minishell.h"
 
-
-/**
- * @brief search string for any one of the passed characters.
- * @returns a char pointer to the first occurence of any of the characters,
- * NULL if none found.
-*/
 char	*strchr_any(char *string, char *chars)
 {
 	char	*s;
-	char 	*c;
+	char	*c;
 
 	if (!string || !chars)
 		return (NULL);
@@ -43,83 +37,72 @@ char	*strchr_any(char *string, char *chars)
 	return (NULL);
 }
 
-/**
- * @return the passed string value, quoted in a format that can
- * be used for reinput to the shell.
-*/
-char	*quote_val(char *val, int add_quotes)
+// function to calculate the extra length needed for the resultant string
+size_t count_extra_chars(char *v)
 {
-	char *res = NULL;
-	size_t len;
-	/* empty string */
-	if (!val || !*val)
-	{
-		len = add_quotes ? 3 : 1;
-		res = my_malloc(&shell.memory, len);
-		if (!res)
-			return (NULL);
-		strcpy(res, add_quotes ? "\"\"" : "");
-		return (res);
-	}
-	len = 0;
-	char *v = val, *p;
-	while (*v)
-	{
-		switch (*v)
-		{
-		case '\\':
-		case '`':
-		case '$':
-		case '"':
-			len++;
-			break ;
-		}
-		v++;
-	}
-	len += strlen(val);
-	if (add_quotes)
-		len += 2;
-	res = my_malloc(&shell.memory, len + 1);
-	if (!res)
-		return (NULL);
-	p = res;
-	if (add_quotes)
-		*p++ = '"';
-	v = val;
-	while (*v)
-	{
-		switch (*v)
-		{
-		case '\\':
-		case '`':
-		case '$':
-		case '"':
-			*p++ = '\\';
-			*p++ = *v++;
-			break ;
-
-		default:
-			*p++ = *v++;
-			break ;
-		}
-	}
-	if (add_quotes)
-	{
-		*p++ = '"';
-	}
-	*p = '\0';
-	return (res);
+    size_t len = 0;
+    while (*v)
+    {
+        if (*v == '\\' || *v == '`' || *v == '$' || *v == '"')
+            len++;
+        v++;
+    }
+    return len;
 }
 
-/**
- * @brief alloc memory for,
-	or extend the host (or user) names buffer if needed..
- * in the first call, the buffer is initialized to 32 entries.. subsequent
- * calls result in the buffer size doubling, so that it becomes 64, 128, ...
- * count is the number of used entries in the buffer, while len is the number
- * of alloc'd entries (size of buffer divided by sizeof(char **)).
- * @returns 1 if the buffer is alloc'd/extended, 0 otherwise.
-*/
+// function to copy characters from source to destination, adding escape character before specific characters
+void copy_and_escape(char *v, char *p)
+{
+    while (*v)
+    {
+        if (*v == '\\' || *v == '`' || *v == '$' || *v == '"')
+        {
+            *p++ = '\\';
+            *p++ = *v++;
+        }
+        else
+        {
+            *p++ = *v++;
+        }
+    }
+    *p = '\0';
+}
+
+char *quote_val(char *val, int add_quotes)
+{
+    char *res = NULL;
+    size_t len;
+    /* empty string */
+    if (!val || !*val)
+    {
+        len = add_quotes ? 3 : 1;
+        res = my_malloc(&shell.memory, len);
+        if (!res)
+            return (NULL);
+        strcpy(res, add_quotes ? "\"\"" : "");
+        return (res);
+    }
+    len = count_extra_chars(val);
+    len += strlen(val);
+    if (add_quotes)
+        len += 2;
+    res = my_malloc(&shell.memory, len + 1);
+    if (!res)
+        return (NULL);
+    char *p = res;
+    if (add_quotes)
+        *p++ = '"';
+    copy_and_escape(val, p);
+    if (add_quotes)
+    {
+        p = p + strlen(p);
+        *p++ = '"';
+        *p = '\0';
+    }
+    return (res);
+}
+
+
 int	check_buffer_bounds(int *count, int *len, char ***buf)
 {
 	if (*count >= *len)
