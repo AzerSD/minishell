@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_handlers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: ygolshan <ygolshan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:37:53 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 13:48:07 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/02 16:07:14 by ygolshan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	*handle_dollar_sign(t_cli *cli, t_curr_tok *curr)
 			add_to_buf(get_next_char(cli), curr);
 	}
 	else if (isalnum(nc) || nc == '*' || nc == '@' || nc == '#' || nc == '!'
-			|| nc == '?' || nc == '$')
+		|| nc == '?' || nc == '$')
 		add_to_buf(get_next_char(cli), curr);
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 #    By: ygolshan <ygolshan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/25 10:59:44 by asioud            #+#    #+#              #
-#    Updated: 2023/07/02 11:53:20 by ygolshan         ###   ########.fr        #
+#    Updated: 2023/07/02 17:26:44 by ygolshan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRC	=	core/shell \
 		symbol_table/symtab_stack2 \
 		symbol_table/symtab1 \
 		symbol_table/symtab2 \
+		symbol_table/symtab3 \
 		symbol_table/init_symtab \
 		symbol_table/free_symtab \
 		\
@@ -47,7 +48,6 @@ SRC	=	core/shell \
 		builtins/unset \
 		builtins/export \
 		builtins/builtins \
-		prompt/prompt \
 		\
 		\
 		execution/executor \
@@ -77,7 +77,8 @@ SRC	=	core/shell \
 		expansion/variable \
 		expansion/pattern \
 		\
-		signals/signals \
+		signals/signals1 \
+		signals/signals2 \
 
 
 SRC_DIR		=	src/

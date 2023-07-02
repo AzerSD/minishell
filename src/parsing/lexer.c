@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: ygolshan <ygolshan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:58:38 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 03:00:15 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/02 17:05:31 by ygolshan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	skip_whitespaces(t_cli *cli)
 {
 	char	c;
 
+	c = 0;
 	if (!cli || !cli->buffer)
 		return ;
 	while (((c = peek_char(cli)) != EOF) && (c == ' ' || c == '\t'))

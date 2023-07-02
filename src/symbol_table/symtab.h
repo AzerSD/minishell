@@ -6,7 +6,7 @@
 /*   By: ygolshan <ygolshan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 07:05:51 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/02 11:58:18 by ygolshan         ###   ########.fr       */
+/*   Updated: 2023/07/02 17:22:06 by ygolshan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,4 +210,5 @@ void						init_symtab(char **env);
 void						string_to_symtab(const char *env_var);
 
 char						*get_varnamen(const char *str);
+void						free_symtab_entry(struct s_symtab_entry *entry);
 #endif

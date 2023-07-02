@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: ygolshan <ygolshan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:58:31 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 13:01:08 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/02 17:30:42 by ygolshan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define TOKENIZER_H
 # define EOF_TOKEN NULL
 
-typedef enum
+typedef	enum
 {
 	PARSE_DEFAULT,
 	PARSE_ASSIGNMENT,
