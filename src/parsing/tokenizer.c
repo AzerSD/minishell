@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:58:27 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 13:05:12 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/02 19:56:11 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ t_token	*get_token(t_cli *cli, t_curr_tok *curr)
 	nc = get_next_char(cli);
 	if (nc == ERRCHAR || nc == EOF || init_curr_tok_buff(cli, curr) != 0)
 		return (EOF_TOKEN);
-	do
+	nc = get_next_char(cli);
+	while (nc != EOF)
 	{
 		if (nc == '"' || nc == '\'' || nc == '`')
 			handle_quotes(cli, curr, nc);
@@ -71,9 +72,10 @@ t_token	*get_token(t_cli *cli, t_curr_tok *curr)
 			handle_redirection(cli, curr, &endloop, nc);
 		else
 			add_to_buf(nc, curr);
+		nc = get_next_char(cli);
 		if (endloop == 1)
 			break ;
-	} while ((nc = get_next_char(cli)) != EOF);
+	}
 	if (curr->tok_buff_index == 0)
 		return (EOF_TOKEN);
 	if (curr->tok_buff_index >= curr->tok_buff_size)

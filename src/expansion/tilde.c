@@ -1,57 +1,61 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tilde_expansion.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
-	+:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+      
-	+#+        */
-/*                                                +#+#+#+#+#+  
-	+#+           */
-/*   Created: 2023/03/30 17:15:34 by asioud            #+#    #+#             */
-/*   Updated: 2023/03/30 17:15:34 by asioud           ###   ########.fr       */
+/*   tilde.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/02 19:50:34 by asioud            #+#    #+#             */
+/*   Updated: 2023/07/02 19:50:34 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+char	*find_home_from_symtab(void)
+{
+	struct s_symtab_entry	*entry;
+	struct passwd			*pass;
+	char					*home;
 
-/**
- * @brief perform tilde expansion.
- * @returns the malloc'd expansion of the tilde prefix,
-	NULL if expansion failed.
-*/
+	home = NULL;
+	entry = get_symtab_entry("HOME");
+	if (entry && entry->val)
+		home = entry->val;
+	else
+	{
+		pass = getpwuid(getuid());
+		if (pass)
+			home = pass->pw_dir;
+	}
+	return (home);
+}
+
+char	*find_home_from_pwnam(char *s)
+{
+	struct passwd	*pass;
+	char			*home;
+
+	home = NULL;
+	pass = getpwnam(s + 1);
+	if (pass)
+		home = pass->pw_dir;
+	return (home);
+}
+
 char	*tilde_expansion(char *s)
 {
-	char *home;
-	size_t len;
-	char *s2;
-	struct s_symtab_entry *entry;
-	struct passwd *pass;
+	char	*home;
+	char	*s2;
+	size_t	len;
 
 	home = NULL;
 	len = strlen(s);
 	s2 = NULL;
 	if (len == 1)
-	{
-		entry = get_symtab_entry("HOME");
-		if (entry && entry->val)
-			home = entry->val;
-		else
-		{
-			pass = getpwuid(getuid());
-			if (pass)
-			{
-				home = pass->pw_dir;
-			}
-		}
-	}
+		home = find_home_from_symtab();
 	else
-	{
-		pass = getpwnam(s + 1);
-		if (pass)
-			home = pass->pw_dir;
-	}
+		home = find_home_from_pwnam(s);
 	if (!home)
 		return (NULL);
 	s2 = my_malloc(&shell.memory, strlen(home) + 1);

@@ -6,7 +6,7 @@
 #    By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/25 10:59:44 by asioud            #+#    #+#              #
-#    Updated: 2023/07/02 01:59:00 by asioud           ###   ########.fr        #
+#    Updated: 2023/07/02 19:46:30 by asioud           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,6 +76,7 @@ SRC	=	core/shell \
 		expansion/variable \
 		expansion/pattern \
 		expansion/pattern_utils \
+		expansion/utils \
 		\
 		signals/signals \
 

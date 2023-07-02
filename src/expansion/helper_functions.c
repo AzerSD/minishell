@@ -62,7 +62,6 @@ int	is_name(char *str)
 	return (1);
 }
 
-
 char	*create_final_string(char *before, char *s2, char *after, char *final)
 {
 	strcpy(final, before);
@@ -73,12 +72,13 @@ char	*create_final_string(char *before, char *s2, char *after, char *final)
 
 char	*substitute_str(char *s1, char *s2, size_t start, size_t end)
 {
-	char	before[start];
+	char	*before;
 	size_t	afterlen;
 	size_t	totallen;
 	char	*after;
 	char	*final;
 
+	before = (char *)my_malloc(&shell.memory, (start + 1) * sizeof(char));
 	strncpy(before, s1, start);
 	before[start] = '\0';
 	afterlen = strlen(s1) - end + 1;

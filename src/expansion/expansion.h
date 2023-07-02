@@ -113,6 +113,11 @@ void			remove_quotes(struct s_word *wordlist);
 size_t			find_closing_quote(char *data);
 size_t			find_closing_brace(char *data);
 
+/**
+ * @brief perform tilde expansion.
+ * @returns the malloc'd expansion of the tilde prefix,
+	NULL if expansion failed.
+*/
 char			*tilde_expansion(char *s);
 
 /**

@@ -2,12 +2,9 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   strings.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
-	+:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+      
-	+#+        */
-/*                                                +#+#+#+#+#+  
-	+#+           */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 19:07:23 by asioud            #+#    #+#             */
 /*   Updated: 2023/03/30 19:07:23 by asioud           ###   ########.fr       */
 /*                                                                            */
@@ -38,105 +35,81 @@ char	*strchr_any(char *string, char *chars)
 }
 
 // function to calculate the extra length needed for the resultant string
-size_t count_extra_chars(char *v)
+size_t	count_extra_chars(char *v)
 {
-    size_t len = 0;
-    while (*v)
-    {
-        if (*v == '\\' || *v == '`' || *v == '$' || *v == '"')
-            len++;
-        v++;
-    }
-    return len;
-}
+	size_t	len;
 
-// function to copy characters from source to destination, adding escape character before specific characters
-void copy_and_escape(char *v, char *p)
-{
-    while (*v)
-    {
-        if (*v == '\\' || *v == '`' || *v == '$' || *v == '"')
-        {
-            *p++ = '\\';
-            *p++ = *v++;
-        }
-        else
-        {
-            *p++ = *v++;
-        }
-    }
-    *p = '\0';
-}
-
-char *quote_val(char *val, int add_quotes)
-{
-    char *res = NULL;
-    size_t len;
-    /* empty string */
-    if (!val || !*val)
-    {
-        len = add_quotes ? 3 : 1;
-        res = my_malloc(&shell.memory, len);
-        if (!res)
-            return (NULL);
-        strcpy(res, add_quotes ? "\"\"" : "");
-        return (res);
-    }
-    len = count_extra_chars(val);
-    len += strlen(val);
-    if (add_quotes)
-        len += 2;
-    res = my_malloc(&shell.memory, len + 1);
-    if (!res)
-        return (NULL);
-    char *p = res;
-    if (add_quotes)
-        *p++ = '"';
-    copy_and_escape(val, p);
-    if (add_quotes)
-    {
-        p = p + strlen(p);
-        *p++ = '"';
-        *p = '\0';
-    }
-    return (res);
-}
-
-
-int	check_buffer_bounds(int *count, int *len, char ***buf)
-{
-	if (*count >= *len)
+	len = 0;
+	while (*v)
 	{
-		if (!(*buf))
+		if (*v == '\\' || *v == '`' || *v == '$' || *v == '"')
+			len++;
+		v++;
+	}
+	return (len);
+}
+
+void	copy_and_escape(char *v, char *p)
+{
+	while (*v)
+	{
+		if (*v == '\\' || *v == '`' || *v == '$' || *v == '"')
 		{
-			/* first call. alloc memory for the buffer */
-			*buf = my_malloc(&shell.memory, 32 * sizeof(char **));
-			if (!(*buf))
-				return (0);
-			*len = 32;
+			*p++ = '\\';
+			*p++ = *v++;
 		}
 		else
 		{
-			/* subsequent calls. extend the buffer */
-			int newlen = (*len) * 2;
-			char **hn2 = realloc(*buf, newlen * sizeof(char **));
-			if (!hn2)
-				return (0);
-			*buf = hn2;
-			*len = newlen;
+			*p++ = *v++;
 		}
 	}
-	return (1);
+	*p = '\0';
 }
 
-/**
- * @brief free the memory used to store the strings list pointed to by buf.
-*/
-void	free_buffer(int len, char **buf)
+size_t	calculate_length(char *val, int add_quotes)
 {
-	if (!len)
-		return ;
-	while (len--)
-		free(buf[len]);
-	free(buf);
+	size_t	len;
+
+	if (!val || !*val)
+	{
+		if (add_quotes)
+			len = 3;
+		else
+			len = 1;
+		return (len);
+	}
+	len = count_extra_chars(val);
+	len += strlen(val);
+	if (add_quotes)
+		len += 2;
+	return (len);
+}
+
+char	*quote_val(char *val, int add_quotes)
+{
+	char	*res;
+	size_t	len;
+	char	*p;
+
+	len = calculate_length(val, add_quotes);
+	res = my_malloc(&shell.memory, len + 1);
+	if (!val || !*val)
+	{
+		if (add_quotes)
+			strcpy(res, "\"\"");
+		else
+			strcpy(res, "");
+		return (res);
+	}
+	p = res;
+	if (add_quotes)
+		*p++ = '"';
+	copy_and_escape(val, p);
+	if (add_quotes)
+	{
+		p = p + strlen(p);
+		*p++ = '"';
+		*p = '\0';
+	}
+	return (res);
 }
