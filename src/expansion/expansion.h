@@ -44,6 +44,24 @@ typedef struct s_match
 	char	*str;
 }	t_match;
 
+struct s_var_expand
+{
+	struct s_symtab_entry	*entry;
+	size_t					len;
+	int						get_length;
+	char					*sub;
+	char					*var_name;
+	char					*empty_val;
+	char					*tmp;
+	char					setme;
+	char					*p;
+	int						longest;
+	char					*p2;
+	int						expanded;
+	char					buf[32];
+	char					*result;
+};
+
 /**
  * @brief perform word expansion on a single word, pointed to by orig_word.
 
@@ -212,5 +230,13 @@ void			check_dollar_sign(char **pstart, char **p, \
 void			init_match(t_match *match);
 int				is_match_found(char *pattern, int longest, t_match *m);
 void			check_pattern(char *pattern, int longest, t_match *m, char **s);
+
+char			*exit_code_expansion(char *orig_var_name);
+char			*setup_var(char *orig_var_name, struct s_var_expand *var);
+void			check_result(struct s_var_expand *var);
+void			init_svar_expand(struct s_var_expand *v);
+char			*exit_code_to_str(unsigned char status);
+void			search_colon(char *orig_var_name, struct s_var_expand *var);
+
 
 #endif

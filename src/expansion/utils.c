@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 19:45:51 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/02 19:46:09 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/02 23:48:03 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,31 @@ void	free_buffer(int len, char **buf)
 	while (len--)
 		free(buf[len]);
 	free(buf);
+}
+
+void	search_colon(char *orig_var_name, struct s_var_expand *var)
+{
+	var->sub = strchr(orig_var_name, ':');
+	if (!var->sub)
+		var->sub = strchr_any(orig_var_name, "-=?+%#");
+	if (var->sub)
+		var->len = (size_t)(var->sub - orig_var_name);
+	else
+		strlen(orig_var_name);
+	if (var->sub && *var->sub == ':')
+		var->sub++;
+	var->var_name = my_malloc(&shell.memory, var->len + 1);
+	strncpy(var->var_name, orig_var_name, var->len);
+	var->var_name[var->len] = '\0';
+	var->empty_val = "";
+	var->tmp = NULL;
+	var->setme = 0;
+	var->entry = get_symtab_entry(var->var_name);
+	if (var->entry && var->entry->val && var->entry->val[0])
+		var->tmp = var->entry->val;
+	else
+		var->tmp = var->empty_val;
+	var->result = NULL;
+	var->expanded = 0;
+	var->p = NULL;
 }
