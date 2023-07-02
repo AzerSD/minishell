@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: ygolshan <ygolshan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:58 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 19:03:51 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/02 10:44:36 by ygolshan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	check_input_arguments(char **argv, struct s_symtab *symtab, char *name)
 
 	if (argv[1][0] == '-')
 		return (ft_printf_fd(STDERR_FILENO, EXPORT), 2);
-	name = get_varname(argv[1]);
+	name = get_varnamen(argv[1]);
 	if (!name)
 		name = argv[1];
 	if (strstr(argv[1], "+=") != NULL)

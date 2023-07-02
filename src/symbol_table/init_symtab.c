@@ -3,29 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   init_symtab.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: ygolshan <ygolshan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:28:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 02:59:22 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/02 10:44:36 by ygolshan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_varname(const char *str)
+char	*get_varnamen(const char *str)
 {
-	char	*equalsSignPosition;
+	char	*equalssignposition;
 	int		len;
-	char	*varName;
+	char	*varnamen;
 
-	equalsSignPosition = strchr(str, '=');
-	if (equalsSignPosition)
+	equalssignposition = strchr(str, '=');
+	if (equalssignposition)
 	{
-		len = equalsSignPosition - str;
-		varName = my_malloc(&shell.memory, len + 1);
-		strncpy(varName, str, len);
-		varName[len] = '\0';
-		return (varName);
+		len = equalssignposition - str;
+		varnamen = my_malloc(&shell.memory, len + 1);
+		strncpy(varnamen, str, len);
+		varnamen[len] = '\0';
+		return (varnamen);
 	}
 	else
 		return (NULL);
@@ -40,7 +40,7 @@ void	string_to_symtab(const char *env_var)
 	eq = strchr(env_var, '=');
 	if (eq)
 	{
-		name = get_varname(env_var);
+		name = get_varnamen(env_var);
 		entry = add_to_symtab(name);
 		if (entry)
 			symtab_entry_setval(entry, eq + 1);

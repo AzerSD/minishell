@@ -59,8 +59,8 @@
 # include "../src/execution/executor.h"
 # include "../src/expansion/expansion.h"
 # include "../src/core/shell.h"
-#include "../src/signals/signals.h"
-#include "../libs/garbage_collector/memory.h"
+# include "../src/signals/signals.h"
+# include "../libs/garbage_collector/memory.h"
 
 typedef unsigned char	t_status;
 

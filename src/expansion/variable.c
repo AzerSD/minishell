@@ -57,11 +57,11 @@ char	*var_expand(char *orig_var_name)
 		orig_var_name[len - 1] = '\0';
 		orig_var_name++;
 	}
-	/* check we don't have an empty varname */
+	/* check we don't have an empty varnamen */
 	if (!*orig_var_name)
 		return (NULL);
 	get_length = 0;
-	/* if varname starts with #, we need to get the string length */
+	/* if varnamen starts with #, we need to get the string length */
 	if (*orig_var_name == '#')
 	{
 		/* use of '#' should come with omission of ':' */
@@ -74,7 +74,7 @@ char	*var_expand(char *orig_var_name)
 		get_length = 1;
 		orig_var_name++;
 	}
-	/* check we don't have an empty varname */
+	/* check we don't have an empty varnamen */
 	if (!*orig_var_name)
 		return (NULL);
 	if (strcmp(orig_var_name, "?") == 0)
@@ -107,7 +107,7 @@ char	*var_expand(char *orig_var_name)
 	{
 		sub++;
 	}
-	/* copy the varname to a buffer */
+	/* copy the varnamen to a buffer */
 	strncpy(var_name, orig_var_name, len);
 	var_name[len] = '\0';
 
