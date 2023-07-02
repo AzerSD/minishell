@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: ygolshan <ygolshan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:58:27 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 13:05:12 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/02 18:07:12 by ygolshan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ t_token	*get_token(t_cli *cli, t_curr_tok *curr)
 			add_to_buf(nc, curr);
 		if (endloop == 1)
 			break ;
-	} while ((nc = get_next_char(cli)) != EOF);
+	}
+	while ((nc = get_next_char(cli)) != EOF);
 	if (curr->tok_buff_index == 0)
 		return (EOF_TOKEN);
 	if (curr->tok_buff_index >= curr->tok_buff_size)

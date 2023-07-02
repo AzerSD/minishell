@@ -15,7 +15,6 @@
 
 #include "minishell.h"
 
-
 /**
  * @brief perform tilde expansion.
  * @returns the malloc'd expansion of the tilde prefix,
@@ -23,11 +22,11 @@
 */
 char	*tilde_expansion(char *s)
 {
-	char *home;
-	size_t len;
-	char *s2;
-	struct s_symtab_entry *entry;
-	struct passwd *pass;
+	char					*home;
+	size_t					len;
+	char					*s2;
+	struct s_symtab_entry	*entry;
+	struct passwd			*pass;
 
 	home = NULL;
 	len = strlen(s);

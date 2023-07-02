@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: ygolshan <ygolshan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:05:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 19:06:03 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/02 18:31:25 by ygolshan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-void	check_single_quotes(char **p, int *in_double_quotes, int *in_single_quotes)
+void	check_single_quotes(char **p, int *in_double_quotes,
+	int *in_single_quotes)
 {
 	if (**p == '\'' && !*in_double_quotes)
 	{
@@ -22,7 +22,8 @@ void	check_single_quotes(char **p, int *in_double_quotes, int *in_single_quotes)
 	}
 }
 
-void	check_double_quotes(char **p, int *in_double_quotes, int in_single_quotes)
+void	check_double_quotes(char **p,
+	int *in_double_quotes, int in_single_quotes)
 {
 	if (**p == '"' && !in_single_quotes)
 	{
@@ -54,17 +55,17 @@ void	check_backtick(char **pstart, char **p)
 
 void	check_tilde(char **pstart, char **p, int in_double_quotes)
 {
-	char *p2;
-	int tilde_quoted;
-	int endme;
-	int len;
+	char	*p2;
+	int		tilde_quoted;
+	int		endme;
+	int		len;
+	int		i;
 
 	if (**p == '~' && !in_double_quotes)
 	{
 		tilde_quoted = 0;
 		endme = 0;
 		p2 = *p + 1;
-
 		while (*p2)
 		{
 			if (*p2 == '\\')
@@ -74,7 +75,7 @@ void	check_tilde(char **pstart, char **p, int in_double_quotes)
 			}
 			else if (*p2 == '"' || *p2 == '\'')
 			{
-				int i = find_closing_quote(p2);
+				i = find_closing_quote(p2);
 				if (i)
 				{
 					tilde_quoted = 1;
@@ -83,19 +84,15 @@ void	check_tilde(char **pstart, char **p, int in_double_quotes)
 			}
 			else if (*p2 == '/')
 				endme = 1;
-
 			if (endme)
-				break;
-
+				break ;
 			p2++;
 		}
-
 		if (tilde_quoted)
 		{
 			*p = p2;
-			return;
+			return ;
 		}
-
 		len = p2 - *p;
 		substitute_word(pstart, p, len, tilde_expansion, !in_double_quotes);
 	}
@@ -103,7 +100,8 @@ void	check_tilde(char **pstart, char **p, int in_double_quotes)
 
 void	check_dollar_sign(char **pstart, char **p, int in_single_quotes, int *escaped)
 {
-	char c, *p2;
+	char	c;
+	char	*p2;
 
 	if (**p == '$' && !in_single_quotes && !(*escaped))
 	{
@@ -125,14 +123,11 @@ void	check_dollar_sign(char **pstart, char **p, int in_single_quotes, int *escap
 			}
 			if (p2 == *p + 1)
 				return ;
-
 			substitute_word(pstart, p, p2 - *p, var_expand, 0);
 		}
 	}
 	else if (*escaped)
-	{
 		(*p)++;
-	}
 }
 
 struct s_word	*expand(char *orig_word)
@@ -147,7 +142,6 @@ struct s_word	*expand(char *orig_word)
 
 	in_double_quotes = 0;
 	in_single_quotes = 0;
-
 	if (!orig_word)
 		return (NULL);
 	if (!*orig_word)
@@ -170,15 +164,11 @@ struct s_word	*expand(char *orig_word)
 	}
 	words = make_word(pstart);
 	if (!words)
-	{
 		return (NULL);
-	}
-	
 	words = pathnames_expand(words);
 	remove_quotes(words);
 	return (words);
 }
-
 
 char	*word_expand_to_str(char *word)
 {
@@ -229,4 +219,3 @@ void	free_all_words(struct s_word *first)
 		free(del);
 	}
 }
-

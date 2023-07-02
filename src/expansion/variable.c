@@ -15,11 +15,9 @@
 
 #include "minishell.h"
 
-
 char	*exit_code_to_str(unsigned char status)
 {
-	static char str[4];
-		// 3 digits and a null terminator should be enough for any exit code
+	static char	str[4];
 	snprintf(str, sizeof(str), "%d", status);
 	return (str);
 }

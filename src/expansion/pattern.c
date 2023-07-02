@@ -13,10 +13,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#define _GNU_SOURCE /* FNM_CASEFOLD */
-
 #include "minishell.h"
-
+#define _GNU_SOURCE /* FNM_CASEFOLD */
 
 /**
  * @brief check if the string *p has any regular expression (regex) characters,
@@ -44,7 +42,6 @@ int	has_glob_chars(char *p, size_t len)
 		}
 		p++;
 	}
-	/* do we have a matching number of opening and closing brackets? */
 	if (ob && ob == cb)
 		return (1);
 	return (0);
@@ -59,12 +56,17 @@ int	has_glob_chars(char *p, size_t len)
 */
 int	match_prefix(char *pattern, char *str, int longest)
 {
+	char	*s;
+	char	c;
+	char	*smatch;
+	char	*lmatch;
+
 	if (!pattern || !str)
 		return (0);
-	char *s = str + 1;
-	char c = *s;
-	char *smatch = NULL;
-	char *lmatch = NULL;
+	s = str + 1;
+	c = *s;
+	smatch = NULL;
+	lmatch = NULL;
 	while (c)
 	{
 		*s = '\0';
@@ -84,7 +86,6 @@ int	match_prefix(char *pattern, char *str, int longest)
 		*s = c;
 		c = *(++s);
 	}
-	/* check the result of the comparison */
 	if (lmatch)
 		return (lmatch - str);
 	if (smatch)
@@ -100,11 +101,15 @@ int	match_prefix(char *pattern, char *str, int longest)
 */
 int	match_suffix(char *pattern, char *str, int longest)
 {
+	char	*s;
+	char	*smatch;
+	char	*lmatch;
+
 	if (!pattern || !str)
 		return (0);
-	char *s = str + strlen(str) - 1;
-	char *smatch = NULL;
-	char *lmatch = NULL;
+	s = str + strlen(str) - 1;
+	smatch = NULL;
+	lmatch = NULL;
 	while (s > str)
 	{
 		if (fnmatch(pattern, str, 0) == 0)
@@ -119,7 +124,6 @@ int	match_suffix(char *pattern, char *str, int longest)
 		}
 		s--;
 	}
-	/* check the result of the comparison */
 	if (lmatch)
 		return (lmatch - str);
 	if (smatch)
@@ -138,24 +142,19 @@ int	match_suffix(char *pattern, char *str, int longest)
 */
 char	**get_filename_matches(char *pattern, glob_t *matches)
 {
-	/* to guard our caller from trying to free an unused struct in case of expansion failure */
+	int	res;
+
 	matches->gl_pathc = 0;
 	matches->gl_pathv = NULL;
-
 	if (!pattern)
 	{
 		return (NULL);
 	}
-
-	/* perform the match */
-	int res = glob(pattern, 0, NULL, matches);
-
-	/* return the result */
+	res = glob(pattern, 0, NULL, matches);
 	if (res != 0)
 	{
 		globfree(matches);
 		return (NULL);
 	}
-
 	return (matches->gl_pathv);
 }

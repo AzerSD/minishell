@@ -14,10 +14,10 @@
 
 char	*wordlist_to_str(struct s_word *word)
 {
-	size_t len;
-	struct s_word *w;
-	char *str;
-	char *str2;
+	size_t			len;
+	struct s_word	*w;
+	char			*str;
+	char			*str2;
 
 	if (!word)
 		return (NULL);
@@ -30,9 +30,7 @@ char	*wordlist_to_str(struct s_word *word)
 	}
 	str = my_malloc(&shell.memory, len + 1);
 	if (!str)
-	{
 		return (NULL);
-	}
 	str2 = str;
 	w = word;
 	while (w)

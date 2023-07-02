@@ -6,7 +6,7 @@
 /*   By: ygolshan <ygolshan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:58:16 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/02 17:06:24 by ygolshan         ###   ########.fr       */
+/*   Updated: 2023/07/02 18:08:27 by ygolshan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ t_node	*p_heredoc(t_token *tok, t_cli *cli, t_curr_tok *curr, t_node *ptr)
 		struct s_word	*w;
 		char			*content;
 		int				expanding;
+
 		w = NULL;
 		expanding = 1;
 		close(pipe_fd[0]);
