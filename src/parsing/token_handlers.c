@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:37:53 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 19:47:45 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 00:57:37 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	*handle_dollar_sign(t_cli *cli, t_curr_tok *curr)
 
 	add_to_buf('$', curr);
 	nc = peek_char(cli);
-
 	if (isalnum(nc) || nc == '*' || nc == '@' || nc == '#' || nc == '!'
 		|| nc == '?' || nc == '$')
 		add_to_buf(get_next_char(cli), curr);

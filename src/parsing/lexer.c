@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:58:38 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 03:00:15 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 00:57:12 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,10 @@ void	skip_whitespaces(t_cli *cli)
 
 	if (!cli || !cli->buffer)
 		return ;
-	while (((c = peek_char(cli)) != EOF) && (c == ' ' || c == '\t'))
+	c = peek_char(cli);
+	while ((c != EOF) && (c == ' ' || c == '\t'))
+	{
 		get_next_char(cli);
+		c = peek_char(cli);
+	}
 }

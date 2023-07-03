@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 22:49:31 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 02:59:32 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 00:55:29 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@ void	save_settings_and_remove_c(struct termios *mirror_termios);
 void	signal_ctrl_c(void);
 void	signal_ctrl_backslash(void);
 void	handle_sigint(int sig_num);
+void	signal_ctrl_d(void);
 
 #endif

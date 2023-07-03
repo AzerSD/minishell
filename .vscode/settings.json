@@ -30,6 +30,7 @@
 		"locale": "c",
 		"unordered_map": "c",
 		"__node_handle": "c",
-		"memory.h": "c"
+		"memory.h": "c",
+		"istream": "c"
 	}
 }

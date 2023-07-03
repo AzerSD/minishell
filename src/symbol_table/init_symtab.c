@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:28:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 02:59:22 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/02 23:57:49 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 char	*get_varname(const char *str)
 {
-	char	*equalsSignPosition;
+	char	*eq;
 	int		len;
-	char	*varName;
+	char	*var_name;
 
-	equalsSignPosition = strchr(str, '=');
-	if (equalsSignPosition)
+	eq = strchr(str, '=');
+	if (eq)
 	{
-		len = equalsSignPosition - str;
-		varName = my_malloc(&shell.memory, len + 1);
-		strncpy(varName, str, len);
-		varName[len] = '\0';
-		return (varName);
+		len = eq - str;
+		var_name = my_malloc(&shell.memory, len + 1);
+		strncpy(var_name, str, len);
+		var_name[len] = '\0';
+		return (var_name);
 	}
 	else
 		return (NULL);

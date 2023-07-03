@@ -6,14 +6,9 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:58:27 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/02 20:09:58 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 01:04:49 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/**
- * This tokenizer will use the helper functions created by the lexer.c
- * to scan the input and turn them into tokens
-*/
 
 #include "minishell.h"
 
@@ -40,6 +35,28 @@ static t_token	*create_token(char *str)
 	return (tok);
 }
 
+void	handle_token(t_cli *cli, t_curr_tok *curr, char nc, int *endloop)
+{
+	if (nc == '"' || nc == '\'' || nc == '`')
+		handle_quotes(cli, curr, nc);
+	else if (nc == '\\')
+		handle_backslash(cli, curr);
+	else if (nc == '$')
+		handle_dollar_sign(cli, curr);
+	else if (nc == ' ' || nc == '\t')
+		handle_whitespace(curr, endloop);
+	else if (nc == '\n')
+		handle_newline(cli, curr, endloop);
+	else if (nc == '=')
+		handle_equals_sign(curr);
+	else if (nc == '|')
+		handle_pipe(cli, curr, endloop);
+	else if (nc == '>' || nc == '<')
+		handle_redirection(cli, curr, endloop, nc);
+	else
+		add_to_buf(nc, curr);
+}
+
 t_token	*get_token(t_cli *cli, t_curr_tok *curr)
 {
 	char	nc;
@@ -51,40 +68,19 @@ t_token	*get_token(t_cli *cli, t_curr_tok *curr)
 	nc = get_next_char(cli);
 	if (nc == ERRCHAR || nc == EOF || init_curr_tok_buff(cli, curr) != 0)
 		return (EOF_TOKEN);
-	do
+	while (nc != EOF)
 	{
-		if (nc == '"' || nc == '\'' || nc == '`')
-			handle_quotes(cli, curr, nc);
-		else if (nc == '\\')
-			handle_backslash(cli, curr);
-		else if (nc == '$')
-			handle_dollar_sign(cli, curr);
-		else if (nc == ' ' || nc == '\t')
-			handle_whitespace(curr, &endloop);
-		else if (nc == '\n')
-			handle_newline(cli, curr, &endloop);
-		else if (nc == '=')
-			handle_equals_sign(curr);
-		else if (nc == '|')
-			handle_pipe(cli, curr, &endloop);
-		else if (nc == '>' || nc == '<')
-			handle_redirection(cli, curr, &endloop, nc);
-		else
-			add_to_buf(nc, curr);
+		handle_token(cli, curr, nc, &endloop);
 		if (endloop == 1)
 			break ;
-	} while ((nc = get_next_char(cli)) != EOF);
+		nc = get_next_char(cli);
+	}
 	if (curr->tok_buff_index == 0)
 		return (EOF_TOKEN);
 	if (curr->tok_buff_index >= curr->tok_buff_size)
 		curr->tok_buff_index--;
 	curr->tok_buff[curr->tok_buff_index] = '\0';
 	tok = create_token(curr->tok_buff);
-	if (!tok)
-	{
-		fprintf(stderr, "error: failed to alloc buffer: %s\n", strerror(errno));
-		return (EOF_TOKEN);
-	}
 	tok->cli = cli;
 	return (tok);
 }

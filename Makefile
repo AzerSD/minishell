@@ -6,7 +6,7 @@
 #    By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/25 10:59:44 by asioud            #+#    #+#              #
-#    Updated: 2023/07/02 23:30:07 by asioud           ###   ########.fr        #
+#    Updated: 2023/07/03 04:02:22 by asioud           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,12 +35,12 @@ SRC	=	core/shell \
 		symbol_table/symtab \
 		symbol_table/init_symtab \
 		symbol_table/free_symtab \
+		symbol_table/symtab_utils \
 		\
 		builtins/cd \
 		builtins/pwd \
 		builtins/env \
 		builtins/echo \
-		builtins/dump \
 		builtins/exit \
 		builtins/unset \
 		builtins/export \
@@ -80,6 +80,7 @@ SRC	=	core/shell \
 		expansion/variable_utils \
 		\
 		signals/signals \
+		signals/utils \
 
 
 SRC_DIR		=	src/

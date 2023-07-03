@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:58:16 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 19:05:52 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 04:02:07 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include "minishell.h"
 
-enum e_node_type get_node_type(e_token_type state)
+enum e_node_type get_node_type(t_token_type state)
 {
 	if (state == PARSE_DEFAULT)
 		return NODE_COMMAND;

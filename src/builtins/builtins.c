@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:41:31 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 17:16:25 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 00:42:56 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,22 @@
 
 struct s_builtin	*init_builtins(void)
 {
-	static struct s_builtin	builtins[8];
+	static struct s_builtin	builtins[7];
 
-	builtins[0].name = "dump";
-	builtins[0].func = ft_dump;
-	builtins[1].name = "echo";
-	builtins[1].func = ft_echo;
-	builtins[2].name = "env";
-	builtins[2].func = ft_env;
-	builtins[3].name = "pwd";
-	builtins[3].func = ft_pwd;
-	builtins[4].name = "cd";
-	builtins[4].func = ft_cd;
-	builtins[5].name = "export";
-	builtins[5].func = ft_export;
-	builtins[6].name = "unset";
-	builtins[6].func = ft_unset;
-	builtins[7].name = "exit";
-	builtins[7].func = ft_exit;
+	builtins[0].name = "echo";
+	builtins[0].func = ft_echo;
+	builtins[1].name = "env";
+	builtins[1].func = ft_env;
+	builtins[2].name = "pwd";
+	builtins[2].func = ft_pwd;
+	builtins[3].name = "cd";
+	builtins[3].func = ft_cd;
+	builtins[4].name = "export";
+	builtins[4].func = ft_export;
+	builtins[5].name = "unset";
+	builtins[5].func = ft_unset;
+	builtins[6].name = "exit";
+	builtins[6].func = ft_exit;
 	return (builtins);
 }
 
@@ -45,7 +43,7 @@ t_builtin_info	*get_bt(void)
 		return (NULL);
 	}
 	bt->builtins = init_builtins();
-	bt->count = 8;
+	bt->count = 7;
 	return (bt);
 }
 

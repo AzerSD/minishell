@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 07:05:51 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 02:59:09 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 00:52:30 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ enum						e_symbol_type
  * @param func_body	For shell functions. The AST of the function body
  * @param val_type  SYM_STR or SYM_FUNC
 
-* @param flags		Different properties assigned to variables and functions like export and readonly flags
+* @param flags		Different properties assigned to variables and functions like 
+					export and readonly flags
  * @param name		The name of the shell variable represented by the entry
  * @param next		Pointer to the next symbol table entry
  * @param val		String value (for shell variables only)
@@ -65,7 +66,8 @@ struct						s_symtab
 /**
  * @brief the symbol table stack structure
 
-	* @param symtab_count The number of the global symbol table currently in the stack.
+ * @param symtab_count The number of the global symbol table currently
+						 in the stack.
  * @param symtab_list   An array of pointers to the stack's symbol table
  * @param global_symtab Pointers to the global symbol tables.
  * @param local_symtab Pointers to the local symbol tables.
@@ -78,9 +80,8 @@ struct						s_symtab_stack
 	struct s_symtab			*local_symtab;
 };
 
-void	update_entry(struct s_symtab_entry *entry,
-					char *new_val,
-					char *name);
+void					update_entry(struct s_symtab_entry *entry, \
+						char *new_val, char *name);
 
 /**
  * @brief Opposite of symbtab_entry_s
@@ -89,8 +90,8 @@ void	update_entry(struct s_symtab_entry *entry,
 	* and frees the memory used by the entry and adjusts the linked list pointers to
  * remove the entry from the symbol table
 */
-int	rem_from_symtab(struct s_symtab_entry *entry,
-					struct s_symtab *symtab);
+int						rem_from_symtab(struct s_symtab_entry *entry, \
+						struct s_symtab *symtab);
 
 /**
  * @brief This function searches the given symbol table,
@@ -100,8 +101,8 @@ int	rem_from_symtab(struct s_symtab_entry *entry,
  * list pointers to look at each entry, in turn, until we find an entry whose
  * key matches our desired name. If no match is found, we return NULL.
 */
-struct s_symtab_entry	*do_lookup(const char *str,
-									struct s_symtab *symtable);
+struct s_symtab_entry	*do_lookup(const char *str, \
+						struct s_symtab *symtable);
 
 /**
  * @brief This function adds a new entry to the local symbol table.
@@ -112,7 +113,7 @@ struct s_symtab_entry	*do_lookup(const char *str,
  * entry, set its name, and adjust the symbol table's pointers. Lastly,
  * we return the newly added entry.
 */
-struct s_symtab_entry		*add_to_symtab(const char *symbol);
+struct s_symtab_entry	*add_to_symtab(const char *symbol);
 
 /**
  * @brief searches for a symbol table entry whose key matches the given name.
@@ -120,79 +121,60 @@ struct s_symtab_entry		*add_to_symtab(const char *symbol);
  * the whole stack starting with the local symbol table.
  * This function is usefull for shell functions and script files.
 */
-struct s_symtab_entry		*get_symtab_entry(const char *str);
-
-/**
- * @brief Returns a pointer to the symbol table stack.
- * @returns a pointer to the symbol table stack.
-*/
-struct s_symtab_stack		*get_symtab_stack(void);
+struct s_symtab_entry	*get_symtab_entry(const char *str);
 
 /**
  * @brief creates a new, empty symbol table and pushes it on top of the stack.
  * @returns the newly created symbol table.
 */
-struct s_symtab				*symtab_stack_push(void);
+struct s_symtab			*symtab_stack_push(void);
 
 /**
  * @brief get_global_symtab
  * @returns pointers to the global symbol tables.
 */
-struct s_symtab				*get_global_symtab(void);
+struct s_symtab			*get_global_symtab(void);
 
 /**
  * @brief get the local symbol tables
  * @return pointers to the local symbol tables.
 */
-struct s_symtab				*get_local_symtab(void);
+struct s_symtab			*get_local_symtab(void);
 
 /**
  * @brief removes (or pops) the symbol table on top of the stack,
  * adjusting the stack pointers as needed.
  * @return the symbol table that was removed from the stack.
 */
-struct s_symtab				*symtab_stack_pop(void);
+struct s_symtab			*symtab_stack_pop(void);
 
 /**
  * @brief create a new symbol table
 */
-struct s_symtab				*new_symtab(void);
+struct s_symtab			*new_symtab(void);
 
 /**
  * @brief This function frees the memory used to store the old entry’s value
  * (if one exists). It then creates a copy of the new value and stores
  * it in the symbol table entry.
 */
-void	symtab_entry_setval(struct s_symtab_entry *entry,
-							char *val);
+void					symtab_entry_setval(struct s_symtab_entry *entry, \
+						char *val);
 
 /**
  * @brief Free the symbol table
  * Called when we're done working with a symbol table, and
  * we want to free the memory used by the symbol table and its entries.
 */
-void						free_symtab(struct s_symtab *symtab);
+void					free_symtab(struct s_symtab *symtab);
 
-/**
- * @brief Debugging function
- * This function prints the contents of the local symbol table.
- * When our shell starts, the local and global symbol tables will
- * refer to the same table. It is only when the shell is about to
- * run a shell function or script file that we have a local table
- * that is different from the global table.
- * (later on in this lesson, we’ll write a builtin utility that
- * will call dump_local_symtab() to help us visualize the contents
- * of our shell's global symbol table).
-*/
-void						dump_local_symtab(void);
-
-void						dump_export_local_symtab(void);
+void					export_symtab(void);
 
 /**
  * @brief Initializes the symbol table stack.
  * Allocates memory and initializes the global symbol table.
 */
-void						init_symtab_stack(void);
+void					init_symtab_stack(void);
 
 /**
  * @brief Initializes the symbol table stack, populates it with
@@ -201,9 +183,22 @@ void						init_symtab_stack(void);
  * @see man environ
  * @see printenv
  */
-void						init_symtab(char **env);
+void					init_symtab(char **env);
 
-void						string_to_symtab(const char *env_var);
+void					string_to_symtab(const char *env_var);
 
-char						*get_varname(const char *str);
+char					*get_varname(const char *str);
+
+int						remove_entry_from_symtab(struct s_symtab_entry *entry, \
+		struct s_symtab *symtab);
+
+void					free_symtab_entry(struct s_symtab_entry *entry);
+
+struct s_symtab_entry	*create_symtab_entry(const char *symbol);
+
+void					add_entry_to_symtab(struct s_symtab *st, \
+	struct s_symtab_entry *entry);
+
+int						remove_subsequent_entry(struct s_symtab_entry *entry, \
+		struct s_symtab *symtab);
 #endif

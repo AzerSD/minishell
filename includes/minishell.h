@@ -13,9 +13,6 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-
-
-
 # define RESET "\001\033[0m\002"
 # define RED "\001\033[31m\002" // Red
 # define GRN "\001\033[32m\002" // Green
@@ -59,18 +56,17 @@
 # include "../src/execution/executor.h"
 # include "../src/expansion/expansion.h"
 # include "../src/core/shell.h"
-#include "../src/signals/signals.h"
-#include "../libs/garbage_collector/memory.h"
+# include "../src/signals/signals.h"
+# include "../libs/garbage_collector/memory.h"
 
 typedef unsigned char	t_status;
 
 typedef struct g_shell
 {
-    t_status   status;
-    void   *memory;
-}            t_shell;
+	t_status	status;
+	void		*memory;
+}	t_shell;
 
-t_shell shell;
-
+t_shell			shell;
 
 #endif
