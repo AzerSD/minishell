@@ -52,7 +52,7 @@ struct s_symtab_entry	*add_to_symtab(const char *symbol)
 
 	if (!symbol || symbol[0] == '\0')
 		return (NULL);
-	st = s_symtab_stack.local_symtab;
+	st = shell.s_symtab_stack.local_symtab;
 	entry = do_lookup(symbol, st);
 	if (entry)
 		return (entry);

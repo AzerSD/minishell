@@ -63,10 +63,11 @@ typedef unsigned char	t_status;
 
 typedef struct g_shell
 {
-	t_status	status;
-	void		*memory;
+	t_status				status;
+	void					*memory;
+	struct s_symtab_stack	s_symtab_stack;
 }	t_shell;
 
-t_shell			shell;
+t_shell	shell;
 
 #endif

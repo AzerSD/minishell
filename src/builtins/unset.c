@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:34:08 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 00:26:57 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 17:44:59 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_unset(int argc, ...)
 	struct s_symtab	*symtab;
 	int				ret;
 
-	symtab = s_symtab_stack.local_symtab;
+	symtab = shell.s_symtab_stack.local_symtab;
 	if (argc == 1)
 		return (0);
 	else

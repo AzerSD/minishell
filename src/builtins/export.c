@@ -6,27 +6,11 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:58 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/03 04:18:52 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 17:44:59 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*ft_strcpy(char *dst, const char *src)
-{
-	int	i;
-
-	i = 0;
-	while (src[i] != '\0')
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (dst);
-}
-
-
 
 int	print_export(struct s_symtab_entry *entry)
 {
@@ -120,7 +104,7 @@ int	ft_export(int argc, ...)
 
 	entry = NULL;
 	name = NULL;
-	symtab = s_symtab_stack.local_symtab;
+	symtab = shell.s_symtab_stack.local_symtab;
 	va_start(args, argc);
 	argv = va_arg(args, char **);
 	entry = symtab->first;

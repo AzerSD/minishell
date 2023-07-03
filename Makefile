@@ -6,7 +6,7 @@
 #    By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/25 10:59:44 by asioud            #+#    #+#              #
-#    Updated: 2023/07/03 04:11:05 by asioud           ###   ########.fr        #
+#    Updated: 2023/07/03 17:35:48 by asioud           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,8 +45,6 @@ SRC	=	core/shell \
 		builtins/unset \
 		builtins/export \
 		builtins/builtins \
-		prompt/prompt \
-		\
 		\
 		execution/executor \
 		execution/path \

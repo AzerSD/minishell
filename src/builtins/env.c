@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:34:19 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 00:10:25 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 17:44:59 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_env(int argc, ...)
 	}
 	else
 	{
-		symtab = s_symtab_stack.local_symtab;
+		symtab = shell.s_symtab_stack.local_symtab;
 		entry = symtab->first;
 		while (entry)
 		{

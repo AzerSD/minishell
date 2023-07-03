@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 00:26:03 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/03 04:45:11 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 17:44:59 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	update_entry(struct s_symtab_entry *entry, char *new_val, char *name)
 {
-	entry = do_lookup(name, s_symtab_stack.local_symtab);
+	entry = do_lookup(name, shell.s_symtab_stack.local_symtab);
 	if (!entry)
 	{
 		entry = add_to_symtab(name);
@@ -56,10 +56,10 @@ struct s_symtab_entry	*get_symtab_entry(const char *str)
 	struct s_symtab			*symtab;
 	struct s_symtab_entry	*entry;
 
-	i = s_symtab_stack.symtab_count - 1;
+	i = shell.s_symtab_stack.symtab_count - 1;
 	while (i >= 0)
 	{
-		symtab = s_symtab_stack.symtab_list[i];
+		symtab = shell.s_symtab_stack.symtab_list[i];
 		entry = do_lookup(str, symtab);
 		if (entry)
 		{

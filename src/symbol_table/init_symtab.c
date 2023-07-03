@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:28:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/03 04:53:37 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 17:44:59 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ void	init_symtab(char **env)
 		string_to_symtab(*p2);
 		p2++;
 	}
-	entry = do_lookup("OLDPWD", s_symtab_stack.local_symtab);
+	entry = do_lookup("OLDPWD", shell.s_symtab_stack.local_symtab);
 	if (entry)
-		rem_from_symtab(entry, s_symtab_stack.local_symtab);
+		rem_from_symtab(entry, shell.s_symtab_stack.local_symtab);
 }
 
 void	init_symtab_stack(void)
@@ -75,16 +75,17 @@ void	init_symtab_stack(void)
 	struct s_symtab	*global_symtab;
 
 	global_symtab = my_malloc(&shell.memory, sizeof(struct s_symtab));
-	s_symtab_stack.symtab_count = 1;
+	shell.s_symtab_stack.symtab_count = 1;
 	if (!global_symtab)
 	{
-		ft_printf_fd(STDERR_FILENO, "fatal error: no memory for global symbol table\n");
+		ft_printf_fd(STDERR_FILENO, "fatal error: no memory \
+		for global symbol table\n");
 		exit(EXIT_FAILURE);
 	}
 	ft_memset(global_symtab, 0, sizeof(struct s_symtab));
-	s_symtab_stack.global_symtab = global_symtab;
-	s_symtab_stack.local_symtab = global_symtab;
-	s_symtab_stack.symtab_list[0] = global_symtab;
+	shell.s_symtab_stack.global_symtab = global_symtab;
+	shell.s_symtab_stack.local_symtab = global_symtab;
+	shell.s_symtab_stack.symtab_list[0] = global_symtab;
 }
 
 struct s_symtab	*new_symtab(void)
@@ -94,7 +95,8 @@ struct s_symtab	*new_symtab(void)
 	symtab = my_malloc(&shell.memory, sizeof(struct s_symtab));
 	if (!symtab)
 	{
-		ft_printf_fd(STDERR_FILENO, "fatal error: no memory for new symbol table\n");
+		ft_printf_fd(STDERR_FILENO, "fatal error: no memory \
+		for new symbol table\n");
 		exit(EXIT_FAILURE);
 	}
 	ft_memset(symtab, 0, sizeof(struct s_symtab));

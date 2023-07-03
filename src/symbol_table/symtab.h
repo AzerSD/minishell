@@ -6,14 +6,12 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 07:05:51 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/03 00:52:30 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 17:45:42 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SYMTAB_H
 # define SYMTAB_H
-
-struct s_symtab_stack		s_symtab_stack;
 
 /**
  * @brief defines the type of a symbol table entry's value

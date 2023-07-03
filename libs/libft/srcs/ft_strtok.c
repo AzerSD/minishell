@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 04:14:00 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/03 04:14:13 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 17:38:47 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 char	*ft_strtok(char *str, const char *sep)
 {
-	static char *p = 0;
+	static char	*p;
 
+	p = 0;
 	if (str)
 		p = str;
 	else if (!p)
