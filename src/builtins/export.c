@@ -6,11 +6,27 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:58 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 19:03:51 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 04:18:52 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*ft_strcpy(char *dst, const char *src)
+{
+	int	i;
+
+	i = 0;
+	while (src[i] != '\0')
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (dst);
+}
+
+
 
 int	print_export(struct s_symtab_entry *entry)
 {
@@ -37,13 +53,13 @@ int	process_plus_equal(char *name, struct s_symtab *symtab, char **argv)
 			"minishell: export: `%s': not a valid identifier\n", argv[1]);
 		return (1);
 	}
-	value = strtok(NULL, "+=");
+	value = ft_strtok(NULL, "+=");
 	entry = do_lookup(name, symtab);
 	if (entry)
 		old_value = entry->val;
 	new_value = malloc(strlen(old_value) + strlen(value) + 1);
-	strcpy(new_value, old_value);
-	strcat(new_value, value);
+	ft_strcpy(new_value, old_value);
+	ft_strcat(new_value, value);
 	setenv(name, new_value, 1);
 	free(new_value);
 	return (0);
@@ -76,7 +92,7 @@ int	check_input_arguments(char **argv, struct s_symtab *symtab, char *name)
 		name = argv[1];
 	if (strstr(argv[1], "+=") != NULL)
 	{
-		name = strtok(argv[1], "+=");
+		name = ft_strtok(argv[1], "+=");
 		return (process_plus_equal(name, symtab, argv));
 	}
 	else if (strchr(argv[1], '=') != NULL)

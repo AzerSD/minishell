@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:48 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 19:00:10 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 04:04:44 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	ft_cd(int argc, ...)
 	}
 	else
 	{
-		if (strcmp(*(path + 1), "-") == 0)
+		if (ft_strcmp(*(path + 1), "-") == 0)
 		{
 			result = change_to_oldpwd();
 		}

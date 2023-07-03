@@ -6,7 +6,7 @@
 #    By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/25 10:59:44 by asioud            #+#    #+#              #
-#    Updated: 2023/07/03 04:02:22 by asioud           ###   ########.fr        #
+#    Updated: 2023/07/03 04:11:05 by asioud           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -107,8 +107,8 @@ clean:
 	@$(RM) $(OBJ_DIR)
 
 fclean:	clean
-	# @cd libs/libft && make fclean
-	@cd libs/garbage_collector && make fclean
+	@cd libs/libft && make fclean
+	# @cd libs/garbage_collector && make fclean
 	@$(RM) $(NAME)
 
 re:	fclean all

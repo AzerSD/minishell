@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 13:07:05 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 13:16:47 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 04:45:11 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	*handle_quotes(t_cli *cli, t_curr_tok *curr, char nc)
 	if (closing_quote_index == 0)
 	{
 		cli->cur_pos = cli->buff_size;
-		fprintf(stderr, "error: missing closing quote '%c'\n", nc);
+		ft_printf_fd(STDERR_FILENO, "error: missing closing quote '%c'\n", nc);
 		return (EOF_TOKEN);
 	}
 	while (closing_quote_index--)

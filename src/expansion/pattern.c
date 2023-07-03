@@ -37,7 +37,7 @@ int	match_suffix(char *pattern, char *str, int longest)
 	match.str = str;
 	if (!pattern || !str)
 		return (0);
-	s = str + strlen(str) - 1;
+	s = str + ft_strlen(str) - 1;
 	check_pattern(pattern, longest, &match, &s);
 	if (match.lmatch)
 		return (match.lmatch - str);

@@ -54,19 +54,19 @@ void	delete_char_at(char *str, size_t index)
 
 int	is_name(char *str)
 {
-	if (!isalpha(*str) && *str != '_')
+	if (!ft_isalpha(*str) && *str != '_')
 		return (0);
 	while (*++str)
-		if (!isalnum(*str) && *str != '_')
+		if (!ft_isalnum(*str) && *str != '_')
 			return (0);
 	return (1);
 }
 
 char	*create_final_string(char *before, char *s2, char *after, char *final)
 {
-	strcpy(final, before);
-	strcat(final, s2);
-	strcat(final, after);
+	ft_strcpy(final, before);
+	ft_strcat(final, s2);
+	ft_strcat(final, after);
 	return (final);
 }
 
@@ -79,14 +79,14 @@ char	*substitute_str(char *s1, char *s2, size_t start, size_t end)
 	char	*final;
 
 	before = (char *)my_malloc(&shell.memory, (start + 1) * sizeof(char));
-	strncpy(before, s1, start);
+	ft_strncpy(before, s1, start);
 	before[start] = '\0';
-	afterlen = strlen(s1) - end + 1;
+	afterlen = ft_strlen(s1) - end + 1;
 	after = (char *)malloc(afterlen * sizeof(char));
 	if (!after)
 		return (NULL);
-	strcpy(after, s1 + end + 1);
-	totallen = start + afterlen + strlen(s2);
+	ft_strcpy(after, s1 + end + 1);
+	totallen = start + afterlen + ft_strlen(s2);
 	final = my_malloc(&shell.memory, totallen + 1);
 	if (!final)
 		return (my_free(&shell.memory, final), NULL);

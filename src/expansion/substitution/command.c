@@ -41,7 +41,7 @@ char	*read_from_pipe(FILE *fp, char *b, size_t *bufsz, char **p)
 			*p = buf + *bufsz;
 		}
 		*bufsz += i;
-		memcpy(*p, b, i);
+		ft_memcpy(*p, b, i);
 		(*p)[i] = '\0';
 		i = fread(b, 1, 1024, fp);
 	}
@@ -58,7 +58,7 @@ FILE	*prepare_command_and_open_pipe(char *orig_cmd, char **cmd_ptr)
 	cmd = fix_cmd(orig_cmd, *orig_cmd == '`');
 	if (!cmd)
 		return (NULL);
-	cmdlen = strlen(cmd);
+	cmdlen = ft_strlen(cmd);
 	if (*orig_cmd == '`')
 		fix_backquoted_cmd(cmd, cmdlen);
 	else
@@ -78,7 +78,7 @@ char	*read_and_cleanup_pipe(FILE *fp, char *cmd)
 	buf = NULL;
 	if (!fp)
 	{
-		fprintf(stderr, "error: %s: %s\n", "failed to open pipe",
+		ft_printf_fd(STDERR_FILENO, "error: %s: %s\n", "failed to open pipe",
 			strerror(errno));
 		return (NULL);
 	}
@@ -92,7 +92,7 @@ char	*read_and_cleanup_pipe(FILE *fp, char *cmd)
 	pclose(fp);
 	free(cmd);
 	if (!buf)
-		fprintf(stderr, "error: %s: %s\n", \
+		ft_printf_fd(STDERR_FILENO, "error: %s: %s\n", \
 		"insufficient memory to perform command substitution", strerror(errno));
 	return (buf);
 }

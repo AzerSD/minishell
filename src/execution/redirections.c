@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 11:04:09 by lhasmi            #+#    #+#             */
-/*   Updated: 2023/07/01 18:14:25 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 04:33:15 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,6 @@ int	open_and_redirect(t_node *child, int flags, int std_fd, int std_fd_err)
 	return (0);
 }
 
-/**
- * @brief Set the up redirections object
- * if there's a redirection node,
-	open the file and redirect the file descriptor to the temporary file. 
- * @param node 
- * @return int 
- */
 int	setup_redirections(t_node *node)
 {
 	t_node	*child;

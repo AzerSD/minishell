@@ -6,7 +6,7 @@
 #    By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/20 13:12:26 by asioud            #+#    #+#              #
-#    Updated: 2023/06/16 21:04:17 by asioud           ###   ########.fr        #
+#    Updated: 2023/07/03 04:32:02 by asioud           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,7 +91,14 @@ SRCS = 			\
 				./srcs/ft_strjoins.c \
 				./srcs/ft_strjoin_str1.c \
 				./srcs/ft_strjoin_str2.c \
-				./srcs/error_line.c 
+				./srcs/error_line.c \
+				./srcs/ft_strcat.c \
+				./srcs/ft_strcpy.c \
+				./srcs/ft_strcspn.c \
+				./srcs/ft_strspn.c \
+				./srcs/ft_strtok.c \
+				./srcs/ft_strncpy.c \
+				
 
 BONUS_SRCS = 	./bonus/ft_lstadd_back.c \
 				./bonus/ft_lstdelone.c \

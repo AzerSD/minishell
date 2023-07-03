@@ -50,7 +50,7 @@ char	*tilde_expansion(char *s)
 	size_t	len;
 
 	home = NULL;
-	len = strlen(s);
+	len = ft_strlen(s);
 	s2 = NULL;
 	if (len == 1)
 		home = find_home_from_symtab();
@@ -58,9 +58,9 @@ char	*tilde_expansion(char *s)
 		home = find_home_from_pwnam(s);
 	if (!home)
 		return (NULL);
-	s2 = my_malloc(&shell.memory, strlen(home) + 1);
+	s2 = my_malloc(&shell.memory, ft_strlen(home) + 1);
 	if (!s2)
 		return (NULL);
-	strcpy(s2, home);
+	ft_strcpy(s2, home);
 	return (s2);
 }

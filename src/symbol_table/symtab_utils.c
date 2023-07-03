@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 00:26:03 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/03 00:52:54 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 04:45:11 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	symtab_entry_setval(struct s_symtab_entry *entry, char *val)
 		}
 		else
 		{
-			fprintf(stderr,
+			ft_printf_fd(STDERR_FILENO,
 				"error: no memory for symbol table entry's value\n");
 		}
 		entry->val = val2;

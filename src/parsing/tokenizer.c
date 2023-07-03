@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:58:27 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/03 01:04:49 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 04:51:29 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static t_token	*create_token(char *str)
 	tok = my_malloc(&shell.memory, sizeof(t_token));
 	if (!tok)
 		return (NULL);
-	memset(tok, 0, sizeof(t_token));
-	tok->text_len = strlen(str);
+	ft_memset(tok, 0, sizeof(t_token));
+	tok->text_len = ft_strlen(str);
 	nstr = my_malloc(&shell.memory, tok->text_len + 1);
 	if (!nstr)
 	{

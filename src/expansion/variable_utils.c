@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 23:27:27 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/02 23:51:32 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 04:46:01 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,16 @@ void	check_result(struct s_var_expand *var)
 		if (!var->tmp)
 			sprintf(var->buf, "0");
 		else
-			sprintf(var->buf, "%lu", strlen(var->tmp));
-		var->p = my_malloc(&shell.memory, strlen(var->buf) + 1);
+			sprintf(var->buf, "%lu", ft_strlen(var->tmp));
+		var->p = my_malloc(&shell.memory, ft_strlen(var->buf) + 1);
 		if (var->p)
-			strcpy(var->p, var->buf);
+			ft_strcpy(var->p, var->buf);
 	}
 	else
 	{
-		var->p = my_malloc(&shell.memory, strlen(var->tmp) + 1);
+		var->p = my_malloc(&shell.memory, ft_strlen(var->tmp) + 1);
 		if (var->p)
-			strcpy(var->p, var->tmp);
+			ft_strcpy(var->p, var->tmp);
 	}
 }
 
@@ -61,7 +61,7 @@ char	*setup_var(char *orig_var_name, struct s_var_expand *var)
 	if (!orig_var_name)
 		return (NULL);
 	orig_var_name++;
-	var->len = strlen(orig_var_name);
+	var->len = ft_strlen(orig_var_name);
 	if (*orig_var_name == '{')
 	{
 		orig_var_name[var->len - 1] = '\0';
@@ -72,9 +72,9 @@ char	*setup_var(char *orig_var_name, struct s_var_expand *var)
 	var->get_length = 0;
 	if (*orig_var_name == '#')
 	{
-		if (strchr(orig_var_name, ':'))
+		if (ft_strchr(orig_var_name, ':'))
 		{
-			fprintf(stderr, "error: invalid variable substitution: %s\n",
+			ft_printf_fd(2, "error: invalid variable substitution: %s\n",
 				orig_var_name);
 			return (INVALID_VAR);
 		}
@@ -98,10 +98,10 @@ char	*exit_code_expansion(char *orig_var_name)
 	char	*exit_code_copy;
 
 	exit_code_str = exit_code_to_str(shell.status);
-	exit_code_copy = strdup(exit_code_str);
+	exit_code_copy = ft_strdup(exit_code_str);
 	if (exit_code_copy == NULL)
 	{
-		fprintf(stderr,
+		ft_printf_fd(STDERR_FILENO,
 			"error: failed to allocate memory for exit code\n");
 		return (INVALID_VAR);
 	}

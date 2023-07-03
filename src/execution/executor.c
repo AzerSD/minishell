@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 19:05:44 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 04:29:30 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	exec_cmd(int argc, char **argv)
 	char	*path;
 
 	(void)argc;
-	if (strchr(argv[0], '/'))
+	if (ft_strchr(argv[0], '/'))
 		execv(argv[0], argv);
 	else
 	{
@@ -38,7 +38,7 @@ pid_t	fork_command(int argc, char **argv)
 	if (child_pid == 0)
 	{
 		exec_cmd(argc, argv);
-		fprintf(stderr, "minishell: %s: command not found\n", argv[0]);
+		ft_printf_fd(STDERR_FILENO, "minishell: %s: command not found\n", argv[0]);
 		if (errno == ENOEXEC)
 			exit(126);
 		else if (errno == ENOENT)
@@ -58,7 +58,7 @@ int	exec_child_process(int argc, char **argv)
 	child_pid = fork_command(argc, argv);
 	if (child_pid == -1)
 	{
-		fprintf(stderr, "error: failed to fork command: %s\n", strerror(errno));
+		ft_printf_fd(STDERR_FILENO, "error: failed to fork command: %s\n", strerror(errno));
 		free_argv(argc, argv);
 		return (1);
 	}

@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 21:51:37 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/02 23:50:38 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 04:47:11 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ char	*var_is_unset(struct s_var_expand *v)
 		else if (v->sub[0] == '?')
 		{
 			if (v->sub[1] == '\0')
-				fprintf(stderr, "error: %s: parameter not set\n", v->var_name);
+				ft_printf_fd(2, "error: %s: parameter not set\n", v->var_name);
 			else
-				fprintf(stderr, "error: %s: %s\n", v->var_name, v->sub + 1);
+				ft_printf_fd(2, "error: %s: %s\n", v->var_name, v->sub + 1);
 			return (INVALID_VAR);
 		}
 		else if (v->sub[0] == '+')
@@ -57,7 +57,7 @@ char	*var_is_set_with_percent(struct s_var_expand *v)
 	v->p2 = my_malloc(&shell.memory, v->len + 1);
 	if (v->p2)
 	{
-		strncpy(v->p2, v->p, v->len);
+		ft_strncpy(v->p2, v->p, v->len);
 		v->p2[v->len] = '\0';
 	}
 	free(v->p);
@@ -77,9 +77,9 @@ char	*var_is_set_with_hash(struct s_var_expand *v)
 	v->len = match_prefix(v->sub, v->p, v->longest);
 	if (v->len == 0)
 		return (v->p);
-	v->p2 = my_malloc(&shell.memory, strlen(v->p) - v->len + 1);
+	v->p2 = my_malloc(&shell.memory, ft_strlen(v->p) - v->len + 1);
 	if (v->p2)
-		strcpy(v->p2, v->p + v->len);
+		ft_strcpy(v->p2, v->p + v->len);
 	free(v->p);
 	return (v->p2);
 }
@@ -110,7 +110,7 @@ char	*var_expand(char *orig_var_name)
 	orig_var_name = setup_var(orig_var_name, &var);
 	if (!*orig_var_name)
 		return (NULL);
-	if (strcmp(orig_var_name, "?") == 0)
+	if (ft_strcmp(orig_var_name, "?") == 0)
 		return (exit_code_expansion(orig_var_name));
 	search_colon(orig_var_name, &var);
 	if (!var.tmp || var.tmp == var.empty_val)

@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/03 03:19:16 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 04:26:38 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,9 @@ void	main_loop(t_shell *shell)
 {
 	t_cli	cli;
 	char	*cmd;
-	int original_stdout = dup(STDOUT_FILENO);
-	int original_stderr = dup(STDERR_FILENO);
+	int		original_stdout;
+
+	original_stdout = dup(STDOUT_FILENO);
 	while (true)
 	{
 		if (isatty(fileno(stdin)))
@@ -57,15 +58,14 @@ void	main_loop(t_shell *shell)
 		if (strncmp(cmd, "exit", 5) == 0)
 		{
 			free(cmd);
-			exit(shell->status);
 			free_all_mem(&shell->memory);
+			exit(shell->status);
 		}
 		if (isatty(STDIN_FILENO))
 			add_history(cmd);
 		cli = init_cli(cmd);
 		shell->status = parse_and_execute(&cli);
 		dup2(original_stdout, STDOUT_FILENO);
-		dup2(original_stderr, STDERR_FILENO);
 	}
 }
 
@@ -77,6 +77,7 @@ int	main(int argc, char **argv, char **env)
 	shell = init_main(argc, argv, env, &mirror_termios);
 	main_loop(shell);
 	rl_clear_history();
+	free_all_mem(&shell->memory);
 	exit(shell->status);
 }
 

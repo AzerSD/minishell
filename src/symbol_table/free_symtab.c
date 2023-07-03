@@ -68,17 +68,17 @@ struct s_symtab_entry	*create_symtab_entry(const char *symbol)
 	entry = my_malloc(&shell.memory, sizeof(struct s_symtab_entry));
 	if (!entry)
 	{
-		fprintf(stderr, "fatal error: no memory for new symbol table entry\n");
+		ft_printf_fd(2, "fatal error: no memory for new symbol table entry\n");
 		exit(EXIT_FAILURE);
 	}
-	memset(entry, 0, sizeof(struct s_symtab_entry));
-	entry->name = my_malloc(&shell.memory, strlen(symbol) + 1);
+	ft_memset(entry, 0, sizeof(struct s_symtab_entry));
+	entry->name = my_malloc(&shell.memory, ft_strlen(symbol) + 1);
 	if (!entry->name)
 	{
-		fprintf(stderr, "fatal error: no memory for new symbol table entry\n");
+		ft_printf_fd(2, "fatal error: no memory for new symbol table entry\n");
 		exit(EXIT_FAILURE);
 	}
-	strcpy(entry->name, symbol);
+	ft_strcpy(entry->name, symbol);
 	return (entry);
 }
 

@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 07:28:23 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/03 00:47:44 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 04:45:11 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	export_symtab(void)
 		if (is_valid_variable_name(entry->name))
 		{
 			if (entry->val)
-				fprintf(stderr, "declare -x %s=%s\n", entry->name, entry->val);
+				ft_printf_fd(STDERR_FILENO, "declare -x %s=%s\n", entry->name, entry->val);
 			else
-				fprintf(stderr, "declare -x %s\n", entry->name);
+				ft_printf_fd(STDERR_FILENO, "declare -x %s\n", entry->name);
 		}
 		entry = entry->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 14:48:37 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 22:30:11 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 04:36:33 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ char	*fix_cmd(char *orig_cmd, int backquoted)
 	char	*cmd;
 	int		b;
 
-	cmd = my_malloc(&shell.memory, strlen(orig_cmd + 1));
+	cmd = my_malloc(&shell.memory, ft_strlen(orig_cmd + 1));
 	if (!cmd)
 	{
-		fprintf(stderr,
+		ft_printf_fd(STDERR_FILENO,
 			"error: insufficient memory to perform command substitution\n");
 		return (NULL);
 	}
@@ -28,7 +28,7 @@ char	*fix_cmd(char *orig_cmd, int backquoted)
 		b = 1;
 	else
 		b = 2;
-	strcpy(cmd, orig_cmd + b);
+	ft_strcpy(cmd, orig_cmd + b);
 	return (cmd);
 }
 
@@ -64,7 +64,7 @@ char	*extend_buffer(char *buf, size_t bufsz, int i)
 {
 	char	*buf2;
 
-	buf2 = realloc(buf, bufsz + i + 1);
+	buf2 = ft_realloc(buf, bufsz + i + 1);
 	if (!buf2)
 	{
 		free(buf);

@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:28:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/02 23:57:49 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 04:53:37 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ char	*get_varname(const char *str)
 	int		len;
 	char	*var_name;
 
-	eq = strchr(str, '=');
+	eq = ft_strchr(str, '=');
 	if (eq)
 	{
 		len = eq - str;
 		var_name = my_malloc(&shell.memory, len + 1);
-		strncpy(var_name, str, len);
+		ft_strncpy(var_name, str, len);
 		var_name[len] = '\0';
 		return (var_name);
 	}
@@ -37,7 +37,7 @@ void	string_to_symtab(const char *env_var)
 	char					*eq;
 	char					*name;
 
-	eq = strchr(env_var, '=');
+	eq = ft_strchr(env_var, '=');
 	if (eq)
 	{
 		name = get_varname(env_var);
@@ -78,10 +78,10 @@ void	init_symtab_stack(void)
 	s_symtab_stack.symtab_count = 1;
 	if (!global_symtab)
 	{
-		fprintf(stderr, "fatal error: no memory for global symbol table\n");
+		ft_printf_fd(STDERR_FILENO, "fatal error: no memory for global symbol table\n");
 		exit(EXIT_FAILURE);
 	}
-	memset(global_symtab, 0, sizeof(struct s_symtab));
+	ft_memset(global_symtab, 0, sizeof(struct s_symtab));
 	s_symtab_stack.global_symtab = global_symtab;
 	s_symtab_stack.local_symtab = global_symtab;
 	s_symtab_stack.symtab_list[0] = global_symtab;
@@ -94,9 +94,9 @@ struct s_symtab	*new_symtab(void)
 	symtab = my_malloc(&shell.memory, sizeof(struct s_symtab));
 	if (!symtab)
 	{
-		fprintf(stderr, "fatal error: no memory for new symbol table\n");
+		ft_printf_fd(STDERR_FILENO, "fatal error: no memory for new symbol table\n");
 		exit(EXIT_FAILURE);
 	}
-	memset(symtab, 0, sizeof(struct s_symtab));
+	ft_memset(symtab, 0, sizeof(struct s_symtab));
 	return (symtab);
 }

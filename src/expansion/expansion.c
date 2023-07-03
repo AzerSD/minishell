@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:05:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/02 00:39:46 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 04:37:46 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ int	init_expand(t_m *m, char *orig_word)
 		return (1);
 	if (!*orig_word)
 		return (0);
-	m->pstart = my_malloc(&shell.memory, strlen(orig_word) + 1);
+	m->pstart = my_malloc(&shell.memory, ft_strlen(orig_word) + 1);
 	if (!m->pstart)
 		return (1);
-	strcpy(m->pstart, orig_word);
+	ft_strcpy(m->pstart, orig_word);
 	m->p = m->pstart;
 	m->escaped = 0;
 	return (1);

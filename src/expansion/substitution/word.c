@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 15:09:50 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 22:52:14 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 04:37:13 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	process_word(struct s_word *word, int *in_double_quotes)
 	{
 		handle_char(&p, in_double_quotes);
 	}
-	word->len = strlen(word->data);
+	word->len = ft_strlen(word->data);
 }
 
 void	substitute_norm(char **tmp, char **tmp2, char *(func)(char *), \
@@ -33,7 +33,7 @@ void	substitute_norm(char **tmp, char **tmp2, char *(func)(char *), \
 		(*p) += *len;
 		return ;
 	}
-	strncpy(*tmp, *p, *len);
+	ft_strncpy(*tmp, *p, *len);
 	(*tmp)[(*len)--] = '\0';
 	if (func)
 	{
@@ -66,7 +66,7 @@ int	substitute_word(char **pstart, char **p, size_t len, \
 		if (tmp2)
 		{
 			(*pstart) = tmp2;
-			len = strlen(tmp);
+			len = ft_strlen(tmp);
 		}
 	}
 	(*p) = (*pstart) + i + len - 1;
@@ -95,14 +95,14 @@ struct s_word	*make_word(char *str)
 	word = my_malloc(&shell.memory, sizeof(struct s_word));
 	if (!word)
 		return (NULL);
-	len = strlen(str);
+	len = ft_strlen(str);
 	data = my_malloc(&shell.memory, len + 1);
 	if (!data)
 	{
 		free(word);
 		return (NULL);
 	}
-	strcpy(data, str);
+	ft_strcpy(data, str);
 	word->data = data;
 	word->len = len;
 	word->next = NULL;

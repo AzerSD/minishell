@@ -79,7 +79,7 @@ size_t	calculate_length(char *val, int add_quotes)
 		return (len);
 	}
 	len = count_extra_chars(val);
-	len += strlen(val);
+	len += ft_strlen(val);
 	if (add_quotes)
 		len += 2;
 	return (len);
@@ -96,9 +96,9 @@ char	*quote_val(char *val, int add_quotes)
 	if (!val || !*val)
 	{
 		if (add_quotes)
-			strcpy(res, "\"\"");
+			ft_strcpy(res, "\"\"");
 		else
-			strcpy(res, "");
+			ft_strcpy(res, "");
 		return (res);
 	}
 	p = res;
@@ -107,7 +107,7 @@ char	*quote_val(char *val, int add_quotes)
 	copy_and_escape(val, p);
 	if (add_quotes)
 	{
-		p = p + strlen(p);
+		p = p + ft_strlen(p);
 		*p++ = '"';
 		*p = '\0';
 	}

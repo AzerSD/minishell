@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:41:31 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/03 00:42:56 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 04:04:08 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	exec_builtin(int argc, char **argv)
 		return (-1);
 	while (i < bt->count)
 	{
-		if (strcmp(argv[0], bt->builtins[i].name) == 0)
+		if (ft_strcmp(argv[0], bt->builtins[i].name) == 0)
 		{
 			return (bt->builtins[i].func(argc, argv));
 		}

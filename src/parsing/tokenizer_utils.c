@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 13:03:57 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 13:06:39 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 04:51:13 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ int	is_valid_variable_name(const char *str)
 {
 	if (!str || !*str)
 		return (0);
-	if (!isalpha(*str) && *str != '_')
+	if (!ft_isalpha(*str) && *str != '_')
 		return (0);
 	while (*++str)
 	{
-		if (!isalnum(*str) && *str != '_')
+		if (!ft_isalnum(*str) && *str != '_')
 			return (0);
 	}
 	return (1);
@@ -33,7 +33,7 @@ void	add_to_buf(char c, t_curr_tok *curr)
 	curr->tok_buff[curr->tok_buff_index++] = c;
 	if (curr->tok_buff_index >= curr->tok_buff_size)
 	{
-		tmp = realloc(curr->tok_buff, curr->tok_buff_size * 2);
+		tmp = ft_realloc(curr->tok_buff, curr->tok_buff_size * 2);
 		if (!tmp)
 		{
 			errno = ENOMEM;

@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 00:54:26 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/03 00:54:52 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 05:01:13 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	signal_ctrl_backslash(void)
 {
 	struct sigaction	ctrl_back_slash;
 
-	ctrl_back_slash.sa_handler = SIG_IGN;
 	ctrl_back_slash.sa_flags = SA_RESTART;
+	ctrl_back_slash.sa_handler = SIG_IGN;
 	sigemptyset(&ctrl_back_slash.sa_mask);
 	sigaction(SIGQUIT, &ctrl_back_slash, NULL);
 }
@@ -47,8 +47,8 @@ void	signal_ctrl_d(void)
 {
 	struct sigaction	ctrl_d;
 
-	ctrl_d.sa_handler = SIG_IGN;
 	ctrl_d.sa_flags = SA_RESTART;
+	ctrl_d.sa_handler = SIG_IGN;
 	sigemptyset(&ctrl_d.sa_mask);
 	sigaction(SIGQUIT, &ctrl_d, NULL);
 }
