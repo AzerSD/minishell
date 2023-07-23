@@ -32,7 +32,7 @@ char	*wordlist_to_str(struct s_word *word)
 		len += w->len + 1;
 		w = w->next;
 	}
-	str = my_malloc(&shell.memory, len + 1);
+	str = malloc(len + 1);
 	if (!str)
 	{
 		return (NULL);
@@ -96,20 +96,23 @@ char	*substitute_str(char *s1, char *s2, size_t start, size_t end)
 	size_t	totallen;
 	char	*final;
 
+	/* get the prefix (the part before start) */
 	strncpy(before, s1, start);
 	before[start] = '\0';
+	/* get the postfix (the part after end) */
 	strcpy(after, s1 + end + 1);
+	/* alloc memory for the new string */
 	totallen = start + afterlen + strlen(s2);
-	final = my_malloc(&shell.memory, totallen + 1);
+	final = malloc(totallen + 1);
 	if (!final)
 	{
 		fprintf(stderr,
 				"error: insufficient memory to perform variable substitution\n");
 		return NULL;
 	}
-	if (!totallen) 
+	if (!totallen) /* empty string */
 		final[0] = '\0';
-	else
+	else /* concatenate the three parts into one string */
 	{
 		strcpy(final, before);
 		strcat(final, s2);
@@ -136,7 +139,7 @@ int	substitute_word(char **pstart, char **p, size_t len, char *(func)(char *),
 	char	*tmp2;
 	size_t	i;
 
-	tmp = my_malloc(&shell.memory, len + 1);
+	tmp = malloc(len + 1);
 	if (!tmp)
 	{
 		(*p) += len;
@@ -168,6 +171,7 @@ int	substitute_word(char **pstart, char **p, size_t len, char *(func)(char *),
 	{
 		if ((tmp2 = substitute_str(*pstart, tmp, i, i + len)))
 		{
+			free(*pstart);
 			(*pstart) = tmp2;
 			len = strlen(tmp);
 		}

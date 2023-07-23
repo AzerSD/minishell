@@ -1,53 +1,12 @@
 https://github.com/thallard/minishell_tester
 https://github.com/solaldunckel/minishell-tester/tree/master
 
-tricky
-top | cat
-cat | cat | cat
-long input
-error output of cd should be redirected to stdoutput
-cd "doesntexist" 2>/dev/null 
->>>>
->>>
-
-
-cd -
-cd - -
-cd --
-
 ```
 echo "Hello, World!" > output.txt | cat -n | tee output.txt >> appended.txt < input.txt << EOF
 This is the input file contents.
 EOF
 ```
 
-Globing aka RegEx
-ls *
-ls *.c
-ls *.[ch]
-ls *.[ch] *.[ch]
-ls *.[ch] *.[ch] *.[ch]
-ls ?rc
-ls ?rc ?rc
-ls [!...]rc
-ls [!...]rc [!...]rc
-
-
-Command Substitution
-
-
-heredoc expansion
-cat << eof
-$OLDPWD
-$PWD
-''''$USER'''
-""$USER::""
-""$USER"" 
-'"'"$USER'"'"
-d$USERdd
-eof
-
-echo 42 > ff > gg > hh
 cat << eof | ls | cat << end
 cat << eof | l | cat << end
 

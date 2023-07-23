@@ -6,7 +6,7 @@
 #    By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/25 10:59:44 by asioud            #+#    #+#              #
-#    Updated: 2023/06/30 08:55:17 by asioud           ###   ########.fr        #
+#    Updated: 2023/06/21 06:46:30 by asioud           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,7 @@ NAME		=	minishell
 CC			=	cc
 RM			=	rm -rf
 LIBFT		= 	libs/libft/libft.a
-GC			=	libs/garbage_collector/garbage_collector.a
-CFLAGS		=	-g 
+CFLAGS		=	-g
 HEADER_FILES=	-I ./includes -I ./libs/libft/includes
 
 ifeq ($(OS), Linux)
@@ -84,9 +83,7 @@ all:	$(NAME)
 
 
 $(NAME): $(OBJS)
-	cd libs/libft && make
-	cd libs/garbage_collector && make
-	$(CC) $(HEADER_FILES) -lreadline -lhistory $(CFLAGS) $(OBJS) $(GC) $(LIBFT) -o $(NAME) $(INCL_RDL_LIB)
+	$(CC) $(HEADER_FILES) -lreadline -lhistory $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(INCL_RDL_LIB)
 
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
@@ -97,8 +94,6 @@ clean:
 	@$(RM) $(OBJ_DIR)
 
 fclean:	clean
-	# @cd libs/libft && make fclean
-	@cd libs/garbage_collector && make fclean
 	@$(RM) $(NAME)
 
 re:	fclean all

@@ -6,13 +6,14 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:59 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/23 04:19:47 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/21 04:49:01 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
 
+# include "minishell.h"
 
 /**
  * @brief Searches for a file in the system's `PATH` environment variable.

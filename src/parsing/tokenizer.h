@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:58:31 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/23 04:20:20 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/19 20:00:40 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define TOKENIZER_H
 # define EOF_TOKEN NULL
 
+# include "minishell.h"
 
 typedef enum {
     PARSE_DEFAULT,

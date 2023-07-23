@@ -13,17 +13,14 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-
-
-
-# define RESET "\001\033[0m\002"
-# define RED "\001\033[31m\002" // Red
-# define GRN "\001\033[32m\002" // Green
-# define YEL "\001\033[33m\002" // Yellow
-# define BLU "\001\033[34m\002" // Blue
-# define MAG "\001\033[35m\002" // Magenta
-# define CYN "\001\033[36m\002" // Cyan
-# define WHT "\001\033[37m\002" // White
+# define RESET "\033[0m"
+# define RED "\033[31m" // Red
+# define GRN "\033[32m" // Green
+# define YEL "\033[33m" // Yellow
+# define BLU "\033[34m" // Blue
+# define MAG "\033[35m" // Magenta
+# define CYN "\033[36m" // Cyan
+# define WHT "\033[37m" // White
 
 # include <unistd.h>
 # include <limits.h>
@@ -59,18 +56,11 @@
 # include "../src/execution/executor.h"
 # include "../src/expansion/expansion.h"
 # include "../src/core/shell.h"
+
 #include "../src/signals/signals.h"
-#include "../libs/garbage_collector/memory.h"
 
 typedef unsigned char	t_status;
-
-typedef struct g_shell
-{
-    t_status   status;
-    void   *memory;
-}            t_shell;
-
-t_shell shell;
+t_status				g_status;
 
 
 #endif

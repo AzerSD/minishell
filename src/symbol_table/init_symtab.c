@@ -6,19 +6,19 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:28:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/28 08:12:06 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/21 05:29:54 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char* get_varname(const char *str)
+static char* get_varname(const char *str)
 {
     char* equalsSignPosition = strchr(str, '=');
     if (equalsSignPosition)
 	{
         int len = equalsSignPosition - str;
-        char *varName = my_malloc(&shell.memory, len + 1);
+        char *varName = malloc(len + 1);
         strncpy(varName, str, len);
         varName[len] = '\0';
         return varName;
@@ -32,10 +32,13 @@ void	string_to_symtab(const char *env_var)
 	struct s_symtab_entry	*entry;
 	char					*eq;
 	char *name;
-
 	eq = strchr(env_var, '=');
 	if (eq)
 	{
+		// int len = eq - env_var;
+        // char name[len + 1];
+		// strncpy(name, env_var, len);
+		// name[len] = '\0';
 		name = get_varname(env_var);
 		entry = add_to_symtab(name);
 		if (entry)
@@ -52,7 +55,9 @@ void	string_to_symtab(const char *env_var)
 void	init_symtab(char **env)
 {
 	struct s_symtab_entry	*entry;
+	struct s_symtab			*st;
 
+	st = s_symtab_stack.local_symtab;
 	init_symtab_stack();
 	char **p2 = env;
 	while (*p2)
@@ -60,16 +65,15 @@ void	init_symtab(char **env)
 		string_to_symtab(*p2);
 		p2++;
 	}
-	entry = do_lookup("OLDPWD", s_symtab_stack.local_symtab);
-	if (entry)
-		rem_from_symtab(entry, s_symtab_stack.local_symtab);
+	entry = do_lookup("OLDPWD", st);
+	update_entry(entry, NULL, "OLDPWD");
 }
 
 void	init_symtab_stack(void)
 {
 	struct s_symtab	*global_symtab;
 
-	global_symtab = my_malloc(&shell.memory, sizeof(struct s_symtab));
+	global_symtab = malloc(sizeof(struct s_symtab));
 	s_symtab_stack.symtab_count = 1;
 	if (!global_symtab)
 	{
@@ -86,7 +90,7 @@ struct s_symtab	*new_symtab()
 {
 	struct s_symtab	*symtab;
 
-	symtab = my_malloc(&shell.memory, sizeof(struct s_symtab));
+	symtab = malloc(sizeof(struct s_symtab));
 	if (!symtab)
 	{
 		fprintf(stderr, "fatal error: no memory for new symbol table\n");

@@ -29,7 +29,6 @@
 		"expansion.h": "c",
 		"locale": "c",
 		"unordered_map": "c",
-		"__node_handle": "c",
-		"memory.h": "c"
+		"__node_handle": "c"
 	}
 }

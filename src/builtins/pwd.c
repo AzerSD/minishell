@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:37 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/27 16:37:18 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 22:36:33 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,5 @@ int ft_pwd(int argc, ...)
 	s = do_lookup("PWD", symtab);
 	if (s)
 		printf("%s\n", s->val);
-	shell.status = 0;
 	return (0);
 }

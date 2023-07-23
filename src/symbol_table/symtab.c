@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 07:28:23 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/27 13:24:48 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/20 00:40:22 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void dump_export_local_symtab(void)
 		entry = entry->next;
 	}
 }
-
 struct s_symtab_entry *add_to_symtab(const char *symbol)
 {
 	if (!symbol || symbol[0] == '\0')
@@ -64,14 +63,14 @@ struct s_symtab_entry *add_to_symtab(const char *symbol)
 	if ((entry = do_lookup(symbol, st)))
 		return entry;
 
-	entry = my_malloc(&shell.memory, sizeof(struct s_symtab_entry));
+	entry = malloc(sizeof(struct s_symtab_entry));
 	if (!entry)
 	{
 		fprintf(stderr, "fatal error: no memory for new symbol table entry\n");
 		exit(EXIT_FAILURE);
 	}
 	memset(entry, 0, sizeof(struct s_symtab_entry));
-	entry->name = my_malloc(&shell.memory, strlen(symbol)+1);
+	entry->name = malloc(strlen(symbol)+1);
 	if (!entry->name)
 	{
 		fprintf(stderr, "fatal error: no memory for new symbol table entry\n");
@@ -166,7 +165,7 @@ void symtab_entry_setval(struct s_symtab_entry *entry, char *val)
 	}
 	else
 	{
-		char *val2 = my_malloc(&shell.memory, strlen(val)+1);        if (val2)
+		char *val2 = malloc(strlen(val)+1);        if (val2)
 		{
 			strcpy(val2, val);
 		}
@@ -179,10 +178,15 @@ void symtab_entry_setval(struct s_symtab_entry *entry, char *val)
 
 void update_entry(struct s_symtab_entry *entry, char *new_val, char *name)
 {
-	entry = do_lookup(name, s_symtab_stack.local_symtab);
+	struct s_symtab			*st;
+
+	st = s_symtab_stack.local_symtab;
+
+	entry = do_lookup(name, st);
 	if (!entry)
 	{
-		entry = add_to_symtab(name);
+		fprintf(stderr, "%s not set", name);
 	}
 	symtab_entry_setval(entry, new_val);
+
 }

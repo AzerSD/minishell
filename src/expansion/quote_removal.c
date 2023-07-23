@@ -199,4 +199,3 @@ size_t	find_closing_brace(char *data)
 		return (0);
 	return (i);
 }
-

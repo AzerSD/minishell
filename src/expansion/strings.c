@@ -49,7 +49,7 @@ char *quote_val(char *val, int add_quotes)
     if (!val || !*val)
     {
         len = add_quotes ? 3 : 1;
-        res = my_malloc(&shell.memory, len);
+        res = malloc(len);
         if (!res)
             return NULL;
         strcpy(res, add_quotes ? "\"\"" : "");
@@ -76,7 +76,7 @@ char *quote_val(char *val, int add_quotes)
     if (add_quotes)
         len += 2;
     /* alloc memory for quoted string */
-    res = my_malloc(&shell.memory, len+1);
+    res = malloc(len+1);
     if (!res)
         return NULL;
     p = res;
@@ -130,7 +130,7 @@ int check_buffer_bounds(int *count, int *len, char ***buf)
         if (!(*buf))
         {
             /* first call. alloc memory for the buffer */
-            *buf = my_malloc(&shell.memory, 32*sizeof(char **));
+            *buf = malloc(32*sizeof(char **));
             if (!(*buf))
                 return 0;
             *len = 32;

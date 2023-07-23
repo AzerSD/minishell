@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 01:58:07 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/23 18:09:27 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 22:46:01 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  */
 t_node *new_node(enum e_node_type type)
 {
-	t_node *node = my_malloc(&shell.memory, sizeof(t_node));
+	t_node *node = malloc(sizeof(t_node));
 
 	if (!node)
 		return NULL;
@@ -86,7 +86,7 @@ void set_node_val_str(t_node *node, char *val)
 		node->val.str = NULL;
 	else
 	{
-		val2 = my_malloc(&shell.memory, strlen(val)+1);	
+		val2 = malloc(strlen(val)+1);	
 		if (!val2)
 			node->val.str = NULL;
 		else

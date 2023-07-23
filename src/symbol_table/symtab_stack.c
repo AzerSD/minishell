@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-struct s_symtab_stack s_symtab_stack = {0};
 
 /**
  * @brief adds the given symbol table to the stack, 

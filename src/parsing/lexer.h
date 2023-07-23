@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:58:43 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/23 04:20:07 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/16 22:45:52 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # define ERRCHAR (0)
 
 # define INIT_SRC_POS (-2)
+
+# include "minishell.h"
 
 /**
  * @brief This struct represents our command line
