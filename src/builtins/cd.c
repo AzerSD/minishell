@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:48 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/17 00:10:12 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/27 15:47:30 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_cd(int argc, ...)
 	struct s_symtab			*st;
 	struct s_symtab_entry	*entry;
 	struct s_symtab_entry	*oldpwd;
-	char *newpwd;
+	char					*newpwd;
 
 	st = s_symtab_stack.local_symtab;
 	entry = NULL;
@@ -54,8 +54,6 @@ int	ft_cd(int argc, ...)
 		newpwd = getcwd(NULL, 0);
 		update_entry(entry, oldpwd->val, "OLDPWD");
 		update_entry(entry, newpwd, "PWD");
-
-
 		if (result != 0)
 		{
 			fprintf(stderr, "cd: %s: %s\n", *(path + 1), strerror(errno));

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+         #
+#    By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/25 10:59:44 by asioud            #+#    #+#              #
-#    Updated: 2023/06/21 06:46:30 by asioud           ###   ########.fr        #
+#    Updated: 2023/07/27 23:03:58 by lhasmi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CC			=	cc
 RM			=	rm -rf
 LIBFT		= 	libs/libft/libft.a
 CFLAGS		=	-g
-HEADER_FILES=	-I ./includes -I ./libs/libft/includes
+HEADER_FILES=	-I ./includes -I libs/libft/includes
 
 ifeq ($(OS), Linux)
 INCL_RDL_HEADER	= -I /home/linuxbrew/.linuxbrew/opt/readline/include/readline
@@ -83,8 +83,8 @@ all:	$(NAME)
 
 
 $(NAME): $(OBJS)
+	@make -C libs/libft
 	$(CC) $(HEADER_FILES) -lreadline -lhistory $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(INCL_RDL_LIB)
-
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
 	@mkdir -p $(@D)
@@ -94,6 +94,7 @@ clean:
 	@$(RM) $(OBJ_DIR)
 
 fclean:	clean
+	@make -C libs/libft fclean
 	@$(RM) $(NAME)
 
 re:	fclean all

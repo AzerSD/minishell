@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/23 10:34:19 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/27 16:02:42 by lhasmi           ###   ########.fr       */
+/*   Created: 2023/07/27 19:22:32 by lhasmi            #+#    #+#             */
+/*   Updated: 2023/07/27 19:25:37 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/libft.h"
 
-int	ft_env(int argc, ...)
+char	*ft_strcpy(char *dest, const char *src)
 {
-	struct s_symtab			*symtab;
-	struct s_symtab_entry	*entry;
+	char	*save;
 
-	(void)argc;
-	symtab = s_symtab_stack.local_symtab;
-	entry = symtab->first;
-	while (entry)
+	save = dest;
+	while (*src)
 	{
-		if (is_valid_variable_name(entry->name))
-			ft_printf_fd(1, "%s=%s\n", entry->name, entry->val);
-		entry = entry->next;
+		*dest = *src;
+		dest++;
+		src++;
 	}
-	return (0);
+	*dest = '\0';
+	return (save);
 }

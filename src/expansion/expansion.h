@@ -2,11 +2,14 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   expansion.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/30 17:28:12 by asioud            #+#    #+#             */
-/*   Updated: 2023/03/30 17:28:12 by asioud           ###   ########.fr       */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
+/*   Created: 2023/07/27 18:25:08 by lhasmi            #+#    #+#             */
+/*   Updated: 2023/07/27 18:25:08 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,57 +17,73 @@
 # define EXPANSION_H
 
 /* required macro definition for popen() and pclose() */
-#define _POSIX_C_SOURCE 200809L
+# define _POSIX_C_SOURCE 200809L
 
-
-#include "minishell.h"
-
+# include "minishell.h"
 
 /* special value to represent an invalid variable */
-#define INVALID_VAR ((char *)-1)
+# define INVALID_VAR ((char *)-1)
+
+typedef struct s_cmdsubst
+{
+	size_t		bufsz;
+	char		*buf;
+	char		*p;
+	int			i;
+	int			backquoted;
+	char		*cmd;
+	size_t		cmdlen;
+	char		*p1;
+	char		*p2;
+	char		*p3;
+	char		*buf2;
+	FILE		*fp;
+} t_cmdsubst;
 
 /**
  * @brief A word is a string of characters delimited by spaces.
  * @param data the string representing this word.
  * @param len the length of the string.
  * @param next a pointer to the next word or null for last word
-*/
+ */
 struct s_word
 {
-	char  *data;
-	int    len;
+	char *data;
+	int len;
 	struct s_word *next;
 };
 
 /**
  * @brief perform word expansion on a single word, pointed to by orig_word.
- * @returns the head of the linked list of the expanded fields and stores the last field
+
+	* @returns the head of the linked list of the expanded fields and stores the last field
  * in the tail pointer.
-*/
+ */
 struct s_word	*expand(char *orig_word);
 
 /**
  * @brief skip all whitespace characters that are part of $IFS.
-*/
+ */
 void	skip_IFS_whitespace(char **str, char *IFS);
 
 /**
  * @brief skip $IFS delimiters,
  * which can be whitespace characters as well as other chars.
-*/
+ */
 void	skip_IFS_delim(char *str, char *IFS_space, char *IFS_delim, size_t *_i,
-		size_t len);
+			size_t len);
 
 /**
- * @brief convert the words resulting from a word expansion into separate fields.
+
+	* @brief convert the words resulting from a word expansion into separate fields.
  * @returns a pointer to the first field, NULL if no field splitting was done.
-*/
+ */
 struct s_word	*field_split(char *str);
 
 /**
  * @brief A simple shortcut to perform word-expansions on a string,
  * @returns the result as a string.
-*/
+ */
 char	*word_expand_to_str(char *word);
 char	*var_expand(char *orig_var_name);
 
@@ -73,33 +92,41 @@ char	*var_expand(char *orig_var_name);
  * so it can be passed to functions such as word_expand().
  * @param *str the string to convert.
  * @returns the malloc'd cmd_token struct, or NULL if insufficient memory.
-*/
+ */
 struct s_word	*make_word(char *str);
 
 /**
  * @brief free the memory used by a list of words.
  * @param *first the first word in the list.
-*/
-void			free_all_words(struct s_word *first);
+ */
+void	free_all_words(struct s_word *first);
 
+char	**get_filename_matches(char *pattern, glob_t *matches);
+int		has_glob_chars(char *p, size_t len);
+int		match_prefix(char *pattern, char *str, int longest);
+int		match_suffix(char *pattern, char *str, int longest);
 
-char **get_filename_matches(char *pattern, glob_t *matches);
-int has_glob_chars(char *p, size_t len);
-int match_prefix(char *pattern, char *str, int longest);
-int match_suffix(char *pattern, char *str, int longest);
-
-
+/////////// command substitution functions //////////////////////////////////////////////
+void strip_trailing_newlines(t_cmdsubst *strct, char *cmd2);
+int read_from_pipe_and_store_into_buffer(FILE *fp, t_cmdsubst *strct, char *b);
+int error_handling_for_buffer(t_cmdsubst *strct);
+FILE *open_pipe(t_cmdsubst *strct, char *cmd2);
+void handle_special_characters(t_cmdsubst *strct);
+void special_character_replacement(t_cmdsubst *strct);
+char	*handle_backquoted_status(t_cmdsubst *strct, char *orig_cmd, char *cmd2);
+char *allocate_memory_for_cmd(t_cmdsubst *strct, char *orig_cmd);
+void initialize_struct(t_cmdsubst *strct, char *orig_cmd);
 char	*command_substitute(char *orig_cmd);
 
+///////////  //////////////////////////////////////////////
 
-void			remove_quotes(struct s_word *wordlist);
-size_t			find_closing_quote(char *data);
-size_t			find_closing_brace(char *data);
+void	remove_quotes(struct s_word *wordlist);
+size_t	find_closing_quote(char *data);
+size_t	find_closing_brace(char *data);
 
-char			*tilde_expansion(char *s);
+char	*tilde_expansion(char *s);
 
 struct s_word	*pathnames_expand(struct s_word *words);
-
 
 char	*wordlist_to_str(struct s_word *word);
 void	delete_char_at(char *str, size_t index);
@@ -108,11 +135,9 @@ char	*substitute_str(char *s1, char *s2, size_t start, size_t end);
 int		substitute_word(char **pstart, char **p, size_t len, char *(func)(char *),
 			int add_quotes);
 
-
 int		check_buffer_bounds(int *count, int *len, char ***buf);
 char	*strchr_any(char *string, char *chars);
 char	*quote_val(char *val, int add_quotes);
 void	free_buffer(int len, char **buf);
-
 
 #endif

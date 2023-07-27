@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+         #
+#    By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/20 13:12:26 by asioud            #+#    #+#              #
-#    Updated: 2023/06/16 21:04:17 by asioud           ###   ########.fr        #
+#    Updated: 2023/07/27 19:25:21 by lhasmi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
-CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = -Wall -Wextra -Werror
 CC = gcc
 GNL	= ./srcs/get_next_line/
 SRCS = 			\
@@ -39,6 +39,7 @@ SRCS = 			\
 				./srcs/ft_itoa.c \
 				./srcs/ft_isspace.c \
 				./srcs/ft_memcmp.c \
+				./srcs/ft_strcpy.c \
 				./srcs/ft_strchr.c \
 				./srcs/ft_strlcat.c \
 				./srcs/ft_calloc.c \
@@ -91,7 +92,7 @@ SRCS = 			\
 				./srcs/ft_strjoins.c \
 				./srcs/ft_strjoin_str1.c \
 				./srcs/ft_strjoin_str2.c \
-				./srcs/error_line.c 
+				./srcs/error_line.c
 
 BONUS_SRCS = 	./bonus/ft_lstadd_back.c \
 				./bonus/ft_lstdelone.c \

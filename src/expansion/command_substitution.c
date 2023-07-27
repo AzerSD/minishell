@@ -2,136 +2,111 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   command_substitution.c                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/30 17:17:07 by asioud            #+#    #+#             */
-/*   Updated: 2023/03/30 17:17:07 by asioud           ###   ########.fr       */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
+/*   Created: 2023/07/27 19:56:21 by lhasmi            #+#    #+#             */
+/*   Updated: 2023/07/27 19:56:21 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief perform command substitutions.
- * the backquoted flag tells if we are called from a backquoted command substitution:
- * `command` or a regular one: $(command)
-*/
-char	*command_substitute(char *orig_cmd)
+FILE	*open_pipe(t_cmdsubst *strct, char *cmd2)
 {
-	char	b[1024];
-	size_t	bufsz;
-	char	*buf;
-	char	*p;
-	int		i;
-	int		backquoted;
-	char	*cmd;
-	size_t	cmdlen;
-	char	*p1;
-	char	*p2;
-	char	*p3;
-	FILE	*fp = NULL;
-	char	*buf2;
-
-	bufsz = 0;
-	buf = NULL;
-	p = NULL;
-	i = 0;
-	backquoted = (*orig_cmd == '`');
-	/*
-		* fix cmd in the backquoted version.. we skip the first char (if using the
-		* old, backquoted version),
-		or the first two chars (if using the POSIX version).
-	*/
-	cmd = malloc(strlen(orig_cmd + 1));
-	if (!cmd)
-	{
-		fprintf(stderr,
-				"error: insufficient memory to perform command substitution\n");
-		return NULL;
-	}
-	strcpy(cmd, orig_cmd + (backquoted ? 1 : 2));
-	char *cmd2 = cmd;
-	cmdlen = strlen(cmd);
-	if (backquoted)
-	{
-		/* remove the last back quote */
-		if (cmd[cmdlen - 1] == '`')
-			cmd[cmdlen - 1] = '\0';
-		/* fix the backslash-escaped chars */
-		p1 = cmd;
-		do
-		{
-			if (*p1 == '\\' &&
-				(p1[1] == '$' || p1[1] == '`' || p1[1] == '\\'))
-			{
-				p2 = p1;
-				p3 = p1 + 1;
-				while ((*p2++ = *p3++))
-					;
-			}
-		} while (*(++p1));
-	}
-	else
-	{
-		/* remove the last closing brace */
-		if (cmd[cmdlen - 1] == ')')
-			cmd[cmdlen - 1] = '\0';
-	}
-	fp = popen(cmd2, "r");
-	/* check if we have opened the pipe */
-	if (!fp)
+	strct->fp = popen(cmd2, "r");
+	if (!strct->fp)
 	{
 		free(cmd2);
 		fprintf(stderr, "error: failed to open pipe: %s\n", strerror(errno));
-		return NULL;
+		return (NULL);
 	}
-	/* read the command output */
-	while ((i = fread(b, 1, 1024, fp)))
+	return (strct->fp);
+}
+
+int	error_handling_for_buffer(t_cmdsubst *strct)
+{
+	strct->buf = malloc(strct->i + 1);
+	if (!strct->buf)
 	{
-		/* first time. alloc buffer */
-		if (!buf)
-		{
-			buf = malloc(i + 1);
-			if (!buf)
-				goto fin;
-			p = buf;
-		}
-		/* extend buffer */
+		fprintf(stderr,
+			"error: insufficient memory to perform command substitution\n");
+		return (-1);
+	}
+	strct->p = strct->buf;
+	return (0);
+}
+
+int	read_from_pipe_and_store_into_buffer(FILE *fp, t_cmdsubst *strct, char *b)
+{
+	strct->i = fread(b, 1, 1024, fp);
+	while (strct->i)
+	{
+		if (!strct->buf)
+			return (error_handling_for_buffer(strct));
 		else
 		{
-			buf2 = realloc(buf, bufsz + i + 1);
-			if (!buf2)
+			strct->buf2 = realloc(strct->buf, strct->bufsz + strct->i + 1);
+			if (!strct->buf2)
 			{
-				free(buf);
-				buf = NULL;
-				goto fin;
+				free(strct->buf);
+				strct->buf = NULL;
+				return (error_handling_for_buffer(strct));
 			}
-			buf = buf2;
-			p = buf + bufsz;
+			strct->buf = strct->buf2;
+			strct->p = strct->buf + strct->bufsz;
 		}
-		bufsz += i;
-		/* copy the input and add the null terminating byte */
-		memcpy(p, b, i);
-		p[i] = '\0';
+		strct->bufsz += strct->i;
+		ft_memcpy(strct->p, b, strct->i);
+		strct->p[strct->i] = '\0';
 	}
-	if (!bufsz)
+	return (0);
+}
+
+void	strip_trailing_newlines(t_cmdsubst *strct, char *cmd2)
+{
+	strct->i = strct->bufsz - 1;
+	while (strct->buf[strct->i] == '\n' || strct->buf[strct->i] == '\r')
+	{
+		strct->buf[strct->i] = '\0';
+		strct->i--;
+	}
+	pclose(strct->fp);
+	free(cmd2);
+	if (!strct->buf)
+	{
+		fprintf(stderr,
+			"error: insufficient memory to perform command substitution\n");
+		return ;
+	}
+}
+
+char	*command_substitute(char *orig_cmd)
+{
+	t_cmdsubst	strct;
+	char		*cmd2;
+	char		b[1024];
+
+	cmd2 = NULL;
+	initialize_struct(&strct, orig_cmd);
+	strct.cmd = allocate_memory_for_cmd(&strct, orig_cmd);
+	cmd2 = handle_backquoted_status(&strct, orig_cmd, cmd2);
+	handle_special_characters(&strct);
+	strct.fp = open_pipe(&strct, cmd2);
+	if (read_from_pipe_and_store_into_buffer(strct.fp, &strct, b) == -1)
+	{
+		pclose(strct.fp);
+		free(cmd2);
+		return (NULL);
+	}
+	if (!strct.bufsz)
 	{
 		free(cmd2);
-		return NULL;
+		return (NULL);
 	}
-	/* now remove any trailing newlines */
-	i = bufsz - 1;
-	while (buf[i] == '\n' || buf[i] == '\r')
-	{
-		buf[i] = '\0';
-		i--;
-	}
-fin:
-	pclose(fp);
-	free(cmd2);
-	if (!buf)
-		fprintf(stderr,
-				"error: insufficient memory to perform command substitution\n");
-	return buf;
+	strip_trailing_newlines(&strct, cmd2);
+	return (strct.buf);
 }

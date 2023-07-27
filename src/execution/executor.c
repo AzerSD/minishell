@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/22 02:39:20 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/27 16:15:43 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,27 @@ int	exec_cmd(int argc, char **argv)
 		execv(path, argv);
 		free(path);
 	}
-    return (errno == ENOEXEC ? 126 : errno == ENOENT ? 127 : EXIT_FAILURE);
+	if (errno == ENOEXEC)
+		return (126);
+	else if (errno == ENOENT)
+		return (127);
+	else
+		return (EXIT_FAILURE);
 }
 
-pid_t fork_command(int argc, char **argv, t_node *node)
+pid_t	fork_command(int argc, char **argv, t_node *node)
 {
-    pid_t child_pid;
+	pid_t	child_pid;
 
-    child_pid = fork();
-    if (child_pid == 0)
-    {
-        if (setup_redirections(node) != 0)
-            exit(EXIT_FAILURE);
-        else
+	child_pid = fork();
+	if (child_pid == 0)
+	{
+		if (setup_redirections(node) != 0)
+			exit(EXIT_FAILURE);
+		else
 		{
-    	exec_cmd(argc, argv);
-		fprintf(stderr, "minishell: %s: command not found\n", argv[0]);
+			exec_cmd(argc, argv);
+			fprintf(stderr, "minishell: %s: command not found\n", argv[0]);
 		}
 		if (errno == ENOEXEC)
 			exit(126);
@@ -50,8 +55,8 @@ pid_t fork_command(int argc, char **argv, t_node *node)
 			exit(127);
 		else
 			exit(EXIT_FAILURE);
-    }
-    return (child_pid);
+	}
+	return (child_pid);
 }
 
 int	parse_ast(t_node *node, int *argc, int *targc, char ***argv)
@@ -99,52 +104,51 @@ int	parse_ast(t_node *node, int *argc, int *targc, char ***argv)
 
 int	execc(t_node *node)
 {
-	char **argv = NULL;
-	int argc = 0;
-	int targc = 0;
-	pid_t child_pid;
-	int status;
-	t_builtin_info *bt = get_bt();
+	char			**argv;
+	int				argc;
+	int				targc;
+	pid_t			child_pid;
+	int				status;
+	t_builtin_info	*bt;
+	int				original_stdin;
+	int				pipeline_status;
 
+	argv = NULL;
+	argc = 0;
+	targc = 0;
+	bt = get_bt();
 	if (!node)
 		return (1);
-
 	if (node->type == NODE_ASSIGNMENT)
 	{
 		string_to_symtab(node->first_child->val.str);
 		return (0);
 	}
-
 	if (node->type == NODE_PIPE)
 	{
-		int original_stdin = dup(STDIN_FILENO);
-		int pipeline_status = execute_pipeline(argc, argv, node);
+		original_stdin = dup(STDIN_FILENO);
+		pipeline_status = execute_pipeline(argc, argv, node);
 		dup2(original_stdin, STDIN_FILENO);
 		close(original_stdin);
-
 		return (pipeline_status);
 	}
-
 	if (parse_ast(node, &argc, &targc, &argv) != 0 || !node)
 		return (1);
-
 	if (is_builtin(argc, argv, bt) == 0)
 	{
-		/* builtins should return the exit point to this fucntion */
 		free_argv(argc, argv);
 		return (0);
 	}
-
 	child_pid = fork_command(argc, argv, node);
-
 	if (child_pid == -1)
 	{
 		fprintf(stderr, "error: failed to fork command: %s\n", strerror(errno));
 		free_argv(argc, argv);
 		return (1);
 	}
-
 	waitpid(child_pid, &status, 0);
 	g_status = WEXITSTATUS(status);
-    return g_status;
+	return (g_status);
 }
+
+// return (errno == ENOEXEC ? 126 : errno == ENOENT ? 127 : EXIT_FAILURE);
