@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:58:27 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/03 04:51:29 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/29 21:34:13 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,15 @@ void	handle_token(t_cli *cli, t_curr_tok *curr, char nc, int *endloop)
 	else if (nc == '=')
 		handle_equals_sign(curr);
 	else if (nc == '|')
-		handle_pipe(cli, curr, endloop);
-	else if (nc == '>' || nc == '<')
-		handle_redirection(cli, curr, endloop, nc);
-	else
-		add_to_buf(nc, curr);
+        handle_pipe_or(cli, curr, endloop);  // handle '|' and '||' here
+    else if (nc == '&')
+        handle_and(cli, curr, endloop);  // handle '&' as AND
+    else if (nc == '>' || nc == '<')
+        handle_redirection(cli, curr, endloop, nc);
+    else if (nc == '(' || nc == ')')
+        handle_brackets(cli, curr, endloop);  // handle '(' and ')' as BRACKETS
+    else
+        add_to_buf(nc, curr);
 }
 
 t_token	*get_token(t_cli *cli, t_curr_tok *curr)

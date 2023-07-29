@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:58:31 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/03 01:25:58 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/29 22:34:01 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,20 @@
 
 typedef enum e_token_type
 {
-	PARSE_DEFAULT,
-	PARSE_ASSIGNMENT,
-	TOKEN_PIPE,
-	TOKEN_EOF,
-	TOKEN_OUTPUT,
-	TOKEN_INPUT,
-	TOKEN_APPEND,
-	TOKEN_HEREDOC,
-	TOKEN_FILE,
-}					t_token_type;
+    PARSE_DEFAULT,
+    PARSE_ASSIGNMENT,
+    TOKEN_PIPE,
+    TOKEN_EOF,
+    TOKEN_OUTPUT,
+    TOKEN_INPUT,
+    TOKEN_APPEND,
+    TOKEN_HEREDOC,
+    TOKEN_FILE,
+    TOKEN_AND,
+    TOKEN_OR,
+    TOKEN_LEFT_BRACKET,
+    TOKEN_RIGHT_BRACKET
+} t_token_type;
 
 /**
  * @brief Structure to hold the current token
@@ -74,10 +78,14 @@ void				init_curr_tok(t_curr_tok *curr);
 void				free_token(t_token *tok);
 
 void				add_to_buf(char c, t_curr_tok *curr);
-void				handle_pipe(t_cli *cli, t_curr_tok *curr, int *endloop);
+void				handle_pipe_or(t_cli *cli, t_curr_tok *curr, int *endloop);
 void				handle_equals_sign(t_curr_tok *curr);
 void				handle_newline(t_cli *cli, t_curr_tok *curr, int *endloop);
 void				handle_whitespace(t_curr_tok *curr, int *endloop);
+
+void				handle_and(t_cli *cli, t_curr_tok *curr, int *endloop);
+void				handle_brackets(t_cli *cli, t_curr_tok *curr, int *endloop);
+
 void				*handle_dollar_sign(t_cli *cli, t_curr_tok *curr);
 void				handle_backslash(t_cli *cli, t_curr_tok *curr);
 void				*handle_quotes(t_cli *cli, t_curr_tok *curr, char nc);

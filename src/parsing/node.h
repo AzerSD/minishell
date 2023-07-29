@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 01:58:12 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/03 04:49:11 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/29 19:57:55 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 
 /**
  * Define the type of our AST Node
- * @param NODE_COMMAND represents the root node of a simple command
- * @param NODE_VAR	represents the simple command's child nodes
- * @param NODE_ASSIGNMENT represents the root node of an assignment
- * @param NODE_PIPE represents the root node of a pipe
- * @param 
+ *  NODE_COMMAND represents the root node of a simple command
+ *  NODE_VAR	represents the simple command's child nodes
+ *  NODE_ASSIGNMENT represents the root node of an assignment
+ *  NODE_PIPE represents the root node of a pipe 
+ *  NODE_AND,  // for the '&&' operator
+ *  NODE_OR,   // for the '||' operator
+ *  NODE_SUBSHELL,  // for command groups '(command)'
 */
 enum					e_node_type
 {
@@ -33,10 +35,13 @@ enum					e_node_type
 	NODE_APPEND,
 	NODE_HEREDOC,
 	NODE_FILE,
+    NODE_AND,
+    NODE_OR,
+    NODE_SUBSHELL,
 };
 
 /**
- * Represents the types of values we can store in a given node structure
+ * Types of values we can store in a given node structure
  * for simple commands we use only VAL_STR
 */
 enum					e_val_type
@@ -52,7 +57,7 @@ enum					e_val_type
 };
 
 /**
- * Represents the value we can store in a given node structure,
+ * Value we can store in a given node structure,
  * Each node can have only one typoe of value.
 */
 union					u_symval

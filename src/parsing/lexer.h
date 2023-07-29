@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:58:43 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 03:00:11 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/29 19:44:00 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@
 # define INIT_SRC_POS (-2)
 
 /**
- * @brief This struct represents our command line
- * @param buffer: the command line
- * @param buff_size: the size of the command line
- * @param cur_pos: the current position in the command line
+ *  This struct represents our command line
+ *  buffer: the command line
+ *  buff_size: the size of the command line
+ *  cur_pos: the current position in the command line
 */
 typedef struct s_cli
 {
@@ -38,14 +38,12 @@ typedef struct s_cli
 }				t_cli;
 
 char			get_next_char(t_cli *cli);
-
 char			peek_char(t_cli *cli);
-
 void			unget_char(t_cli *cli);
 
 /**
- * @brief Skip whitespaces in the input buffer
- * @param cli The Command Line
+ * Skip whitespaces in the input buffer
+ * cli The Command Line
  */
 void			skip_whitespaces(t_cli *cli);
 
