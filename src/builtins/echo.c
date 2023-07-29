@@ -3,13 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:25 by asioud            #+#    #+#             */
-/*   Updated: 2023/04/29 00:58:37 by asioud           ###   ########.fr       */
+/*   Updated: 2023/06/08 11:26:41 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+// The echo command in a shell prints its arguments followed by a newline. 
+// When the -n option is given, the trailing newline is suppressed.
+// shell should parse command-line arguments before passing them to the echo().
 #include "./builtins.h"
 
 int				echo(int    argc, ...)
@@ -20,9 +23,12 @@ int				echo(int    argc, ...)
 	va_list	args;
 	va_start(args, argc);
 	argv = va_arg(args, char**);
-
+	// Error check for argc
+	if (argc <= 0)
+		return (-1);
 	i = 1;
 	n_option = 0;
+	// Checking for "-n" option
 	if (argc > 1)
 	{
 		while (argv[i] && ft_strcmp(argv[i], "-n") == 0)
@@ -30,6 +36,7 @@ int				echo(int    argc, ...)
 			n_option = 1;
 			i++;
 		}
+		//printing each argv
 		while (argv[i])
 		{
 			ft_putstr_fd(argv[i], 1);
@@ -38,6 +45,7 @@ int				echo(int    argc, ...)
 			i++;
 		}
 	}
+	//printing a new liine if -n is not present
 	if (n_option == 0)
 		write(1, "\n", 1);
 	va_end(args);
