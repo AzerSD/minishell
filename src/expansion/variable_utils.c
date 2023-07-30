@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 23:27:27 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/03 20:22:59 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/30 19:09:57 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ char	*exit_code_expansion(char *orig_var_name)
 	char	*exit_code_str;
 	char	*exit_code_copy;
 
+	orig_var_name++;
 	exit_code_str = exit_code_to_str(g_shell.status);
 	exit_code_copy = ft_strdup(exit_code_str);
 	if (exit_code_copy == NULL)
