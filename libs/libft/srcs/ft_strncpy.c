@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 04:31:14 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/03 04:31:35 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/30 19:13:34 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 char	*ft_strncpy(char *dst, const char *src, size_t len)
 {
-	char	*dest;
 	size_t	n;
 
-	dest = dst;
 	n = 0;
 	while (n < len && src[n] != '\0')
 	{

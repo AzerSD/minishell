@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_pipe.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 18:44:12 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/03 19:06:26 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/30 19:08:24 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ void	handle_parent_process(int *pipe_fd, t_token *tok, int tmp_fd)
 	char	*line;
 	char	*content;
 
+	expanding = 1;
+	line = NULL;
 	content = prepare_for_pipe(pipe_fd, tok, expanding, line);
 	write_to_pipe_and_cleanup(pipe_fd, tok, tmp_fd, content);
 }

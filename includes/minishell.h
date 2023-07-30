@@ -68,6 +68,6 @@ typedef struct g_shell
 	struct s_symtab_stack	s_symtab_stack;
 }	t_shell;
 
-t_shell						g_shell;
+extern t_shell				g_shell;
 
 #endif
