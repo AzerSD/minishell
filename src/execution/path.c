@@ -6,66 +6,79 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 05:03:22 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 22:41:55 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 20:22:51 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-static int file_exists(char *path)
+static int	file_exists(char *path)
 {
-	struct stat st;
+	struct stat	st;
+
 	if (stat(path, &st) == 0 && S_ISREG(st.st_mode))
 		return (1);
 	else
 	{
 		errno = ENOENT;
-		return 0;
+		return (0);
 	}
 }
 
-static char *build_path(char *start, char *end, char *file, int plen)
+static char	*build_path(char *start, char *end, char *file, int plen)
 {
-	char *path = malloc(plen + 1 + strlen(file) + 1);
+	char	*path;
+
+	path = my_malloc(&g_shell.memory, plen + 1 + ft_strlen(file) + 1);
 	if (!path)
 		return (NULL);
-	
-	strncpy(path, start, plen);
+	ft_strncpy(path, start, plen);
 	path[plen] = '\0';
 	if (end[-1] != '/')
-		strcat(path, "/");
-	strcat(path, file);
-
-	return path;
+		ft_strcat(path, "/");
+	ft_strcat(path, file);
+	return (path);
 }
 
-char *search_path(char *file)
+char	*build_path_and_check_existence(char *p, char *p2, char *file, int plen)
 {
-	char *PATH = getenv("PATH");
-	char *p = PATH;
+	char	*path;
 
+	path = build_path(p, p2, file, plen);
+	if (!path)
+		return (NULL);
+	if (file_exists(path))
+		return (path);
+	else
+		free(path);
+	return (NULL);
+}
+
+char	*search_path(char *file)
+{
+	char	*path;
+	char	*p;
+	char	*p2;
+	int		plen;
+	char	*valid_path;
+
+	path = getenv("PATH");
+	p = path;
 	while (p && *p)
 	{
-		char *p2 = strchr(p, ':');
+		p2 = ft_strchr(p, ':');
 		if (!p2)
 			p2 = p + strlen(p);
-		int plen = p2 - p;
+		plen = p2 - p;
 		if (plen == 0)
 			plen = 1;
-
-		char *path = build_path(p, p2, file, plen);
-		if (!path)
-			return (NULL);
-
-		if (file_exists(path))
-			return path;
+		valid_path = build_path_and_check_existence(p, p2, file, plen);
+		if (valid_path != NULL)
+			return (valid_path);
+		if (*p2 == ':')
+			p = p2 + 1;
 		else
-			free(path);
-
-		p = (*p2 == ':') ? p2 + 1 : NULL;
+			p = NULL;
 	}
-
-	errno = ENOENT;
-	return (NULL);
+	return ((errno = ENOENT), NULL);
 }

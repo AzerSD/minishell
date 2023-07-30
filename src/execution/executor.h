@@ -6,14 +6,12 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:59 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/21 04:49:01 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 04:33:22 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
-
-# include "minishell.h"
 
 /**
  * @brief Searches for a file in the system's `PATH` environment variable.
@@ -49,7 +47,7 @@ char	*search_path(char *file);
 */
 void	free_argv(int argc, char **argv);
 
-int		execute_pipeline(int argc, char **argv, t_node *node);
+int		execute_pipeline(t_node *node);
 
 /**
  * @brief Executes a command represented by a node tree.
@@ -71,7 +69,7 @@ int		execc(t_node *node);
  * @param argv A null-terminated strings that will store the arguments.
  * @return 0 on success, or a non-zero value if an error occurs.
 */
-int		parse_ast(t_node *node, int *argc, int *targc, char ***argv);
+void	parse_ast(t_node *node, int *argc, int *targc, char ***argv);
 
 /**
  * @brief Executes a command with the given arguments.
@@ -90,9 +88,7 @@ int		exec_cmd(int argc, char **argv);
  * @return The process ID of the child process on success,
  * 		or -1 if an error occurs.
 */
-pid_t	fork_command(int argc, char **argv, t_node *node);
-
-
+pid_t	fork_command(int argc, char **argv);
 
 ////////////////////////////////////////////////////////////////////
 //                          Redirections                          //

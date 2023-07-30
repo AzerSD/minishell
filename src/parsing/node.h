@@ -6,16 +6,12 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 01:58:12 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/21 02:50:08 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 04:49:11 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #ifndef NODE_H
 # define NODE_H
-
-# include "minishell.h"
 
 /**
  * Define the type of our AST Node
@@ -25,13 +21,13 @@
  * @param NODE_PIPE represents the root node of a pipe
  * @param 
 */
-enum e_node_type
+enum					e_node_type
 {
-	NODE_COMMAND,           /* simple command */
-	NODE_VAR,               /* variable name (or simply, a word)*/
-	NODE_ASSIGNMENT,        /* assignment */
-	NODE_PIPE,              /* pipe */
-	NODE_LIST,			  /* list */
+	NODE_COMMAND,
+	NODE_VAR,
+	NODE_ASSIGNMENT,
+	NODE_PIPE,
+	NODE_LIST,
 	NODE_INPUT,
 	NODE_OUTPUT,
 	NODE_APPEND,
@@ -43,32 +39,32 @@ enum e_node_type
  * Represents the types of values we can store in a given node structure
  * for simple commands we use only VAL_STR
 */
-enum e_val_type
+enum					e_val_type
 {
-	VAL_SINT = 1,       /* signed int */
-	VAL_UINT,           /* unsigned int */
-	VAL_SLLONG,         /* signed long long */
-	VAL_ULLONG,         /* unsigned long long */
-	VAL_FLOAT,          /* floating point */
-	VAL_LDOUBLE,        /* long double */
-	VAL_CHR,            /* char */
-	VAL_STR,            /* str (char pointer) */
+	VAL_SINT = 1,
+	VAL_UINT,
+	VAL_SLLONG,
+	VAL_ULLONG,
+	VAL_FLOAT,
+	VAL_LDOUBLE,
+	VAL_CHR,
+	VAL_STR,
 };
 
 /**
  * Represents the value we can store in a given node structure,
  * Each node can have only one typoe of value.
 */
-union u_symval
+union					u_symval
 {
-	unsigned long long ullong;
-	unsigned long      uint;
-	long long          sllong;
-	long double        ldouble;
-	double             sfloat;
-	long               sint;
-	char               chr;
-	char              *str;
+	unsigned long long	ullong;
+	unsigned long		uint;
+	long long			sllong;
+	long double			ldouble;
+	double				sfloat;
+	long				sint;
+	char				chr;
+	char				*str;
 };
 
 /**
@@ -93,21 +89,50 @@ typedef struct s_node
 	struct s_node		*next_sibling;
 	struct s_node		*prev_sibling;
 	int					children;
-	int    				line_nbr;
+	int					line_nbr;
 
-} t_node ;
+}						t_node;
 
-t_node	*new_node(enum e_node_type type);
-void    add_child_node(t_node *parent, t_node *child);
-void	add_parent_node(t_node *child, t_node *parent);
-void    free_node_tree(t_node *node);
-void    set_node_val_str(t_node *node, char *val);
-void	print_ast(t_node *node, int indent);
+/**
+ * @brief allocates and initializes a new node with the specified type.
+ * It sets the type field and zeroes out the rest of the struct. 
+ * @param type Type of node to create.
+ * @return t_node* Our initialized node.
+ */
+t_node					*new_node(enum e_node_type type);
+
+/**
+ * @brief Adds a new child node to the specified parent node. 
+ * If the parent node doesn't have any children, it sets the first_child
+ * pointer to the new child node.
+ * If the parent node already has children, it traverses the siblings using
+ * the next_sibling pointer and appends the new child node at the end of the
+ * sibling list.
+ * The prev_sibling pointer of the new child node is set accordingly,
+ * and the children counter of the parent node is incremented.
+ * @param parent 
+ * @param child 
+ */
+void					add_child_node(t_node *parent, t_node *child);
+void					add_parent_node(t_node *child, t_node *parent);
+
+/**
+ * @brief Recursively frees the memory allocated for a node and its children.
+ * It traverses the tree in depth-first order, freeing the memory for each
+ * child and its siblings before finally freeing the parent node. 
+ * @param node Our node structure to free.
+ */
+void					free_node_tree(t_node *node);
+
+/**
+ * @brief This function sets the val_type of the node to VAL_STR and 
+ * allocates memory for the string value to be stored in the node.
+ * If successful, it copies the input string into the newly allocated 
+ * memory and sets the val.str field of the node.
+ * @param node 
+ * @param val 
+ */
+void					set_node_val_str(t_node *node, char *val);
+void					print_ast(t_node *node, int indent);
+
 #endif
-
-
-// If we want to retrieve a node’s value, we need to check the val_type field and, according to what we find there, access the appropriate member of the val field. For simple commands, all nodes will have the following attributes:
-
-//     type => NODE_COMMAND (root node) or NODE_VAR (command name and arguments list)
-//     val_type => VAL_STR
-//     val.str => pointer to the string value

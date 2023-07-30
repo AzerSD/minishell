@@ -6,7 +6,7 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 01:58:38 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/16 22:45:38 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 20:15:13 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	unget_char(t_cli *cli)
 {
 	if (cli->cur_pos < 0)
-		return;
+		return ;
 	cli->cur_pos--;
 }
 
@@ -24,16 +24,16 @@ char	get_next_char(t_cli *cli)
 	if (!cli || !cli->buffer)
 	{
 		errno = ENODATA;
-		return ERRCHAR;
+		return (ERRCHAR);
 	}
 	if (cli->cur_pos == INIT_SRC_POS)
-		cli->cur_pos  = -1;
+		cli->cur_pos = -1;
 	if (++cli->cur_pos >= cli->buff_size)
 	{
 		cli->cur_pos = cli->buff_size;
-		return EOF;
+		return (EOF);
 	}
-	return cli->buffer[cli->cur_pos];
+	return (cli->buffer[cli->cur_pos]);
 }
 
 char	peek_char(t_cli *cli)
@@ -43,24 +43,27 @@ char	peek_char(t_cli *cli)
 	if (!cli || !cli->buffer)
 	{
 		errno = ENODATA;
-		return ERRCHAR;
+		return (ERRCHAR);
 	}
 	pos = cli->cur_pos;
 	if (pos == INIT_SRC_POS)
 		pos++;
 	pos++;
 	if (pos >= cli->buff_size)
-		return EOF;
+		return (EOF);
 	return (cli->buffer[pos]);
 }
-
 
 void	skip_whitespaces(t_cli *cli)
 {
 	char	c;
 
 	if (!cli || !cli->buffer)
-		return;
-	while (((c = peek_char(cli)) != EOF) && (c == ' ' || c == '\t'))
+		return ;
+	c = peek_char(cli);
+	while ((c != EOF) && (c == ' ' || c == '\t'))
+	{
 		get_next_char(cli);
+		c = peek_char(cli);
+	}
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pathnames.c                                        :+:      :+:    :+:   */
+/*   filename.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,81 +12,95 @@
 
 #include "minishell.h"
 
-/**
- * @brief perform pathname expansion.
-*/
-struct s_word	*pathnames_expand(struct s_word *words)
+struct s_glob_info
 {
-	struct s_word	*w;
+	struct s_word	*words;
 	struct s_word	*pw;
-	char			*p;
-	glob_t			glob;
-	char			**matches;
+	struct s_word	*w;
 	struct s_word	*head;
 	struct s_word	*tail;
+	char			**matches;
+	glob_t			glob;
+};
 
-	w = words;
-	pw = NULL;
-	while (w)
+void	save_matches(struct s_glob_info *glob_info)
+{
+	size_t	j;
+
+	j = 0;
+	while (j < glob_info->glob.gl_pathc)
 	{
-		p = w->data;
-		/* check if we should perform filename globbing */
-		if (!has_glob_chars(p, strlen(p)))
+		if (glob_info->matches[j][0] != '.' || (glob_info->matches[j][1] != '.'
+				&& glob_info->matches[j][1] != '\0'
+				&& glob_info->matches[j][1] != '/'))
 		{
-			pw = w;
-			w = w->next;
-			continue ;
-		}
-		matches = get_filename_matches(p, &glob);
-		/* no matches found */
-		if (!matches || !matches[0])
-			globfree(&glob);
-		else
-		{
-			/* save the matches */
-			head = NULL;
-			tail = NULL;
-			for (size_t j = 0; j < glob.gl_pathc; j++)
+			if (!glob_info->head)
 			{
-				/* skip '..' and '.' */
-				if (matches[j][0] == '.' &&
-					(matches[j][1] == '.' || matches[j][1] == '\0'
-							|| matches[j][1] == '/'))
+				glob_info->head = make_word(glob_info->matches[j]);
+				glob_info->tail = glob_info->head;
+			}
+			else
+			{
+				glob_info->tail->next = make_word(glob_info->matches[j]);
+				if (glob_info->tail->next)
 				{
-					continue ;
-				}
-				/* add the path to the list */
-				if (!head)
-				{
-					/* first item in the list */
-					head = make_word(matches[j]);
-					tail = head;
-				}
-				else
-				{
-					/* add to the list's tail */
-					tail->next = make_word(matches[j]);
-					if (tail->next)
-						tail = tail->next;
+					glob_info->tail = glob_info->tail->next;
 				}
 			}
-			/* add the new list to the existing list */
-			if (w == words)
-				words = head;
-			else if (pw)
-				pw->next = head;
-			pw = tail;
-			tail->next = w->next;
-			/* free the word we've just globbed */
-			w->next = NULL;
-			free_all_words(w);
-			w = tail;
-			/* free the matches list */
-			globfree(&glob);
-			/* finished globbing this word */
 		}
-		pw = w;
-		w = w->next;
+		j++;
 	}
-	return words;
+}
+
+void	link_to_existing_list(struct s_glob_info *glob_info)
+{
+	if (glob_info->w == glob_info->words)
+	{
+		glob_info->words = glob_info->head;
+	}
+	else if (glob_info->pw)
+	{
+		glob_info->pw->next = glob_info->head;
+	}
+	glob_info->pw = glob_info->tail;
+	glob_info->tail->next = glob_info->w->next;
+	glob_info->w->next = NULL;
+}
+
+struct s_glob_info	init_glob_info(struct s_word *words)
+{
+	struct s_glob_info	glob_info;
+
+	glob_info.words = words;
+	glob_info.pw = NULL;
+	glob_info.w = words;
+	return (glob_info);
+}
+
+struct s_word	*pathnames_expand(struct s_word *words)
+{
+	struct s_glob_info	glob_info;
+
+	glob_info = init_glob_info(words);
+	while (glob_info.w)
+	{
+		if (has_glob_chars(glob_info.w->data, strlen(glob_info.w->data)))
+		{
+			glob_info.matches = get_filename_matches(glob_info.w->data, \
+				&glob_info.glob);
+			if (glob_info.matches && glob_info.matches[0])
+			{
+				glob_info.head = NULL;
+				glob_info.tail = NULL;
+				save_matches(&glob_info);
+				link_to_existing_list(&glob_info);
+				free_all_words(glob_info.w);
+				glob_info.w = glob_info.tail;
+				globfree(&glob_info.glob);
+			}
+		}
+		glob_info.pw = glob_info.w;
+		glob_info.w = glob_info.w->next;
+	}
+	return (glob_info.words);
 }

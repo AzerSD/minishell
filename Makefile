@@ -6,7 +6,7 @@
 #    By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/25 10:59:44 by asioud            #+#    #+#              #
-#    Updated: 2023/06/21 06:46:30 by asioud           ###   ########.fr        #
+#    Updated: 2023/07/03 21:25:31 by asioud           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ NAME		=	minishell
 CC			=	cc
 RM			=	rm -rf
 LIBFT		= 	libs/libft/libft.a
-CFLAGS		=	-g
+GC			=	libs/garbage_collector/garbage_collector.a
+CFLAGS		=	-g 
 HEADER_FILES=	-I ./includes -I ./libs/libft/includes
 
 ifeq ($(OS), Linux)
@@ -34,18 +35,16 @@ SRC	=	core/shell \
 		symbol_table/symtab \
 		symbol_table/init_symtab \
 		symbol_table/free_symtab \
+		symbol_table/symtab_utils \
 		\
 		builtins/cd \
 		builtins/pwd \
 		builtins/env \
 		builtins/echo \
-		builtins/dump \
 		builtins/exit \
 		builtins/unset \
 		builtins/export \
 		builtins/builtins \
-		prompt/prompt \
-		\
 		\
 		execution/executor \
 		execution/path \
@@ -56,20 +55,32 @@ SRC	=	core/shell \
 		parsing/lexer \
 		parsing/node \
 		parsing/parser \
+		parsing/ast_parser \
 		parsing/tokenizer \
 		parsing/token_handlers \
+		parsing/tokenizer_utils \
+		parsing/token_handlers2 \
+		parsing/heredoc_pipe \
+		parsing/p_heredoc \
 		\
 		expansion/expansion \
-		expansion/command_substitution \
+		expansion/substitution/command \
+		expansion/substitution/utils \
+		expansion/substitution/word \
+		expansion/substitution/quote_removal \
 		expansion/filename \
 		expansion/helper_functions \
-		expansion/quote_removal \
+		expansion/expansion_check \
 		expansion/strings \
 		expansion/tilde \
 		expansion/variable \
 		expansion/pattern \
+		expansion/pattern_utils \
+		expansion/utils \
+		expansion/variable_utils \
 		\
 		signals/signals \
+		signals/utils \
 
 
 SRC_DIR		=	src/
@@ -83,7 +94,9 @@ all:	$(NAME)
 
 
 $(NAME): $(OBJS)
-	$(CC) $(HEADER_FILES) -lreadline -lhistory $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(INCL_RDL_LIB)
+	cd libs/libft && make
+	cd libs/garbage_collector && make
+	$(CC) $(HEADER_FILES) -lreadline -lhistory $(CFLAGS) $(OBJS) $(GC) $(LIBFT) -o $(NAME) $(INCL_RDL_LIB)
 
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
@@ -94,6 +107,8 @@ clean:
 	@$(RM) $(OBJ_DIR)
 
 fclean:	clean
+	@cd libs/libft && make fclean
+	@cd libs/garbage_collector && make fclean
 	@$(RM) $(NAME)
 
 re:	fclean all

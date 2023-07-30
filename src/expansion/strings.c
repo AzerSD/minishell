@@ -12,152 +12,104 @@
 
 #include "minishell.h"
 
-/**
- * @brief search string for any one of the passed characters.
- * @returns a char pointer to the first occurence of any of the characters,
- * NULL if none found.
-*/
-char *strchr_any(char *string, char *chars)
+char	*strchr_any(char *string, char *chars)
 {
-    if (!string || !chars)
-        return NULL;
-    char *s = string;
-    while (*s)
-    {
-        char *c = chars;
-        while (*c)
-        {
-            if (*s == *c)
-                return s;
-            c++;
-        }
-        s++;
-    }
-    return NULL;
+	char	*s;
+	char	*c;
+
+	if (!string || !chars)
+		return (NULL);
+	s = string;
+	while (*s)
+	{
+		c = chars;
+		while (*c)
+		{
+			if (*s == *c)
+				return (s);
+			c++;
+		}
+		s++;
+	}
+	return (NULL);
 }
 
-
-/**
- * @return the passed string value, quoted in a format that can
- * be used for reinput to the shell.
-*/
-char *quote_val(char *val, int add_quotes)
+// function to calculate the extra length needed for the resultant string
+size_t	count_extra_chars(char *v)
 {
-    char *res = NULL;
-    size_t len;
-    /* empty string */
-    if (!val || !*val)
-    {
-        len = add_quotes ? 3 : 1;
-        res = malloc(len);
-        if (!res)
-            return NULL;
-        strcpy(res, add_quotes ? "\"\"" : "");
-        return res;
-    }
-    /* count the number of quotes needed */
-    len = 0;
-    char *v = val, *p;
-    while (*v)
-    {
-        switch(*v)
-        {
-            case '\\':
-            case  '`':
-            case  '$':
-            case  '"':
-                len++;
-                break;
-        }
-        v++;
-    }
-    len += strlen(val);
-    /* add two for the opening and closing quotes (optional) */
-    if (add_quotes)
-        len += 2;
-    /* alloc memory for quoted string */
-    res = malloc(len+1);
-    if (!res)
-        return NULL;
-    p = res;
-    /* add opening quote (optional) */
-    if (add_quotes)
-        *p++ = '"';
-    /* copy quoted val */
-    v = val;
-    while (*v)
-    {
-        switch(*v)
-        {
-            case '\\':
-            case  '`':
-            case  '$':
-            case  '"':
-                /* add '\' for quoting */
-                *p++ = '\\';
-                /* copy char */
-                *p++ = *v++;
-                break;
+	size_t	len;
 
-            default:
-                /* copy next char */
-                *p++ = *v++;
-                break;
-        }
-    }
-    /* add closing quote (optional) */
-    if (add_quotes)
-    {
-        *p++ = '"';
-    }
-    *p = '\0';
-    return res;
+	len = 0;
+	while (*v)
+	{
+		if (*v == '\\' || *v == '`' || *v == '$' || *v == '"')
+			len++;
+		v++;
+	}
+	return (len);
 }
 
-
-/**
- * @brief alloc memory for, or extend the host (or user) names buffer if needed..
- * in the first call, the buffer is initialized to 32 entries.. subsequent
- * calls result in the buffer size doubling, so that it becomes 64, 128, ...
- * count is the number of used entries in the buffer, while len is the number
- * of alloc'd entries (size of buffer divided by sizeof(char **)).
- * @returns 1 if the buffer is alloc'd/extended, 0 otherwise.
-*/
-int check_buffer_bounds(int *count, int *len, char ***buf)
+void	copy_and_escape(char *v, char *p)
 {
-    if (*count >= *len)
-    {
-        if (!(*buf))
-        {
-            /* first call. alloc memory for the buffer */
-            *buf = malloc(32*sizeof(char **));
-            if (!(*buf))
-                return 0;
-            *len = 32;
-        }
-        else
-        {
-            /* subsequent calls. extend the buffer */
-            int newlen = (*len) * 2;
-            char **hn2 = realloc(*buf, newlen*sizeof(char **));
-            if (!hn2)
-                return 0;
-            *buf = hn2;
-            *len = newlen;
-        }
-    }
-    return 1;
+	while (*v)
+	{
+		if (*v == '\\' || *v == '`' || *v == '$' || *v == '"')
+		{
+			*p++ = '\\';
+			*p++ = *v++;
+		}
+		else
+		{
+			*p++ = *v++;
+		}
+	}
+	*p = '\0';
 }
 
-
-/**
- * @brief free the memory used to store the strings list pointed to by buf.
-*/
-void free_buffer(int len, char **buf)
+size_t	calculate_length(char *val, int add_quotes)
 {
-    if (!len)
-        return;
-    while (len--)
-        free(buf[len]);
-    free(buf);
+	size_t	len;
+
+	if (!val || !*val)
+	{
+		if (add_quotes)
+			len = 3;
+		else
+			len = 1;
+		return (len);
+	}
+	len = count_extra_chars(val);
+	len += ft_strlen(val);
+	if (add_quotes)
+		len += 2;
+	return (len);
+}
+
+char	*quote_val(char *val, int add_quotes)
+{
+	char	*res;
+	size_t	len;
+	char	*p;
+
+	len = calculate_length(val, add_quotes);
+	res = my_malloc(&g_shell.memory, len + 1);
+	if (!val || !*val)
+	{
+		if (add_quotes)
+			ft_strcpy(res, "\"\"");
+		else
+			ft_strcpy(res, "");
+		return (res);
+	}
+	p = res;
+	if (add_quotes)
+		*p++ = '"';
+	copy_and_escape(val, p);
+	if (add_quotes)
+	{
+		p = p + ft_strlen(p);
+		*p++ = '"';
+		*p = '\0';
+	}
+	return (res);
 }

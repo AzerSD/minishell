@@ -6,145 +6,104 @@
 /*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:05:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/22 03:23:53 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/03 20:35:34 by asioud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	norm_tilde(char **p2, int *tilde_quoted)
+{
+	int	i;
 
+	if (**p2 == '\\')
+	{
+		*tilde_quoted = 1;
+		(*p2)++;
+	}
+	else if (**p2 == '"' || **p2 == '\'')
+	{
+		i = find_closing_quote(*p2);
+		if (i)
+		{
+			*tilde_quoted = 1;
+			*p2 += i;
+		}
+	}
+	else if (**p2 == '/')
+		return (1);
+	(*p2)++;
+	return (0);
+}
+
+void	check_tilde(char **pstart, char **p, int in_double_quotes)
+{
+	char	*p2;
+	int		tilde_quoted;
+	int		len;
+
+	if (**p == '~' && !in_double_quotes)
+	{
+		tilde_quoted = 0;
+		p2 = *p + 1;
+		while (*p2)
+		{
+			if (norm_tilde(&p2, &tilde_quoted))
+				break ;
+		}
+		if (tilde_quoted)
+		{
+			*p = p2;
+			return ;
+		}
+		len = p2 - *p;
+		substitute_word(pstart, p, len, tilde_expansion, !in_double_quotes);
+	}
+}
+
+int	init_expand(t_m *m, char *orig_word)
+{
+	m->in_dquotes = 0;
+	m->in_squotes = 0;
+	if (!orig_word)
+		return (1);
+	if (!*orig_word)
+		return (0);
+	m->pstart = my_malloc(&g_shell.memory, ft_strlen(orig_word) + 1);
+	if (!m->pstart)
+		return (1);
+	ft_strcpy(m->pstart, orig_word);
+	m->p = m->pstart;
+	m->escaped = 0;
+	return (1);
+}
 
 struct s_word	*expand(char *orig_word)
 {
-	char			*pstart;
-	char			*p;
-	char			*p2;
-	size_t			i;
-	size_t			len;
-	int				in_double_quotes;
-	int				in_var_assign;
-	int				var_assign_eq;
-	int				expanded;
-	int				tilde_quoted;
-	int				endme;
+	t_m				*m;
 	struct s_word	*words;
-	char			*tmp;
-	char			c;
-	char *(*func)(char *);
-
-	if (!orig_word)
-		return NULL;
-	if (!*orig_word)
-		return make_word(orig_word);
-	pstart = malloc(strlen(orig_word) + 1);
-	if (!pstart)
-		return NULL;
-	strcpy(pstart, orig_word);
-	p = pstart;
-	i = 0;
-	in_double_quotes = 0;
-	in_var_assign = 0;
-	var_assign_eq = 0;
-	do
-	{
-		switch (*p)
-		{
-			case '"':
-				in_double_quotes = !in_double_quotes;
-				break ;
-			case '\\':
-				p++;
-				break ;
-			case '\'':
-
-				if (in_double_quotes)
-					break ;
-				p += find_closing_quote(p);
-				break ;
-			case '`':
-				if ((len = find_closing_quote(p)) == 0)
-					break ;
-				substitute_word(&pstart, &p, len + 1, command_substitute, 0);
-				break ;
-
-			case '$':
-				c = p[1];
-				if (c == '?')
-				{
-					substitute_word(&pstart, &p, 2, var_expand, 0);
-					break;
-				}
-				else
-				{
-						if (!isalpha(p[1]) && p[1] != '_')
-							break ;
-						p2 = p + 1;
-						while (*p2)
-						{
-							if (!isalnum(*p2) && *p2 != '_')
-								break ;
-							p2++;
-						}
-						if (p2 == p + 1)
-							break ;
-						substitute_word(&pstart, &p, p2 - p, var_expand, 0);
-						break ;
-				}
-			}
-
-	} while (*(++p));
-	words = NULL;
-	if (!words)
-	{
-		words = make_word(pstart);
-		if (!words)
-		{
-			fprintf(stderr, "error: insufficient memory\n");
-			free(pstart);
-			return NULL;
-		}
-	}
-	free(pstart);
-	words = pathnames_expand(words);
-	remove_quotes(words);
-	return words;
-}
-
-char	*word_expand_to_str(char *word)
-{
 	struct s_word	*w;
-	char			*res;
 
-	w = expand(word);
-	if (!w)
-		return NULL;
-	res = wordlist_to_str(w);
-	free_all_words(w);
-	return res;
-}
-
-
-struct s_word	*make_word(char *str)
-{
-	struct s_word	*word;
-	size_t			len;
-	char			*data;
-
-	word = malloc(sizeof(struct s_word));
-	if (!word)
-		return (NULL);
-	len = strlen(str);
-	data = malloc(len + 1);
-	if (!data)
+	m = (t_m *)my_malloc(g_shell.memory, sizeof(t_m));
+	if (!init_expand(m, orig_word))
 	{
-		free(word);
-		return (NULL);
+		w = make_word(orig_word);
+		return (free(m), w);
 	}
-	strcpy(data, str);
-	word->data = data;
-	word->len = len;
-	word->next = NULL;
-	return (word);
+	while (*(m->p))
+	{
+		m->escaped = 0;
+		check_tilde(&(m->pstart), &(m->p), m->in_dquotes);
+		check_double_quotes(&(m->p), &(m->in_dquotes), (m->in_squotes));
+		check_single_quotes(&(m->p), &(m->in_dquotes), &(m->in_squotes));
+		check_backslash(&(m->p), &(m->escaped));
+		check_dollar_sign(&(m->pstart), &(m->p), m->in_squotes,
+			&m->escaped);
+		(m->p)++;
+	}
+	words = make_word(m->pstart);
+	words = pathnames_expand(words);
+	return (remove_quotes(words), words);
 }
 
 void	free_all_words(struct s_word *first)
@@ -160,4 +119,3 @@ void	free_all_words(struct s_word *first)
 		free(del);
 	}
 }
-
