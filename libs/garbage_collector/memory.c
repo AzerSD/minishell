@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 03:33:04 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/03 17:38:11 by asioud           ###   ########.fr       */
+/*   Updated: 2023/07/30 20:31:08 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	*add_mem_block(void **p_head, size_t size)
 {
 	t_memory_block	*block;
 
-	block = (t_memory_block *) malloc(sizeof(t_memory_block) + size);
+	block = (t_memory_block *)malloc(sizeof(t_memory_block) + size);
 	if (!block)
 		return (0);
 	block->adresse = malloc(size);
