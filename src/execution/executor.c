@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:47 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/30 09:14:28 by asioud           ###   ########.fr       */
+/*   Updated: 2023/08/18 19:47:24 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	exec_cmd(int argc, char **argv)
 pid_t fork_command(int argc, char **argv, t_node *node)
 {
     pid_t child_pid;
-    int builtin_status;
+    // int builtin_status;
 
 	child_pid = fork();
 	if (child_pid == 0)
@@ -123,13 +123,14 @@ int	execc(t_node *node)
 	if (node->type == NODE_PIPE)
 	{
 		int original_stdin = dup(STDIN_FILENO);
-		int pipeline_status = execute_pipeline(argc, argv, node);
+		// int pipeline_status = execute_pipeline(argc,argv, node);
+		int pipeline_status = execute_pipeline(node);
 		dup2(original_stdin, STDIN_FILENO);
 		close(original_stdin);
 		shell.status = pipeline_status;
 		return (pipeline_status);
 	}
-		
+
 	if (parse_ast(node, &argc, &targc, &argv) != 0 || !node)
 		return (1);
 

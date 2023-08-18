@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:57:59 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/23 04:19:47 by asioud           ###   ########.fr       */
+/*   Updated: 2023/08/18 19:47:04 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 char	*search_path(char *file);
 
 /**
- * @brief Executes a command with the given argument count and argument list. 
+ * @brief Executes a command with the given argument count and argument list.
  * @param argc Number of arguments in argv.
  * @param argv The command and its arguments.
  * @return int 0 on success, 1 on failure.
@@ -31,7 +31,7 @@ char	*search_path(char *file);
 int		exec_cmd(int argc, char **argv);
 
 /**
- * @brief  Handle the execution of simple commands by creating an 
+ * @brief  Handle the execution of simple commands by creating an
  * argument list (argv) from the nodes in the AST, checking for built-in
  * commands, and then forking a new process to execute external commands.
  * @param node The AST node representing the command to be executed.
@@ -48,7 +48,8 @@ char	*search_path(char *file);
 */
 void	free_argv(int argc, char **argv);
 
-int		execute_pipeline(int argc, char **argv, t_node *node);
+// int		execute_pipeline(int argc, char **argv, t_node *node);
+int		execute_pipeline(t_node *node);
 
 /**
  * @brief Executes a command represented by a node tree.

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:58 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 00:42:53 by asioud           ###   ########.fr       */
+/*   Updated: 2023/08/18 19:44:33 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,9 @@ int	process_plus_equal(char *name, struct s_symtab *symtab, char **argv)
 	return (0);
 }
 
-int	process_equal(char *name, char **argv, struct s_symtab_entry *entry,
-		struct s_symtab *symtab)
+// int	process_equal(char *name, char **argv, struct s_symtab_entry *entry,
+// 		struct s_symtab *symtab)
+int	process_equal(char *name, char **argv)
 {
 	if (is_valid_variable_name(name))
 	{
@@ -70,6 +71,7 @@ int	check_input_arguments(char **argv, struct s_symtab *symtab, char *name)
 {
 	struct s_symtab_entry	*entry;
 
+	entry = NULL;
 	if (argv[1][0] == '-')
 		return (ft_printf_fd(STDERR_FILENO, EXPORT), 2);
 	name = get_varname(argv[1]);
@@ -81,7 +83,8 @@ int	check_input_arguments(char **argv, struct s_symtab *symtab, char *name)
 		return (process_plus_equal(name, symtab, argv));
 	}
 	else if (strchr(argv[1], '=') != NULL)
-		return (process_equal(name, argv, entry, symtab));
+		return (process_equal(name, argv));
+		// return (process_equal(name, argv, entry, symtab));
 	else
 	{
 		entry = do_lookup(argv[1], symtab);
@@ -104,6 +107,7 @@ int	ft_export(int argc, ...)
 	va_list					args;
 
 	entry = NULL;
+	name = NULL;
 	symtab = s_symtab_stack.local_symtab;
 	va_start(args, argc);
 	argv = va_arg(args, char **);

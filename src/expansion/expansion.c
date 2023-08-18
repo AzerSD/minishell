@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:05:17 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/27 17:54:00 by asioud           ###   ########.fr       */
+/*   Updated: 2023/08/18 19:48:10 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ struct s_word	*expand(char *orig_word)
 
 	in_double_quotes = 0;
 	in_single_quotes = 0;
-	char			*(*func)(char *);
+	// char			*(*func)(char *);
 	if (!orig_word)
 		return (NULL);
 	if (!*orig_word)
@@ -173,7 +173,7 @@ struct s_word	*expand(char *orig_word)
 	{
 		return (NULL);
 	}
-	
+
 	words = pathnames_expand(words);
 	remove_quotes(words);
 	return (words);
@@ -229,4 +229,3 @@ void	free_all_words(struct s_word *first)
 		free(del);
 	}
 }
-

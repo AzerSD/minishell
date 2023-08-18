@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 01:58:16 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/30 15:23:55 by asioud           ###   ########.fr       */
+/*   Updated: 2023/08/18 19:47:43 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ t_node *p_heredoc(t_token *tok, t_cli *cli, t_curr_tok *curr, t_node *ptr)
 
             char buffer[4096];
             ssize_t bytes_read;
-            
+
             signal(SIGINT, SIG_DFL);
             signal(SIGQUIT, SIG_DFL);
 
@@ -140,14 +140,14 @@ t_node *p_heredoc(t_token *tok, t_cli *cli, t_curr_tok *curr, t_node *ptr)
             }
 
             exit(EXIT_SUCCESS);
-        } 
+        }
         else {
             close(pipe_fd[0]); // Close the read end of the pipe in the parent
 
 			struct s_word *w = NULL;
 			char * content;
 			int expanding = 1;
-			
+
 			if (getncount(tok->text, '\'') >= 2 || getncount(tok->text, '\"') >= 2)
 			{
 				w = make_word(tok->text);
@@ -157,7 +157,7 @@ t_node *p_heredoc(t_token *tok, t_cli *cli, t_curr_tok *curr, t_node *ptr)
 				free(w);
 				w = NULL;
 			}
-			
+
             line = get_next_line(fileno(stdin));
 			{
 				if (strchr(line, '$') && expanding)
@@ -211,18 +211,19 @@ t_node *p_word(t_token *tok, t_node *ptr, enum e_node_type type) {
     return ptr;
 }
 
-t_node *parse_cmd(t_token *tok, t_curr_tok *curr) {
+t_node *parse_cmd(t_token *tok, t_curr_tok *curr)
+{
     t_node *ptr;
     t_node *parent;
     t_cli *cli;
-    t_node *word;
+    // t_node *word;
     enum e_node_type type;
     int first_pipe = 0;
 
     if (!tok || !curr)
         return NULL;
 
-    type = get_node_type(curr->tok_type);    
+    type = get_node_type(curr->tok_type);
     ptr = new_node(type);
     parent = ptr;
     if (!ptr)
@@ -235,7 +236,7 @@ t_node *parse_cmd(t_token *tok, t_curr_tok *curr) {
             free_token(tok);
             break;
         }
-        type = get_node_type(curr->tok_type);   
+        type = get_node_type(curr->tok_type);
 
         if (type == NODE_PIPE) {
             ptr = p_pipe(&ptr, &parent, &first_pipe);
@@ -249,4 +250,3 @@ t_node *parse_cmd(t_token *tok, t_curr_tok *curr) {
     } while ((tok = get_token(cli, curr)) != EOF_TOKEN);
     return parent;
 }
-

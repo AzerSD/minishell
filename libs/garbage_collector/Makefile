@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+         #
+#    By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/23 03:36:39 by asioud            #+#    #+#              #
-#    Updated: 2023/06/23 03:54:51 by asioud           ###   ########.fr        #
+#    Updated: 2023/08/18 19:39:46 by lhasmi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address -fsanitize=undefined -O3
 
 LIB_NAME = garbage_collector.a
 
@@ -32,5 +32,5 @@ clean:
 
 fclean: clean
 	rm -rf $(LIB_NAME)
-	
+
 .PHONY: all clean

@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 02:34:11 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/29 11:56:41 by asioud           ###   ########.fr       */
+/*   Updated: 2023/08/18 19:46:41 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int execute_pipeline(int argc, char **argv, t_node *node)
+// int execute_pipeline(int argc, char **argv, t_node *node)
+int execute_pipeline(t_node *node)
 {
     int pipefd[2];
     pid_t child_pid1, child_pid2;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 10:33:48 by asioud            #+#    #+#             */
-/*   Updated: 2023/07/01 00:08:02 by asioud           ###   ########.fr       */
+/*   Updated: 2023/08/18 19:41:13 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	update_pwd(char *newpwd)
 int	change_to_home(void)
 {
 	struct s_symtab_entry	*entry;
-	struct s_symtab_entry	*oldpwd;
+	// struct s_symtab_entry	*oldpwd;
 	char					*newpwd;
 	int						result;
 

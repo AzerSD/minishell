@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+        */
+/*   By: lhasmi <lhasmi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 01:45:52 by asioud            #+#    #+#             */
-/*   Updated: 2023/06/30 23:40:14 by asioud           ###   ########.fr       */
+/*   Updated: 2023/08/18 19:40:57 by lhasmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ t_cli	init_cli(char *cmd)
 	return (cli);
 }
 
-void	main_loop(t_shell *shell, struct termios *mirror_termios)
+// void	main_loop(t_shell *shell, struct termios *mirror_termios)
+void	main_loop(t_shell *shell)
 {
 	t_cli	cli;
 	char	*cmd;
@@ -72,7 +73,8 @@ int	main(int argc, char **argv, char **env)
 	t_shell			*shell;
 
 	shell = init_main(argc, argv, env, &mirror_termios);
-	main_loop(shell, &mirror_termios);
+	// main_loop(shell, &mirror_termios);
+	main_loop(shell);
 	rl_clear_history();
 	exit(shell->status);
 }

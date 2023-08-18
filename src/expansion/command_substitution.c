@@ -13,8 +13,8 @@
 #include "minishell.h"
 
 /**
- * Allocates and returns a new string which is a copy of the original string 
- * (orig_cmd), skipping the first character if it's a backquote, or the first 
+ * Allocates and returns a new string which is a copy of the original string
+ * (orig_cmd), skipping the first character if it's a backquote, or the first
  * two characters otherwise.
  * @param orig_cmd The original command string.
  * @param backquoted A flag to indicate if the original string starts with a backquote.
@@ -32,7 +32,7 @@ char *fix_cmd(char *orig_cmd, int backquoted) {
 }
 
 /**
- * Modifies the input string 'cmd' by removing the last backquote character, 
+ * Modifies the input string 'cmd' by removing the last backquote character,
  * and fixes the backslash-escaped characters.
  * @param cmd The input command string.
  * @param cmdlen The length of the input command string.
@@ -102,13 +102,14 @@ void remove_trailing_newlines(char *buf, size_t bufsz) {
 }
 
 /**
- * Substitutes a command in a shell-like manner, expanding backquotes and variable 
- * expressions. The original command is expected to be in a POSIX-style format 
+ * Substitutes a command in a shell-like manner, expanding backquotes and variable
+ * expressions. The original command is expected to be in a POSIX-style format
  * (`$(command)`), but the older-style backquoted format (`command`) is also supported.
  * @param orig_cmd The original command string.
  * @return The substituted command string, or NULL if memory allocation failed.
 */
-char *command_substitute(char *orig_cmd) {
+char *command_substitute(char *orig_cmd)
+{
     char b[1024];
     size_t bufsz = 0;
     char *buf = NULL;
@@ -118,7 +119,7 @@ char *command_substitute(char *orig_cmd) {
     char *cmd;
     size_t cmdlen;
     FILE *fp = NULL;
-    char *buf2;
+    // char *buf2;
 
     cmd = fix_cmd(orig_cmd, backquoted);
     if (!cmd) {
