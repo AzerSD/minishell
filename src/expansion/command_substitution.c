@@ -126,7 +126,7 @@ char *command_substitute(char *orig_cmd)
         return NULL;
     }
 
-    cmdlen = strlen(cmd);
+    cmdlen = ft_strlen(cmd);
     if (backquoted) {
         fix_backquoted_cmd(cmd, cmdlen);
     } else {
