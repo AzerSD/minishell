@@ -6,7 +6,7 @@
 #    By: asioud <asioud@42heilbronn.de>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/25 10:59:44 by asioud            #+#    #+#              #
-#    Updated: 2023/07/03 21:25:31 by asioud           ###   ########.fr        #
+#    Updated: 2023/08/18 21:54:12 by asioud           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CC			=	cc
 RM			=	rm -rf
 LIBFT		= 	libs/libft/libft.a
 GC			=	libs/garbage_collector/garbage_collector.a
-CFLAGS		=	-g 
+CFLAGS		=	-g -Wall -Wextra -Werror
 HEADER_FILES=	-I ./includes -I ./libs/libft/includes
 
 ifeq ($(OS), Linux)
