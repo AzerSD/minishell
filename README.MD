@@ -21,11 +21,11 @@ references:<br>
   - [ ] Builtins
 
 
-- [ ] Line editing
-  - [ ] Simple and advanced line editing
-  - [ ] Edit the line where the cursor is positionned
-  - [ ] Move cursor left or right
-  - [ ] Up and Down arrows to navigate in the history
+- [x] Line editing
+  - [x] Simple and advanced line editing
+  - [x] Edit the line where the cursor is positionned
+  - [x] Move cursor left or right
+  - [x] Up and Down arrows to navigate in the history
   - [ ] Enter Insert mode with `alt+i` and exit it with `alt+i`
   - [ ] Copy and paste with `alt+C` `alt+v`
   - [ ] Move word per word left or right `alt+LEFT` `alt+RIGHT`
@@ -36,33 +36,33 @@ references:<br>
   - [ ] Multiline line editing
   
 
-- [ ] Builtins with their POSIX options (For more info type `help` once in the shell)
-  - [ ] `cd` | `chdir`
-  - [ ] `echo`
-  - [ ] `exit`
-  - [ ] `env`
-  - [ ] `setenv`
-  - [ ] `unsetenv`
-  - [ ] `unset`
-  - [ ] `export`
-  - [ ] `history`
-  - [ ] `pwd`
+- [x] Builtins with their POSIX options (For more info type `help` once in the shell)
+  - [x] `cd` | `chdir`
+  - [x] `echo`
+  - [x] `exit`
+  - [x] `env`
+  - [x] `setenv`
+  - [x] `unsetenv`
+  - [x] `unset`
+  - [x] `export`
+  - [x] `history`
+  - [x] `pwd`
 
-- [ ] Exec
-  - [ ] Executing commands stored in path with their parameters
-  - [ ] Error handling and return value handling
-  - [ ] Redirections handled : `>`, `<`, `<<` and `>>`
-  - [ ] Pipes `|`
+- [x] Exec
+  - [x] Executing commands stored in path with their parameters
+  - [x] Error handling and return value handling
+  - [x] Redirections handled : `>`, `<`, `<<` and `>>`
+  - [x] Pipes `|`
   - [ ] Logical operators `&&` and `||`
-  - [ ] Backquotes "‘" (TODO)
+  - [x] Backquotes "‘" (TODO)
   - [ ] Ihibitors """ (double quote), "’" (simple quote) et "\" (backslash).
   - [ ] `;`
   - [ ] `\n` handling where `\n` can be used as a `;`. Example: `ls \n ls` == `ls ; ls`
 
 
-- [ ] Prompt
-  - [ ] Multi line editing with `\`, `'` and `"`
-  - [ ] History handles the multi-line editing
+- [x] Prompt
+  - [x] Multi line editing with `\`, `'` and `"`
+  - [x] History handles the multi-line editing
 
 
 - [ ] Shell
@@ -76,8 +76,8 @@ references:<br>
   - [ ] `l` Disables the termcaps. This is a debug option and not a feature ! To be used lightly
 
 
-- [ ] Signals
-  - [ ] We kill all childs when we get a signal that kills the program so no zombie process is left behind
+- [x] Signals
+  - [x] We kill all childs when we get a signal that kills the program so no zombie process is left behind
   
 
 - [ ] Autocompletion
@@ -87,22 +87,22 @@ references:<br>
   - [ ] Autorefreshing with a new input from the user: modification of the list of possibility. TODO WIP
 
 
-- [ ] Environ
-  - [ ] Local Variables are available
-  - [ ] Normal environment is used when the shell is started
-  - [ ] Uses the `=` syntax (`VAR=VALUE`)
-  - [ ] Default env is given when **42sh** is started with env -i (TODO to be customized)
-  - [ ] Message to warn the User when **42sh** is started without an env
+- [x] Environ
+  - [x] Local Variables are available
+  - [x] Normal environment is used when the shell is started
+  - [x] Uses the `=` syntax (`VAR=VALUE`)
+  - [x] Default env is given when **42sh** is started with env -i (TODO to be customized)
+  - [x] Message to warn the User when **42sh** is started without an env
 
 
-- [ ] Bonuses
-  - [ ] Heredocs "<<".
-  - [ ] File descriptors aggregation
+- [x] Bonuses
+  - [x] Heredocs "<<".
+  - [x] File descriptors aggregation
 
 
-- [ ] History
-  - [ ] A menu is printed when the history fil is to big
-  - [ ] The history is printed in the log when exiting the program
+- [x] History
+  - [x] A menu is printed when the history fil is to big
+  - [x] The history is printed in the log when exiting the program
   - [ ] History research `ctrl+R.`
 
 </div>
